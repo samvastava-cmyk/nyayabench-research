@@ -110,4 +110,4 @@ root.
 
 ## Licence
 
-Code: MIT ([LICENSE](LICENSE)). Taxonomy, prompts and the suites written for this project: CC BY 4.0 ([LICENSE-DATA](LICENSE-DATA)). The Sanskrit passages quoted in the taxonomy come from the GRETIL e-text of the *Tarka-Saṃgraha* (CC BY-NC-SA 4.0) and remain under that licence. LOGIC and MAFALDA are referenced, not included.
+Code: MIT ([../LICENSE](../LICENSE)). Taxonomy, prompts and the suites written for this project: CC BY 4.0 ([../LICENSE-DATA](../LICENSE-DATA)). The Sanskrit passages quoted in the taxonomy are short quotations from the *Tarka-Saṃgraha*, a public-domain seventeenth-century work; the GRETIL e-text is credited as the copy consulted. LOGIC and MAFALDA are referenced, not included.

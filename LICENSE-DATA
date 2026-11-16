@@ -22,10 +22,22 @@ Attribution for academic use:
 THREE EXCEPTIONS
 
 1. Sanskrit source passages. The `source_passage_verbatim` fields in
-   `taxonomy/hetvabhasa_v2.2.json` quote the GRETIL electronic text of
-   Annambhatta's Tarkasamgraha (data entry by Takuya Ono), which is distributed
-   under CC BY-NC-SA 4.0. Those quotations remain under that licence, which is
-   more restrictive than this one. The English glosses beside them are ours and
+   `taxonomy/hetvabhasa_v2.2.json` hold nine short sentences from Annambhatta's
+   Tarkasamgraha, a seventeenth-century work in the public domain. They are
+   reproduced as brief quotations, for identification and scholarly reference.
+   This repository claims no copyright in them.
+
+   The copy consulted was the electronic text published by the Goettingen
+   Register of Electronic Texts in Indian Languages (GRETIL), data entry by
+   Takuya Ono, TEI version of 2020-07-31, for which thanks:
+
+       https://zenodo.org/records/6466333
+
+   GRETIL distributes that complete e-text under CC BY-NC-SA 4.0, and anyone
+   wanting the whole text should obtain it from GRETIL under those terms. That
+   licence is not asserted here over the nine quoted sentences, which are the
+   words of a public-domain work rather than of the e-text. The English glosses
+   beside them, the category structure and all surrounding material are ours and
    fall under CC BY 4.0.
 
 2. LOGIC and MAFALDA. Neither dataset states a licence, so neither is

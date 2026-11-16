@@ -90,8 +90,9 @@ The author works through LLM-assisted development: code in this repository was w
 - **Taxonomy, prompts, benchmark sets, test suites, Bādha items and run records, documentation** — CC BY 4.0, see [`LICENSE-DATA`](LICENSE-DATA).
 
 Three exceptions are stated in `LICENSE-DATA`: the Sanskrit passages quoted in the taxonomy
-come from the GRETIL e-text of the *Tarka-Saṃgraha* and stay under its CC BY-NC-SA 4.0 terms;
-LOGIC and MAFALDA are referenced rather than included; and the code is MIT rather than CC BY.
+are short quotations from the *Tarka-Saṃgraha*, a public-domain seventeenth-century work, with
+the GRETIL e-text credited as the copy consulted; LOGIC and MAFALDA are referenced rather than
+included; and the code is MIT rather than CC BY.
 
 If you use this work, please cite the paper — see [`CITATION.cff`](CITATION.cff).
 

@@ -42,8 +42,9 @@ The files are published as they were used in the experiments. Version 2.1 has kn
 
 **The definitions the scorer reads are byte-identical between v2.1 and v2.2.** Only the
 provenance metadata changed, so no experimental result in this repository is affected.
-The English glosses are ours; the Sanskrit quotations carry the source text's own
-licence (see `../LICENSE-DATA`).
+The English glosses are ours and fall under CC BY 4.0. The Sanskrit sentences are short
+quotations from a public-domain seventeenth-century work; the GRETIL e-text was the copy
+consulted and is credited in `../LICENSE-DATA`.
 
 Nine categories, not ten, are defined in the root text. No scholar of Navya-Nyāya has
 reviewed the taxonomy.

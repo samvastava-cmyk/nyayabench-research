@@ -24,6 +24,10 @@ than taken on trust:
   v2.1, so this changes the taxonomy's documentation and not its behaviour.
 - **`LICENSE`** (MIT, code) and **`LICENSE-DATA`** (CC BY 4.0, taxonomy and
   data, with three stated exceptions). The first release carried no licence.
+  The quoted Sanskrit sentences are treated as what they are — short quotations
+  from a public-domain work — with the GRETIL e-text credited as the copy
+  consulted rather than as a licensor, so no non-commercial or share-alike term
+  is imported into this repository.
 
 Disclosed for the first time in `LIMITATIONS.md`:
 
