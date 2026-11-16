@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vyapti"
+version = "0.11.0.dev0"
+description = "A typed classifier for structural reasoning failure, grounded in Navya-Nyāya hetvābhāsa."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Samarth Srivastava" }]
+keywords = ["nlp", "reasoning", "fallacy-detection", "llm-evaluation", "navya-nyaya", "indian-logic"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+  "httpx>=0.27",
+  "pydantic>=2.7",
+  "tenacity>=8.3",
+  "python-dotenv>=1.0",
+]
+
+[project.optional-dependencies]
+analysis = ["pandas>=2.2", "numpy>=1.26", "scipy>=1.13", "statsmodels>=0.14", "matplotlib>=3.8"]
+dev = ["pytest>=8.2", "pytest-asyncio>=0.23", "ruff>=0.5", "detect-secrets>=1.5"]
+
+[project.urls]
+Homepage = "https://github.com/REPLACE_ME/vyapti"
+Paper = "https://github.com/REPLACE_ME/vyapti/blob/main/docs/RESULTS.md"
+
+[project.scripts]
+vyapti-smoke = "vyapti.cli:smoke_main"
+vyapti-run = "vyapti.cli:run_main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+vyapti = ["py.typed"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"

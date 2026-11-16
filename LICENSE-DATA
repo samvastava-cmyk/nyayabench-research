@@ -1,0 +1,38 @@
+Creative Commons Attribution 4.0 International (CC BY 4.0)
+
+Copyright (c) 2026 Samarth Srivastava
+
+This licence covers the non-software material in this repository: the hetvabhasa
+taxonomy files, the judge prompts, the benchmark prompt sets, the scorer test
+suites written for this project, the Badha items and run records, and the
+documentation.
+
+You are free to share and adapt this material for any purpose, including
+commercially, provided you give appropriate credit, link to the licence, and
+indicate if changes were made. Full terms:
+
+    https://creativecommons.org/licenses/by/4.0/
+
+Attribution for academic use:
+
+    Samarth Srivastava. 2026. Beyond Scalar Judging: Typed Diagnosis of LLM
+    Reasoning Failures with a Navya-Nyaya Taxonomy. In Proceedings of the 23rd
+    International Conference on Natural Language Processing (ICON 2026).
+
+THREE EXCEPTIONS
+
+1. Sanskrit source passages. The `source_passage_verbatim` fields in
+   `taxonomy/hetvabhasa_v2.2.json` quote the GRETIL electronic text of
+   Annambhatta's Tarkasamgraha (data entry by Takuya Ono), which is distributed
+   under CC BY-NC-SA 4.0. Those quotations remain under that licence, which is
+   more restrictive than this one. The English glosses beside them are ours and
+   fall under CC BY 4.0.
+
+2. LOGIC and MAFALDA. Neither dataset states a licence, so neither is
+   redistributed here. Files under `vyapti/data/crossmap/` and
+   `vyapti/data/external/` carry row references and hashes only.
+   `vyapti/scripts/fetch_external.py` retrieves the texts from the original
+   repositories at pinned commits, under whatever terms those repositories set.
+   Cite Jin et al. (2022) and Helwe et al. (2024) if you use them.
+
+3. Software. Code in this repository is under the MIT licence; see LICENSE.

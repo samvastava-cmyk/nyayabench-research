@@ -1,0 +1,383 @@
+{
+  "generated": "2026-08-18",
+  "taxonomy_version": "2.1.0",
+  "suites": [
+    {
+      "name": "standard_v1",
+      "kind": "typed",
+      "n": 50,
+      "file": "data/suites/standard_v1.jsonl",
+      "labels": {
+        "RF-01": 5,
+        "RF-02": 4,
+        "RF-03": 4,
+        "RF-04": 4,
+        "RF-05": 4,
+        "RF-06": 5,
+        "RF-07a": 5,
+        "RF-07b": 5,
+        "RF-08": 4,
+        "RF-09": 4,
+        "RF-10": 3,
+        "RF-11": 3
+      },
+      "none_count": 0,
+      "none_share_pct": 0.0,
+      "n_categories": 12,
+      "original_filename": "nyayabench_standard_v1.json",
+      "note": "First public benchmark suite. Balanced across 12 categories, zero sound arguments."
+    },
+    {
+      "name": "unseen_v1",
+      "kind": "typed",
+      "n": 132,
+      "file": "data/suites/unseen_v1.jsonl",
+      "labels": {
+        "RF-01": 15,
+        "RF-02": 10,
+        "RF-03": 12,
+        "RF-04": 12,
+        "RF-05": 8,
+        "RF-06": 10,
+        "RF-07a": 18,
+        "RF-07b": 15,
+        "RF-08": 15,
+        "RF-09": 12,
+        "RF-10": 5
+      },
+      "none_count": 0,
+      "none_share_pct": 0.0,
+      "n_categories": 11,
+      "original_filename": "vyapti_unseen_150.json",
+      "note": "Filename said 150; the file contains 132 cases. Published under the true count."
+    },
+    {
+      "name": "unseen_v2",
+      "kind": "typed",
+      "n": 137,
+      "file": "data/suites/unseen_v2.jsonl",
+      "labels": {
+        "RF-01": 14,
+        "RF-02": 10,
+        "RF-03": 11,
+        "RF-04": 11,
+        "RF-05": 8,
+        "RF-06": 10,
+        "RF-07a": 18,
+        "RF-07b": 15,
+        "RF-08": 14,
+        "RF-09": 12,
+        "RF-10": 10,
+        "RF-11": 4
+      },
+      "none_count": 0,
+      "none_share_pct": 0.0,
+      "n_categories": 12,
+      "original_filename": "vyapti_unseen_v2.json",
+      "note": "137 cases."
+    },
+    {
+      "name": "unseen_v3",
+      "kind": "typed",
+      "n": 100,
+      "file": "data/suites/unseen_v3.jsonl",
+      "labels": {
+        "RF-01": 10,
+        "RF-02": 7,
+        "RF-03": 9,
+        "RF-04": 9,
+        "RF-05": 6,
+        "RF-06": 7,
+        "RF-07a": 12,
+        "RF-07b": 10,
+        "RF-08": 10,
+        "RF-09": 8,
+        "RF-10": 6,
+        "RF-11": 6
+      },
+      "none_count": 0,
+      "none_share_pct": 0.0,
+      "n_categories": 12,
+      "original_filename": "vyapti_unseen_v3.json",
+      "note": "100 cases."
+    },
+    {
+      "name": "unseen_v4",
+      "kind": "typed",
+      "n": 120,
+      "file": "data/suites/unseen_v4.jsonl",
+      "labels": {
+        "RF-01": 10,
+        "RF-02": 10,
+        "RF-03": 10,
+        "RF-04": 10,
+        "RF-05": 10,
+        "RF-06": 10,
+        "RF-07a": 10,
+        "RF-07b": 10,
+        "RF-08": 10,
+        "RF-09": 10,
+        "RF-10": 10,
+        "RF-11": 10
+      },
+      "none_count": 0,
+      "none_share_pct": 0.0,
+      "n_categories": 12,
+      "original_filename": "vyapti_unseen_v4.json",
+      "note": "The held-out suite reported in the ICON 2026 paper (95.83%, 115/120). Perfectly balanced, 10 per category, zero sound arguments."
+    },
+    {
+      "name": "unseen_v5_balanced",
+      "kind": "binary+typed",
+      "n": 160,
+      "file": "data/suites/unseen_v5_balanced.jsonl",
+      "labels": {
+        "NONE": 40,
+        "RF-01": 10,
+        "RF-02": 10,
+        "RF-03": 10,
+        "RF-04": 10,
+        "RF-05": 10,
+        "RF-06": 10,
+        "RF-07a": 10,
+        "RF-07b": 10,
+        "RF-08": 10,
+        "RF-09": 10,
+        "RF-10": 10,
+        "RF-11": 10
+      },
+      "none_count": 40,
+      "n_categories": 12,
+      "note": "120 v4 failure cases + 40 MAFALDA gold-NONE texts (references only; run scripts/fetch_external.py)."
+    },
+    {
+      "name": "stress_150",
+      "kind": "typed",
+      "n": 150,
+      "file": "data/suites/stress_150.jsonl",
+      "labels": {
+        "RF-01": 14,
+        "RF-02": 11,
+        "RF-03": 13,
+        "RF-04": 13,
+        "RF-05": 9,
+        "RF-06": 11,
+        "RF-07a": 19,
+        "RF-07b": 15,
+        "RF-08": 13,
+        "RF-09": 12,
+        "RF-10": 8,
+        "RF-11": 12
+      },
+      "none_count": 0,
+      "none_share_pct": 0.0,
+      "n_categories": 12,
+      "original_filename": "vyapti_stress_150.json",
+      "note": "Long-form, multi-clause stress cases."
+    },
+    {
+      "name": "adversarial_30",
+      "kind": "typed",
+      "n": 30,
+      "file": "data/suites/adversarial_30.jsonl",
+      "labels": {
+        "RF-01": 5,
+        "RF-02": 2,
+        "RF-03": 2,
+        "RF-04": 3,
+        "RF-05": 3,
+        "RF-06": 3,
+        "RF-07a": 2,
+        "RF-07b": 2,
+        "RF-08": 2,
+        "RF-09": 2,
+        "RF-10": 2,
+        "RF-11": 2
+      },
+      "none_count": 0,
+      "none_share_pct": 0.0,
+      "n_categories": 12,
+      "original_filename": "vyapti_adversarial_30.json",
+      "note": "Adversarial pilot."
+    },
+    {
+      "name": "adversarial_100",
+      "kind": "typed",
+      "n": 100,
+      "file": "data/suites/adversarial_100.jsonl",
+      "labels": {
+        "RF-01": 9,
+        "RF-02": 8,
+        "RF-03": 9,
+        "RF-04": 8,
+        "RF-05": 8,
+        "RF-06": 8,
+        "RF-07a": 9,
+        "RF-07b": 8,
+        "RF-08": 8,
+        "RF-09": 8,
+        "RF-10": 8,
+        "RF-11": 9
+      },
+      "none_count": 0,
+      "none_share_pct": 0.0,
+      "n_categories": 12,
+      "original_filename": "vyapti_adversarial_100.json",
+      "note": "Adversarial suite, balanced across 12 categories."
+    },
+    {
+      "name": "natural_language_50",
+      "kind": "typed",
+      "n": 50,
+      "file": "data/suites/natural_language_50.jsonl",
+      "labels": {
+        "RF-01": 8,
+        "RF-02": 8,
+        "RF-03": 8,
+        "RF-04": 8,
+        "RF-05": 8,
+        "RF-06": 8,
+        "RF-07a": 2
+      },
+      "none_count": 0,
+      "none_share_pct": 0.0,
+      "n_categories": 7,
+      "original_filename": "vyapti_natural_language_200.json",
+      "note": "Filename said 200; the file contains 50 cases. Published under the true count. Covers RF-01..RF-07a only."
+    },
+    {
+      "name": "edge_cases_20",
+      "kind": "typed",
+      "n": 20,
+      "file": "data/suites/edge_cases_20.jsonl",
+      "labels": {
+        "NONE": 15,
+        "RF-01": 1,
+        "RF-02": 2,
+        "RF-07a": 2
+      },
+      "none_count": 15,
+      "none_share_pct": 75.0,
+      "n_categories": 3,
+      "original_filename": "vyapti_edge_cases.json",
+      "note": "The only suite with a meaningful sound-argument share (15/20 NONE)."
+    },
+    {
+      "name": "external_20",
+      "kind": "typed",
+      "n": 20,
+      "file": "data/suites/external_20.jsonl",
+      "labels": {
+        "NONE": 2,
+        "RF-01": 1,
+        "RF-02": 1,
+        "RF-03": 2,
+        "RF-04": 1,
+        "RF-05": 2,
+        "RF-06": 2,
+        "RF-07a": 1,
+        "RF-07b": 2,
+        "RF-08": 2,
+        "RF-09": 2,
+        "RF-10": 1,
+        "RF-11": 1
+      },
+      "none_count": 2,
+      "none_share_pct": 10.0,
+      "n_categories": 12,
+      "original_filename": "external_20_cases.json",
+      "note": "Externally sourced probe set; includes 2 sound arguments."
+    },
+    {
+      "name": "logic_195",
+      "kind": "crossmap",
+      "n": 195,
+      "file": "data/crossmap/logic_195.jsonl",
+      "western_labels": {
+        "ad hominem": 15,
+        "ad populum": 15,
+        "appeal to emotion": 15,
+        "circular reasoning": 15,
+        "equivocation": 15,
+        "fallacy of credibility": 15,
+        "fallacy of extension": 15,
+        "fallacy of logic": 15,
+        "fallacy of relevance": 15,
+        "false causality": 15,
+        "false dilemma": 15,
+        "faulty generalization": 15,
+        "intentional": 15
+      },
+      "original_filename": "logic_cross_mapping_test.json",
+      "note": "Sampled from LOGIC (Jin et al., 2022, EMNLP Findings). Redistributed under that dataset's own terms; see docs/DATA_CARD.md. Texts not redistributed: row references into LOGIC data/edu_all.csv; run scripts/fetch_external.py."
+    },
+    {
+      "name": "logic_487",
+      "kind": "crossmap",
+      "n": 487,
+      "file": "data/crossmap/logic_487.jsonl",
+      "western_labels": {
+        "ad hominem": 38,
+        "ad populum": 38,
+        "appeal to emotion": 38,
+        "circular reasoning": 38,
+        "equivocation": 31,
+        "fallacy of credibility": 38,
+        "fallacy of extension": 38,
+        "fallacy of logic": 38,
+        "fallacy of relevance": 38,
+        "false causality": 38,
+        "false dilemma": 38,
+        "faulty generalization": 38,
+        "intentional": 38
+      },
+      "original_filename": "logic_500_cross_mapping_test.json",
+      "note": "Sampled from LOGIC (Jin et al., 2022, EMNLP Findings). Redistributed under that dataset's own terms; see docs/DATA_CARD.md. Texts not redistributed: row references into LOGIC data/edu_all.csv; run scripts/fetch_external.py."
+    },
+    {
+      "name": "reasoning_prompts_v1",
+      "kind": "generation",
+      "n": 50,
+      "file": "data/generation/reasoning_prompts_v1.jsonl",
+      "domains": {
+        "economics_finance": 10,
+        "law_ethics_society": 10,
+        "medicine_health": 10,
+        "science_environment": 10,
+        "technology_engineering": 10
+      },
+      "original_filename": "nyayabench_reasoning_prompts_v1.json",
+      "note": "Elicitation prompts used to generate model output for VRS leaderboard scoring. Not labelled."
+    },
+    {
+      "name": "reasoning_prompts_v2",
+      "kind": "generation",
+      "n": 50,
+      "file": "data/generation/reasoning_prompts_v2.jsonl",
+      "domains": {
+        "economics_finance": 10,
+        "law_policy_society": 10,
+        "medicine_health": 10,
+        "science_environment": 10,
+        "technology_engineering": 10
+      },
+      "original_filename": "nyayabench_reasoning_prompts_v2.json",
+      "note": "Elicitation prompts used to generate model output for VRS leaderboard scoring. Not labelled."
+    }
+  ],
+  "cross_suite_exact_duplicates": {
+    "a87ce10235713cdf": [
+      "unseen_v2:127",
+      "unseen_v3:92"
+    ],
+    "fcdd9ad784799f78": [
+      "adversarial_100:14",
+      "natural_language_50:14"
+    ]
+  },
+  "duplicate_summary": {
+    "duplicate_text_groups": 2,
+    "total_duplicated_items": 4
+  },
+  "camera_ready": "Nov 2026: LOGIC and MAFALDA texts replaced by row references; unseen_v5_balanced added to the manifest."
+}

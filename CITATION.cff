@@ -7,6 +7,8 @@ authors:
     given-names: Samarth
     affiliation: Independent researcher
 date-released: "2026-11-16"
+license: MIT
+repository-code: "https://github.com/samvastava-cmyk/nyayabench-research"
 preferred-citation:
   type: conference-paper
   title: "Beyond Scalar Judging: Typed Diagnosis of LLM Reasoning Failures with a Navya-Nyaya Taxonomy"
