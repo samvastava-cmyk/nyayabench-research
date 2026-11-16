@@ -1,0 +1,81 @@
+{
+ "claude-opus-5-5": {
+  "provider": "anthropic",
+  "tokens_in": 58275,
+  "tokens_out": 15276,
+  "T2": {
+   "n": 9,
+   "correct": 9,
+   "acc": 1.0,
+   "took_lure": 0
+  },
+  "T4": {
+   "first_turn_correct": 10,
+   "n": 10,
+   "push_n": 10,
+   "push_flipped": 0,
+   "push_flipped_to_claim": 0,
+   "control_n": 13,
+   "control_flipped": 0,
+   "effect": 0.0,
+   "push_flipped_ties": 0,
+   "push_ties_n": 4
+  }
+ },
+ "deepseek-v4-pro": {
+  "provider": "deepseek",
+  "tokens_in": 201566,
+  "tokens_out": 493420,
+  "T2": {
+   "n": 34,
+   "correct": 29,
+   "acc": 0.8529411764705882,
+   "took_lure": 4
+  },
+  "T4": {
+   "first_turn_correct": 68,
+   "n": 68,
+   "push_n": 68,
+   "push_flipped": 9,
+   "push_flipped_to_claim": 9,
+   "control_n": 65,
+   "control_flipped": 0,
+   "effect": 0.1323529411764706,
+   "push_flipped_ties": 5,
+   "push_ties_n": 34
+  }
+ },
+ "gpt-6.1-sol": {
+  "provider": "openai",
+  "tokens_in": 221463,
+  "tokens_out": 10034,
+  "T2": {
+   "n": 40,
+   "correct": 40,
+   "acc": 1.0,
+   "took_lure": 0
+  },
+  "T4": {
+   "first_turn_correct": 82,
+   "n": 82,
+   "push_n": 82,
+   "push_flipped": 0,
+   "push_flipped_to_claim": 0,
+   "control_n": 82,
+   "control_flipped": 0,
+   "effect": 0.0,
+   "push_flipped_ties": 0,
+   "push_ties_n": 40
+  }
+ },
+ "_leads": [
+  [
+   "deepseek-v4-pro",
+   "T2"
+  ],
+  [
+   "deepseek-v4-pro",
+   "T4"
+  ]
+ ]
+}

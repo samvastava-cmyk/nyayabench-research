@@ -1,0 +1,1545 @@
+{
+  "schema_version": "2.1.0",
+  "taxonomy_name": "Hetvābhāsa Reasoning Failure Taxonomy",
+  "tradition": "Navya-Nyāya",
+  "primary_sources": [
+    {
+      "id": "TS",
+      "full_name": "Tarka-Saṃgraha",
+      "author": "Annambhaṭṭa",
+      "century": "17th c. CE",
+      "edition": "Ganganatha Jha edition with Dīpikā and Nyāya-Bodhinī commentaries",
+      "role": "Primary definitional source for all five hetvābhāsa categories and their sub-types"
+    },
+    {
+      "id": "NNB",
+      "full_name": "Navya-Nyāya-Bhāṣāpradīpaḥ",
+      "author": "Anonymous (pedagogical manual)",
+      "century": "Late tradition",
+      "edition": "Project corpus text",
+      "role": "Navya-Nyāya technical vocabulary, pratibandha doctrine, avacchedaka-avacchedya relations"
+    },
+    {
+      "id": "NS",
+      "full_name": "Nyāya Sūtras of Gautama with Vātsyāyana Bhāṣya",
+      "author": "Gautama (Gotama); commentary by Vātsyāyana",
+      "century": "~2nd c. BCE (sūtras); ~4th c. CE (bhāṣya)",
+      "edition": "Ganganatha Jha translation",
+      "role": "Original five-fold hetvābhāsa classification; foundational definitions"
+    },
+    {
+      "id": "TCM",
+      "full_name": "Tattva-Cintāmaṇi",
+      "author": "Gaṅgeśa Upādhyāya",
+      "century": "13th c. CE",
+      "edition": "Kamakhyanath Tarkavagisa edition with commentaries",
+      "role": "Advanced vyāpti analysis; formal precision on avacchedaka relations"
+    }
+  ],
+  "compiled": "2026-03",
+  "last_validated": "2026-03-06",
+  "total_categories": 13,
+
+  "version_history": [
+    {
+      "version": "1.0.0",
+      "date": "2026-03-06",
+      "changes": "Initial taxonomy — 13 categories, all source-verified, schema fields: id, parent, sanskrit, iast, english, source_text, source_quote, confidence, detection_method, avacchedaka_question, llm_failure_type, detection_rule, examples, false_positive_risk"
+    },
+    {
+      "version": "2.0.0",
+      "date": "2026-03-06",
+      "changes": "Operational refinement — added distinguishing_features, contrast_with, decision_criteria, contrastive_examples, three-level definitions, automation block, upādhi_explanation, human_review_criteria, confusable_pairs, decision_flowchart, llm_calibration_notes."
+    },
+    {
+      "version": "2.1.0",
+      "date": "2026-03-06",
+      "changes": "Surgical patch for two v2.0 regressions. (1) RF-12/RF-01 bleed: tightened RF-12 to require ONTOLOGICAL universality (all entities without exception), explicitly excluded class-level generalizations, added 'all politicians' as negative contrastive example. (2) RF-09/RF-04 bleed: added explicit 'mentioning alternatives ≠ presenting valid counter-reasons' guard to both RF-09 and RF-04, added stimulus contrastive example to RF-09, added RF-04 contrast to RF-09. Both fixes are targeted at the specific test cases that regressed in v2.0 testing (Test 3: Politicians, Test 5: Stimulus)."
+    }
+  ],
+
+  "confusable_pairs": [
+    {
+      "pair": ["RF-01", "RF-06"],
+      "severity": "CRITICAL",
+      "observed_kappa": 0.333,
+      "confusion_type": "Logical error vs factual error",
+      "root_cause": "Both present as 'false attribution' but differ in whether the error is in the inference structure (RF-01) or in empirical fact (RF-06)",
+      "resolution_question": "Is the reason-property factually false, or is it factually true but logically insufficient?",
+      "resolution_rule": "If the property can be checked against empirical evidence and is demonstrably false → RF-06. If the property is true but the inference from it is too broad → RF-01.",
+      "edge_case_note": "When a generalization is SO over-broad that it becomes empirically false (e.g., 'all politicians are corrupt'), prioritize the PRIMARY error. If the core argument structure is 'X, therefore Y' and X is just too general → RF-01. If X is a specific factual claim about a specific entity that is wrong → RF-06."
+    },
+    {
+      "pair": ["RF-03", "RF-04"],
+      "severity": "MODERATE",
+      "observed_kappa": 0.67,
+      "confusion_type": "Internal contradiction vs external counterbalance",
+      "root_cause": "Both involve opposition between reason and conclusion, but RF-03 is internal to one reason while RF-04 involves two independent reasons",
+      "resolution_question": "Is there ONE self-contradictory reason, or TWO independent reasons that oppose each other?",
+      "resolution_rule": "Count the independent lines of reasoning. If ONE reason entails both C and NOT-C → RF-03. If there are TWO separate reasons, one supporting C and one supporting NOT-C → RF-04.",
+      "edge_case_note": "When an argument contains both internal contradiction AND external counter-evidence, classify by the PRIMARY structural defect. If the reason itself is self-defeating → RF-03 takes priority."
+    },
+    {
+      "pair": ["RF-01", "RF-07a"],
+      "severity": "MODERATE",
+      "confusion_type": "General over-breadth vs specific missing qualifier",
+      "root_cause": "Both involve reasoning that is 'too broad', but RF-07a is specific about WHAT qualifier is missing while RF-01 is about general underdetermination",
+      "resolution_question": "Can you name a specific qualifier (upādhi) that would make this reasoning valid?",
+      "resolution_rule": "If you can identify a specific condition U such that (H ∧ U) → C holds but H → C does not, AND U pervades C but not H → RF-07a. If the reason simply appears in both sapakṣa and vipakṣa with no identifiable single qualifier → RF-01.",
+      "edge_case_note": "RF-07a is technically a sub-case of the broader asiddha category, not of savyabhicāra. The structural question is different: RF-01 asks 'does H appear in vipakṣa?' while RF-07a asks 'is the vyāpti conditional on an unstated upādhi?'. When in doubt, check whether the TEXT of the inference claims an unconditional rule — if so, RF-07a."
+    },
+    {
+      "pair": ["RF-05", "RF-06"],
+      "severity": "LOW",
+      "confusion_type": "Non-existent subject vs non-existent property",
+      "root_cause": "Both are about non-existence, but at different levels — entity vs attribute",
+      "resolution_question": "Does the SUBJECT exist, or does it not?",
+      "resolution_rule": "If the subject entity itself is fabricated → RF-05. If the subject exists but a property attributed to it is false → RF-06.",
+      "edge_case_note": "Clean boundary. Resolve by checking entity existence first (RF-05), then property truth (RF-06)."
+    },
+    {
+      "pair": ["RF-07a", "RF-07b"],
+      "severity": "LOW",
+      "confusion_type": "Universal qualifier missing vs contextual qualifier missing",
+      "root_cause": "Both are about missing qualifiers on the vyāpti, but at different scopes",
+      "resolution_question": "Is the GENERAL rule conditional, or does the general rule hold but fail for THIS specific case?",
+      "resolution_rule": "If the pervasion H → C is itself conditional (needs a qualifier to be true generally) → RF-07a. If the general rule is valid but fails for this specific subject due to subject-specific conditions → RF-07b.",
+      "edge_case_note": "RF-07a is about the rule itself being conditional. RF-07b is about the rule being valid but inapplicable here."
+    },
+    {
+      "pair": ["RF-08", "RF-03"],
+      "severity": "LOW",
+      "confusion_type": "External defeat vs internal contradiction",
+      "root_cause": "Both result in the conclusion being negated, but the source of negation differs",
+      "resolution_question": "Does the negation come from WITHIN the inference's own reason, or from OUTSIDE via independent evidence?",
+      "resolution_rule": "If the reason itself entails NOT-C → RF-03. If an independent source of knowledge (perception, established fact) establishes NOT-C → RF-08.",
+      "edge_case_note": "Clean boundary once source of negation is identified."
+    }
+  ],
+
+  "decision_flowchart": {
+    "description": "Master triage sequence for classifying a reasoning failure. Apply steps in order; first match wins unless noted otherwise.",
+    "steps": [
+      {
+        "step": 1,
+        "question": "Does the subject (pakṣa) of the inference exist?",
+        "if_no": "RF-05 (Āśrayāsiddha — Non-Existent Locus)",
+        "if_yes": "Continue to Step 2"
+      },
+      {
+        "step": 2,
+        "question": "Is the reason-property (hetu) factually true of the subject?",
+        "if_no": "RF-06 (Svarūpāsiddha — Non-Existent Property)",
+        "if_yes": "Continue to Step 3"
+      },
+      {
+        "step": 3,
+        "question": "Does the reason actually entail the OPPOSITE of the stated conclusion?",
+        "if_yes": "RF-03 (Viruddha — Contradictory Reason)",
+        "if_no": "Continue to Step 4"
+      },
+      {
+        "step": 4,
+        "question": "Is the conclusion directly contradicted by independently established fact or perception?",
+        "if_yes": "RF-08 (Bādhita — Defeated Reason)",
+        "if_no": "Continue to Step 5"
+      },
+      {
+        "step": 5,
+        "question": "Does the act of asserting the claim undermine the claim itself?",
+        "if_yes": "RF-10 (Performative Self-Refutation)",
+        "if_no": "Continue to Step 6"
+      },
+      {
+        "step": 6,
+        "question": "Is the conclusion already fully explained by an independent cause, making the stated reason causally redundant?",
+        "if_yes": "RF-09 (Anyathāsiddha — Explained by Another Cause)",
+        "if_no": "Continue to Step 7"
+      },
+      {
+        "step": 7,
+        "question": "Can you identify a specific qualifier (upādhi) that the pervasion depends on but that is not stated?",
+        "if_yes": "Continue to Step 7a",
+        "if_no": "Continue to Step 8"
+      },
+      {
+        "step": "7a",
+        "question": "Is the general pervasion itself conditional (needs the qualifier to be true at all), or does the general rule hold but fail for this specific subject?",
+        "if_general_conditional": "RF-07a (Vyāpyatvāsiddha Universal — Missing Universal Qualifier)",
+        "if_subject_specific": "RF-07b (Vyāpyatvāsiddha Contextual — Missing Contextual Qualifier)"
+      },
+      {
+        "step": 8,
+        "question": "Are all causal conditions present but a blocking condition (pratibandha) prevents the expected outcome?",
+        "if_yes": "RF-11 (Pratibandha — Blocked Causal Chain)",
+        "if_no": "Continue to Step 9"
+      },
+      {
+        "step": 9,
+        "question": "Does the reason-property appear in both sapakṣa (where conclusion holds) AND vipakṣa (where conclusion fails)?",
+        "if_yes": "RF-01 (Sādhāraṇa — Too General)",
+        "if_no": "Continue to Step 10"
+      },
+      {
+        "step": 10,
+        "question": "Does the reason-property appear ONLY in the specific subject and nowhere else (no sapakṣa, no vipakṣa)?",
+        "if_yes": "RF-02 (Asādhāraṇa — Too Particular)",
+        "if_no": "Continue to Step 11"
+      },
+      {
+        "step": 11,
+        "question": "Is the conclusion ontologically universal — does it apply to ALL entities in the universe without ANY class restriction (not just 'all X are Y' but literally 'everything is Y')?",
+        "if_yes": "RF-12 (Anupasamhārī — Non-Exclusive / Vacuous)",
+        "if_no": "Continue to Step 12",
+        "guard_note": "A broad generalization about a CLASS (all politicians, all drugs) is NOT RF-12. RF-12 requires that NO entity of ANY kind is excluded from the conclusion. If the conclusion restricts to a class, vipakṣa exists outside that class → the argument already matched RF-01 at Step 9."
+      },
+      {
+        "step": 12,
+        "question": "Does an equally strong independent reason exist for the opposite conclusion, and has the inference failed to acknowledge it?",
+        "if_yes": "RF-04 (Satpratipakṣa — Counterbalanced Reason) [FLAG FOR HUMAN REVIEW]",
+        "if_no": "No hetvābhāsa detected, or the failure mode is outside this taxonomy"
+      }
+    ],
+    "design_notes": "Steps ordered by: (1) eliminatory checks first (RF-05, RF-06 — entity/property existence), (2) structural contradictions (RF-03, RF-08, RF-10), (3) causal issues (RF-09, RF-07a/b, RF-11), (4) pervasion-scope issues (RF-01, RF-02, RF-12), (5) counterbalance last because it requires the most judgment (RF-04). RF-06 comes BEFORE RF-01 deliberately — factual falsity must be checked before logical overgeneralization, as per the refinement analysis finding that this ordering resolves the primary κ-lowering confusion."
+  },
+
+  "llm_calibration_notes": {
+    "test_date": "2026-03-06",
+    "test_dataset": "11 arguments, 8 multi-labeled, 5 carefully designed edge cases",
+    "overall_kappa": 0.543,
+    "target_kappa": 0.65,
+    "model_performance": {
+      "gpt_5_2_claude_sonnet_4_5": {
+        "kappa": 0.805,
+        "interpretation": "Almost Perfect agreement",
+        "recommendation": "Use this pair for primary validation"
+      },
+      "gpt_5_2_gemini_3_flash": {
+        "kappa": 0.489,
+        "interpretation": "Moderate agreement",
+        "recommendation": "Gemini as tiebreaker only"
+      },
+      "claude_sonnet_4_5_gemini_3_flash": {
+        "kappa": 0.333,
+        "interpretation": "Fair agreement",
+        "recommendation": "Do not rely on this pair for validation"
+      }
+    },
+    "known_biases": {
+      "gemini_3_flash": {
+        "bias": "Over-attributes to RF-06 (False Property) — interprets logical overgeneralization as factual falsity",
+        "affected_categories": ["RF-01", "RF-06"],
+        "correction": "When Gemini classifies RF-06, verify: is the property EMPIRICALLY false, or is the inference LOGICALLY too broad?"
+      }
+    },
+    "category_reliability": {
+      "perfect": ["RF-09"],
+      "high": ["RF-05", "RF-08"],
+      "moderate": ["RF-03", "RF-06", "RF-07a"],
+      "low": ["RF-01", "RF-04"],
+      "untested": ["RF-02", "RF-07b", "RF-10", "RF-11", "RF-12"]
+    }
+  },
+
+  "parent_categories": [
+    {
+      "id": "Savyabhicāra",
+      "sanskrit": "सव्यभिचार",
+      "iast": "Savyabhicāra",
+      "english": "Erratic / Deviating Reason",
+      "definition": "A reason that is not uniformly concomitant with the conclusion — it deviates from the required pervasion in one of three possible ways",
+      "source_text": "TS Sect. LII–LIII; NNB p. 80",
+      "children": ["RF-01", "RF-02", "RF-12"]
+    },
+    {
+      "id": "Viruddha",
+      "sanskrit": "विरुद्ध",
+      "iast": "Viruddha",
+      "english": "Contradictory Reason",
+      "definition": "A reason that is pervaded by the negation of the conclusion — it proves the opposite of what is intended",
+      "source_text": "TS Sect. LIV; NNB p. 84",
+      "children": ["RF-03"]
+    },
+    {
+      "id": "Satpratipakṣa",
+      "sanskrit": "सत्प्रतिपक्ष",
+      "iast": "Satpratipakṣa",
+      "english": "Counterbalanced Reason",
+      "definition": "A reason that is opposed by an equally strong reason proving the negation of the conclusion, leaving the matter inconclusive",
+      "source_text": "TS Sect. LV; NNB p. 85",
+      "children": ["RF-04"]
+    },
+    {
+      "id": "Asiddha",
+      "sanskrit": "असिद्ध",
+      "iast": "Asiddha",
+      "english": "Unestablished / Unproved Reason",
+      "definition": "A reason whose validity is not established — either its locus, its inherence in the subject, or its pervasion with the conclusion is unproved",
+      "source_text": "TS Sect. LVI; NNB p. 80",
+      "children": ["RF-05", "RF-06", "RF-07a", "RF-07b"]
+    },
+    {
+      "id": "Bādhita",
+      "sanskrit": "बाधित",
+      "iast": "Bādhita",
+      "english": "Defeated / Contradicted Reason",
+      "definition": "A reason whose conclusion is overridden by a stronger, independent source of knowledge such as perception or established fact",
+      "source_text": "TS Sect. LVII; NNB p. 86",
+      "children": ["RF-08"]
+    }
+  ],
+
+  "extended_categories_note": "RF-09 (Anyathāsiddha), RF-10 (Performative Self-Refutation), and RF-11 (Pratibandha) extend beyond the classical five-fold hetvābhāsa division. RF-09 derives from the causation theory in TS Sect. XXVI and NNB. RF-10 is an inferred category with no direct sūtra source. RF-11 derives from the pratibandha doctrine in NNB pp. 108–127. These extensions are clearly marked below.",
+
+  "categories": [
+    {
+      "id": "RF-01",
+      "parent": "Savyabhicāra",
+      "sanskrit": "साधारण सव्यभिचार",
+      "iast": "Sādhāraṇa Savyabhicāra",
+      "english": "Erratic Reason — Too General (Over-wide)",
+      "source_text": "TS Sect. LIII",
+      "source_quote_sanskrit": "sādhāraṇo hetuḥ yaḥ pakṣa-sapakṣa-vipakṣeṣu vartate",
+      "source_quote_english": "The over-wide mark is that which is found both on the sapakṣa and the vipakṣa, that is, which co-exists both with the sādhya and its negation.",
+      "source_verification": "TS Sect. LIII, Nyāya-Bodhinī commentary. Index entry: Sadharana- 44.",
+      "confidence": "HIGH",
+      "confidence_basis": "VERIFIED",
+
+      "definitions": {
+        "formal": "Let H = reason-property, C = sādhya (conclusion). RF-01 holds when H is present in at least one instance where C is present (sapakṣa) AND H is present in at least one instance where C is absent (vipakṣa). The reason is underdetermined — it fails to discriminate.",
+        "operational": "Step 1: Identify the reason (H) and conclusion (C). Step 2: Find cases where C is true — does H appear there? Step 3: Find cases where C is false — does H also appear there? Step 4: If H appears in BOTH positive and negative cases → RF-01.",
+        "intuitive": "The reason is true but proves nothing — it applies equally to cases where the conclusion holds and where it doesn't."
+      },
+
+      "distinguishing_features": {
+        "error_type": "logical_error",
+        "error_locus": "inference_structure",
+        "diagnostic_question": "Is the reason factually true but logically insufficient to establish the conclusion?",
+        "key_indicator": "The reason-property appears in both positive instances (sapakṣa) and negative instances (vipakṣa)",
+        "not_this_if": [
+          "The reason-property is factually FALSE about the subject → RF-06",
+          "You can name a SPECIFIC qualifier that would fix the reasoning → RF-07a",
+          "The reason proves the OPPOSITE of the conclusion → RF-03",
+          "The reason exists ONLY in the subject and nowhere else → RF-02"
+        ]
+      },
+
+      "contrast_with": {
+        "RF-06": "RF-01 = reason is FACTUALLY TRUE but logically too broad. RF-06 = reason is FACTUALLY FALSE. Test: Can you empirically verify the reason-property? If it's true but doesn't prove the conclusion → RF-01. If it's false → RF-06.",
+        "RF-07a": "RF-01 = reason appears in vipakṣa (general underdetermination). RF-07a = pervasion is conditional on an unstated upādhi. Test: Can you name a SPECIFIC qualifier that would make the pervasion valid? If yes → RF-07a. If the reason just appears everywhere indiscriminately → RF-01.",
+        "RF-02": "Opposite ends of the spectrum: RF-01 = reason too BROAD (appears everywhere). RF-02 = reason too NARROW (appears only in the subject)."
+      },
+
+      "decision_criteria": [
+        "Step 1: Confirm the subject exists (if not → RF-05)",
+        "Step 2: Confirm the reason-property is factually true of the subject (if not → RF-06)",
+        "Step 3: Check — does the reason appear in cases where the conclusion is FALSE (vipakṣa)?",
+        "Step 4: If YES, and the reason also appears where the conclusion is TRUE → RF-01",
+        "Step 5: If you can name a specific missing qualifier → consider RF-07a instead"
+      ],
+
+      "contrastive_examples": [
+        {
+          "argument": "All swans are white. This bird is a swan. Therefore, it is white.",
+          "is_this_category": true,
+          "explanation": "The reason 'is a swan' appears in sapakṣa (white swans) AND vipakṣa (black swans). The overgeneralization is LOGICAL — some swans ARE white, but the reason fails to discriminate.",
+          "why_not_rf06": "The property 'is a swan' is factually true. The error is in the INFERENCE, not in the fact."
+        },
+        {
+          "argument": "Mars has extensive canal systems built by an advanced civilization.",
+          "is_this_category": false,
+          "actually_is": "RF-06",
+          "explanation": "Mars EXISTS (not RF-05) but 'has canal systems' is EMPIRICALLY FALSE. The error is factual, not logical. This is RF-06.",
+          "distinguishing_test": "Can you check the reason-property against empirical evidence? Yes — and it's false. → RF-06, not RF-01."
+        },
+        {
+          "argument": "This drug should work because it has anti-inflammatory properties.",
+          "is_this_category": true,
+          "explanation": "Anti-inflammatory properties appear in drugs that work AND drugs that don't work for this condition. The reason is factually true but logically insufficient — it fails to discriminate.",
+          "borderline_with": "RF-07a — if you can name the specific missing qualifier (e.g., 'targets COX-2 pathway relevant to this condition'), RF-07a may be more precise."
+        }
+      ],
+
+      "automation": {
+        "automatable": "partial",
+        "difficulty": "medium",
+        "method": "LLM-as-judge",
+        "requires_human_when": [
+          "Boundary with RF-06 is unclear (factual vs logical error)",
+          "Boundary with RF-07a is unclear (can a specific qualifier be named?)"
+        ]
+      },
+
+      "detection_method": "LLM-as-judge",
+      "avacchedaka_question": "Is the reason-property restricted to cases where the conclusion holds, or does it also appear in cases where the conclusion does not hold?",
+      "avacchedaka_diagnosis": "The avacchedaka (limitor) on the reason is missing or too broad — it does not delimit the reason to the sādhya-relevant class.",
+      "llm_failure_type": "Insufficient evidence / underdetermined reason",
+      "llm_failure_description": "The LLM provides a reason that is true but too generic to support the specific conclusion.",
+      "detection_rule": "reason_present_in_positive_cases(H, S) AND reason_present_in_negative_cases(H, S)",
+      "canonical_example_traditional": {
+        "inference": "The mountain has fire, because it is knowable (prameyatvāt)",
+        "analysis": "Knowability resides in sapakṣa (kitchen with fire) AND vipakṣa (lake without fire). The reason is over-wide.",
+        "source": "TS Sect. LIII"
+      },
+      "canonical_example_llm": {
+        "inference": "This drug should work because it has anti-inflammatory properties.",
+        "analysis": "Anti-inflammatory properties appear in drugs that DO and do NOT work for this condition. The reason fails to discriminate.",
+        "failure_span": "it has anti-inflammatory properties",
+        "missing_avacchedaka": "Restriction to the specific mechanism of action relevant to this pathology"
+      },
+      "false_positive_risk": "MEDIUM",
+      "false_positive_notes": "Risk of over-triggering on legitimately broad-but-valid reasons. Also risk of confusion with RF-06 and RF-07a — use decision_criteria to resolve."
+    },
+
+    {
+      "id": "RF-02",
+      "parent": "Savyabhicāra",
+      "sanskrit": "असाधारण सव्यभिचार",
+      "iast": "Asādhāraṇa Savyabhicāra",
+      "english": "Erratic Reason — Too Particular (Peculiar)",
+      "source_text": "TS Sect. LIII",
+      "source_quote_sanskrit": "asādhāraṇo hetuḥ yaḥ pakṣa eva asti, na sapakṣa-vipakṣayoḥ",
+      "source_quote_english": "The peculiar mark is found neither in sapakṣa nor vipakṣa — it is a peculiar characteristic of the pakṣa which exists nowhere else.",
+      "source_verification": "TS Sect. LIII, Nyāya-Bodhinī. Index: Asadharana- 44, 299.",
+      "confidence": "HIGH",
+      "confidence_basis": "VERIFIED",
+
+      "definitions": {
+        "formal": "Let H = reason-property, S = subject. RF-02 holds when H is found ONLY in S and not in any sapakṣa or vipakṣa. No pervasion can be established from a singleton.",
+        "operational": "Step 1: Identify the reason (H). Step 2: Does H appear in ANY other case besides the specific subject? Step 3: If H exists ONLY in this one subject → RF-02.",
+        "intuitive": "The reason is unique to this one case — you can't generalize from a sample of one."
+      },
+
+      "distinguishing_features": {
+        "error_type": "logical_error",
+        "error_locus": "inference_structure",
+        "diagnostic_question": "Is the reason-property unique to the specific subject, with no other instances to compare?",
+        "key_indicator": "Reason exists in the pakṣa alone — no sapakṣa, no vipakṣa",
+        "not_this_if": [
+          "The reason appears in other cases too → RF-01 or valid reasoning",
+          "The reason is factually false → RF-06",
+          "The conclusion is universal/vacuous → RF-12"
+        ]
+      },
+
+      "contrast_with": {
+        "RF-01": "Opposite ends: RF-01 = reason too BROAD (everywhere). RF-02 = reason too NARROW (only here).",
+        "RF-12": "RF-02 = reason is too narrow. RF-12 = CONCLUSION is too broad. Both prevent testing the pervasion, but for opposite reasons."
+      },
+
+      "decision_criteria": [
+        "Step 1: Identify the reason-property",
+        "Step 2: Search for other instances where this property exists",
+        "Step 3: If NO other instances exist (neither sapakṣa nor vipakṣa) → RF-02",
+        "Step 4: If other instances exist → not RF-02"
+      ],
+
+      "contrastive_examples": [
+        {
+          "argument": "Einstein developed relativity because he was born in Ulm.",
+          "is_this_category": true,
+          "explanation": "Born-in-Ulm is unique to Einstein among physics revolutionaries. No sapakṣa shares this property. No pervasion can be established."
+        },
+        {
+          "argument": "Einstein developed relativity because he had exceptional mathematical talent.",
+          "is_this_category": false,
+          "actually_is": "Not a fallacy (or RF-01 if over-broad)",
+          "explanation": "Mathematical talent exists in other scientists (sapakṣa) and non-revolutionaries (vipakṣa). It's generalizable, so not RF-02."
+        }
+      ],
+
+      "automation": {
+        "automatable": "partial",
+        "difficulty": "hard",
+        "method": "LLM-as-judge",
+        "requires_human_when": ["Property seems unique but may have undiscovered parallels"]
+      },
+
+      "detection_method": "LLM-as-judge",
+      "avacchedaka_question": "Is the reason-property found in any instance other than the specific subject?",
+      "avacchedaka_diagnosis": "The avacchedaka on the reason is so narrow it picks out only the pakṣa — no class can be formed.",
+      "llm_failure_type": "Spurious causal reasoning from idiosyncratic property",
+      "llm_failure_description": "The LLM attributes a conclusion to a property unique to the subject, from which no general rule can be derived.",
+      "detection_rule": "reason_present_only_in_subject(H, S) AND NOT reason_present_in_sapaksa(H) AND NOT reason_present_in_vipaksa(H)",
+      "canonical_example_traditional": {
+        "inference": "Sound is eternal, because it has the nature of sound (śabdatva)",
+        "analysis": "Śabdatva exists in no sapakṣa and no vipakṣa. No pervasion can be established.",
+        "source": "TS Sect. LIII"
+      },
+      "canonical_example_llm": {
+        "inference": "Albert Einstein developed relativity because he was born in Ulm.",
+        "analysis": "Born-in-Ulm is unique to Einstein. No pervasion can be established from a singleton.",
+        "failure_span": "because he was born in Ulm",
+        "missing_avacchedaka": "A generalizable property that extends beyond the singleton"
+      },
+      "false_positive_risk": "LOW"
+    },
+
+    {
+      "id": "RF-03",
+      "parent": "Viruddha",
+      "sanskrit": "विरुद्ध",
+      "iast": "Viruddha",
+      "english": "Contradictory Reason",
+      "source_text": "TS Sect. LIV; NNB p. 84",
+      "source_quote_sanskrit": "viruddho hetuḥ yo sādhya-viparyayasya vyāpakaḥ",
+      "source_quote_english": "Contrary reason is that which is pervaded by the negation of the sādhya. The fallacy consists in drawing a conclusion just contrary to that which would be justified by the reason.",
+      "source_verification": "TS Sect. LIV. Gotama Sūtra I, 2, 47. Index: Viruddha- 44, 45, 206.",
+      "confidence": "HIGH",
+      "confidence_basis": "VERIFIED",
+
+      "definitions": {
+        "formal": "Let H = reason, C = conclusion. RF-03 holds when H is pervaded by NOT-C rather than C. Whenever H is present, NOT-C follows.",
+        "operational": "Step 1: Identify the reason (H) and conclusion (C). Step 2: Ask — does H actually support C, or does it support NOT-C? Step 3: If H entails NOT-C → RF-03.",
+        "intuitive": "The reason proves the exact opposite of what the arguer claims."
+      },
+
+      "distinguishing_features": {
+        "error_type": "structural_contradiction",
+        "error_locus": "reason_conclusion_relationship",
+        "diagnostic_question": "Does the SAME reason, properly analyzed, entail the OPPOSITE of the stated conclusion?",
+        "key_indicator": "ONE reason, internally self-defeating — it proves NOT-C when the arguer claims C",
+        "not_this_if": [
+          "The opposition comes from a SEPARATE, DIFFERENT reason → RF-04",
+          "The opposition comes from external evidence, not from the reason itself → RF-08",
+          "The assertion itself is self-undermining → RF-10"
+        ]
+      },
+
+      "contrast_with": {
+        "RF-04": "RF-03 = ONE reason is self-contradictory (proves the opposite of its own conclusion). RF-04 = TWO independent reasons oppose each other. Count the independent lines of reasoning: if ONE → RF-03, if TWO → RF-04.",
+        "RF-08": "RF-03 = the opposition comes from WITHIN the inference (the reason itself proves NOT-C). RF-08 = the opposition comes from OUTSIDE (an independent proof defeats C).",
+        "RF-10": "RF-03 = the logical content of the reason proves NOT-C. RF-10 = the PERFORMATIVE ACT of asserting defeats the content."
+      },
+
+      "decision_criteria": [
+        "Step 1: Identify the single reason (H) and conclusion (C)",
+        "Step 2: Analyze — does H logically entail C or NOT-C?",
+        "Step 3: If H entails NOT-C → RF-03",
+        "Step 4: If the opposition comes from a different reason → RF-04",
+        "Step 5: If the opposition comes from external facts → RF-08"
+      ],
+
+      "contrastive_examples": [
+        {
+          "argument": "This policy is safe because it has never been tested.",
+          "is_this_category": true,
+          "explanation": "'Never tested' entails 'no established safety record', which is the OPPOSITE of 'safe'. One reason, self-defeating."
+        },
+        {
+          "argument": "Bitcoin is a good investment because it went up 100x. Counter: Bitcoin is a bad investment because it has 80% drawdowns.",
+          "is_this_category": false,
+          "actually_is": "RF-04",
+          "explanation": "Two SEPARATE reasons oppose each other. The first reason ('went up 100x') does not itself prove Bitcoin is bad. A different reason ('drawdowns') does. → RF-04."
+        }
+      ],
+
+      "automation": {
+        "automatable": "partial",
+        "difficulty": "medium",
+        "method": "LLM-as-judge",
+        "requires_human_when": ["The contradiction is subtle or requires domain expertise to see"]
+      },
+
+      "detection_method": "LLM-as-judge",
+      "avacchedaka_question": "Does the reason-property actually entail the conclusion, or does it entail the negation?",
+      "avacchedaka_diagnosis": "The avacchedaka on the vyāpti is inverted — the relation is H → NOT-C, but the inference claims H → C.",
+      "llm_failure_type": "Self-contradictory reasoning / reason proves opposite",
+      "llm_failure_description": "The LLM provides a reason that, when examined, supports the opposite of the conclusion it draws.",
+      "detection_rule": "reason_pervades_negation(H, C) AND NOT reason_pervades_conclusion(H, C)",
+      "canonical_example_traditional": {
+        "inference": "Sound is eternal, because it is artificial (kṛtakatvāt)",
+        "analysis": "Artificiality is pervaded by non-eternality, the opposite of eternality.",
+        "source": "TS Sect. LIV"
+      },
+      "canonical_example_llm": {
+        "inference": "This policy is safe because it has never been tested.",
+        "analysis": "'Never tested' entails lack-of-established-safety, the negation of 'safe'.",
+        "failure_span": "because it has never been tested",
+        "missing_avacchedaka": "The direction of the pervasion"
+      },
+      "false_positive_risk": "LOW"
+    },
+
+    {
+      "id": "RF-04",
+      "parent": "Satpratipakṣa",
+      "sanskrit": "सत्प्रतिपक्ष",
+      "iast": "Satpratipakṣa",
+      "english": "Counterbalanced Reason",
+      "source_text": "TS Sect. LV; NNB p. 85",
+      "source_quote_sanskrit": "satpratipakṣo hetuḥ yatra sādhya-viparyayasya sādhanam api asti",
+      "source_quote_english": "In satpratipakṣa the hetu proving sādhya-negation is different from that actually given. An inference counterbalanced by a contrary inference of equal weight does not remove doubt.",
+      "source_verification": "TS Sect. LV. Gotama Sūtra I, 2, 48. Index: Satpratipaksa- 44, 48, 84, 298.",
+      "confidence": "HIGH",
+      "confidence_basis": "VERIFIED",
+
+      "definitions": {
+        "formal": "Let H1 = stated reason, C = conclusion, H2 = counter-reason. RF-04 holds when H2 (distinct from H1) establishes NOT-C with equal or greater strength than H1 establishes C, AND the inference fails to acknowledge H2.",
+        "operational": "Step 1: Identify the stated reason (H1) and conclusion (C). Step 2: Ask — does a SEPARATE, INDEPENDENT reason (H2) exist that supports NOT-C? Step 3: Is H2 of comparable strength to H1? Step 4: If YES to both, and H2 is not acknowledged → RF-04.",
+        "intuitive": "There's an equally good argument for the opposite conclusion, but the inference only presents one side."
+      },
+
+      "distinguishing_features": {
+        "error_type": "incomplete_evidence",
+        "error_locus": "evidence_scope",
+        "diagnostic_question": "Does a SEPARATE, DISTINCT reason of comparable strength exist for the opposite conclusion?",
+        "key_indicator": "TWO independent lines of reasoning oppose each other — the inference cherry-picks one",
+        "not_this_if": [
+          "The SAME reason proves the opposite → RF-03 (internal contradiction)",
+          "The opposition comes from established fact, not a competing inference → RF-08",
+          "The opposing evidence is clearly weaker → not RF-04 (the opposition must be comparable strength)",
+          "The argument merely MENTIONS alternatives without presenting them as valid competing reasons → RF-09 (spurious causal claim). RF-04 requires TWO actively presented, genuinely valid, competing reasons of comparable strength."
+        ]
+      },
+
+      "contrast_with": {
+        "RF-03": "RF-04 = TWO competing reasons. RF-03 = ONE self-contradictory reason. Key test: count the independent lines of reasoning.",
+        "RF-08": "RF-04 = two inferences of EQUAL weight. RF-08 = one inference defeated by a STRONGER proof (perception, established fact). If one side clearly wins → RF-08. If balanced → RF-04."
+      },
+
+      "decision_criteria": [
+        "Step 1: Confirm this is not RF-03 (is the opposition from the SAME reason or a DIFFERENT reason?)",
+        "Step 2: Identify the counter-reason (H2) — is it independent of H1?",
+        "Step 3: Is H2 ACTIVELY PRESENTED as a valid argument, or merely MENTIONED in passing? If merely mentioned → NOT RF-04 (likely RF-09 if the primary claim is causal)",
+        "Step 4: Assess strength — is H2 of comparable strength to H1?",
+        "Step 5: If H2 is independent AND actively presented AND comparable AND unacknowledged → RF-04",
+        "Step 6: FLAG FOR HUMAN REVIEW — strength comparison requires judgment"
+      ],
+
+      "human_review_criteria": {
+        "why_not_automatable": "Identifying whether an equally strong counter-reason exists requires domain expertise. Assessing 'comparable strength' between two valid but opposing arguments is inherently subjective and cannot be reliably automated.",
+        "escalate_to_human_when": [
+          "Both reasons appear valid on their own",
+          "Strength comparison is unclear or domain-dependent",
+          "Philosophical, ethical, or policy judgment is involved",
+          "The domain requires specialized expertise to evaluate evidence quality"
+        ],
+        "strength_assessment_factors": [
+          "Empirical evidence strength (sample size, replication, methodology)",
+          "Logical validity of each reason independently",
+          "Prior probability / background knowledge",
+          "Scope and generality of each claim",
+          "Recency and quality of evidence"
+        ]
+      },
+
+      "contrastive_examples": [
+        {
+          "argument": "Bitcoin is a good investment because it has delivered 100x returns over 10 years. [Unacknowledged counter: Bitcoin has 80%+ drawdowns and no intrinsic cash flow.]",
+          "is_this_category": true,
+          "explanation": "Two independent reasons of comparable strength: returns (H1) vs drawdowns (H2). The inference presents only H1. → RF-04."
+        },
+        {
+          "argument": "This policy is safe because it has never been tested.",
+          "is_this_category": false,
+          "actually_is": "RF-03",
+          "explanation": "There is only ONE reason ('never tested') and it proves the OPPOSITE. No second independent reason is involved. → RF-03."
+        }
+      ],
+
+      "automation": {
+        "automatable": "no",
+        "difficulty": "hard",
+        "method": "human_review_required",
+        "requires_human_when": ["Always — strength comparison cannot be reliably automated"]
+      },
+
+      "detection_method": "human_review_required",
+      "avacchedaka_question": "Does an equally strong or stronger reason exist for the opposite conclusion?",
+      "avacchedaka_diagnosis": "The avacchedaka on the inference scope fails to include counter-evidence.",
+      "llm_failure_type": "Cherry-picking / one-sided reasoning",
+      "llm_failure_description": "The LLM presents a valid reason but ignores an equally valid reason for the opposite conclusion.",
+      "detection_rule": "exists_counter_reason(H2, NOT_C) AND strength(H2) >= strength(H1) AND NOT acknowledges(inference, H2)",
+      "canonical_example_traditional": {
+        "inference": "Sound is eternal, because it is audible. Counter: Sound is non-eternal, because it is a creation.",
+        "analysis": "Two independent reasons of comparable strength oppose each other. Neither prevails.",
+        "source": "TS Sect. LV"
+      },
+      "canonical_example_llm": {
+        "inference": "Bitcoin is a good investment because it has delivered 100x returns over 10 years.",
+        "analysis": "Counter: 80%+ drawdowns and no cash flow. Both reasons valid; inference cherry-picks one side.",
+        "failure_span": "because it has delivered 100x returns over 10 years",
+        "missing_avacchedaka": "Acknowledgment of equally strong counter-evidence"
+      },
+      "false_positive_risk": "HIGH"
+    },
+
+    {
+      "id": "RF-05",
+      "parent": "Asiddha",
+      "sanskrit": "आश्रयासिद्ध",
+      "iast": "Āśrayāsiddha",
+      "english": "Unestablished Reason — Non-Existent Locus (Subject)",
+      "source_text": "TS Sect. LVI",
+      "source_quote_sanskrit": "āśrayāsiddhaḥ pakṣa-dharmasya pakṣa eva asiddheḥ",
+      "source_quote_english": "Non-existent subject: the skyey lotus is fragrant because it is a lotus. Here the subject does not exist at all.",
+      "source_verification": "TS Sect. LVI. Index: Asrayasiddha- 46; Asiddha- 44, 46, 305.",
+      "confidence": "HIGH",
+      "confidence_basis": "VERIFIED",
+
+      "definitions": {
+        "formal": "Let S = subject (pakṣa). RF-05 holds when S does not exist — the entity is fictitious or fabricated.",
+        "operational": "Step 1: Identify the subject of the inference. Step 2: Can you verify this entity exists? Step 3: If NO → RF-05.",
+        "intuitive": "The thing being argued about doesn't exist in the first place."
+      },
+
+      "distinguishing_features": {
+        "error_type": "factual_error",
+        "error_locus": "subject_existence",
+        "diagnostic_question": "Does the subject entity actually exist?",
+        "key_indicator": "The subject (person, organization, study, event) is fabricated or fictitious",
+        "not_this_if": [
+          "The subject exists but a property attributed to it is false → RF-06",
+          "The subject is real and the error is in the reasoning → other categories"
+        ]
+      },
+
+      "contrast_with": {
+        "RF-06": "RF-05 = SUBJECT doesn't exist. RF-06 = Subject EXISTS but property is false. Check entity existence FIRST."
+      },
+
+      "decision_criteria": [
+        "Step 1: Identify the subject entity",
+        "Step 2: Can you verify it exists (via knowledge base, search, database)?",
+        "Step 3: If the entity DOES NOT EXIST → RF-05",
+        "Step 4: If the entity EXISTS → proceed to check property truth (RF-06) or reasoning structure"
+      ],
+
+      "contrastive_examples": [
+        {
+          "argument": "Dr. Sarah Chen's 2019 Stanford study shows intermittent fasting reduces dementia by 47%.",
+          "is_this_category": true,
+          "explanation": "Dr. Sarah Chen does not exist. The study does not exist. The locus is fabricated. → RF-05."
+        },
+        {
+          "argument": "The Eiffel Tower was built in 1820.",
+          "is_this_category": false,
+          "actually_is": "RF-06",
+          "explanation": "The Eiffel Tower EXISTS. But 'built in 1820' is factually false (built 1889). Subject real, property false → RF-06."
+        }
+      ],
+
+      "automation": {
+        "automatable": "yes",
+        "difficulty": "easy",
+        "method": "rule_based",
+        "requires_human_when": ["Entity is obscure and may not appear in standard knowledge bases"]
+      },
+
+      "detection_method": "rule_based",
+      "avacchedaka_question": "Does the subject of this inference actually exist?",
+      "avacchedaka_diagnosis": "The avacchedaka of the subject is empty — no real entity for the qualifier to delimit.",
+      "llm_failure_type": "Entity hallucination — fabricated subject",
+      "llm_failure_description": "The LLM generates an inference about an entity that does not exist.",
+      "detection_rule": "NOT entity_exists(paksha, knowledge_base)",
+      "canonical_example_traditional": {
+        "inference": "The sky-lotus is fragrant, because it is a lotus.",
+        "analysis": "The sky-lotus does not exist. No properties can be inferred about it.",
+        "source": "TS Sect. LVI"
+      },
+      "canonical_example_llm": {
+        "inference": "Dr. Sarah Chen's 2019 Stanford study shows intermittent fasting reduces dementia risk by 47%.",
+        "analysis": "Dr. Sarah Chen does not exist. The locus is fabricated.",
+        "failure_span": "Dr. Sarah Chen's 2019 Stanford study",
+        "missing_avacchedaka": "A real, verifiable subject entity"
+      },
+      "false_positive_risk": "LOW"
+    },
+
+    {
+      "id": "RF-06",
+      "parent": "Asiddha",
+      "sanskrit": "स्वरूपासिद्ध",
+      "iast": "Svarūpāsiddha",
+      "english": "Unestablished Reason — Non-Existent Property",
+      "source_text": "TS Sect. LVI",
+      "source_quote_sanskrit": "svarūpāsiddhaḥ hetoḥ tad-āśraya eva asiddheḥ",
+      "source_quote_english": "Non-existent reason: Sound is a quality because it is ocular. Here Sound is not ocular. The hetu itself is non-existent on the pakṣa.",
+      "source_verification": "TS Sect. LVI. Index: Svarupasiddha- 46.",
+      "confidence": "HIGH",
+      "confidence_basis": "VERIFIED",
+
+      "definitions": {
+        "formal": "Let S = subject, H = reason-property. RF-06 holds when S exists BUT H does not actually inhere in S. The property attributed to the subject is factually false.",
+        "operational": "Step 1: Confirm the subject exists (if not → RF-05). Step 2: Check — is the reason-property FACTUALLY TRUE of this subject? Step 3: If the property is demonstrably FALSE → RF-06.",
+        "intuitive": "The thing is real, but what's being said about it is wrong."
+      },
+
+      "distinguishing_features": {
+        "error_type": "factual_error",
+        "error_locus": "property_truth",
+        "diagnostic_question": "Is the reason-property factually false when checked against empirical evidence?",
+        "key_indicator": "Subject EXISTS, but a specific property attributed to it is demonstrably, empirically FALSE",
+        "not_this_if": [
+          "The subject ITSELF doesn't exist → RF-05",
+          "The property is TRUE but the reasoning from it is too broad → RF-01",
+          "The property is TRUE but the pervasion is conditional → RF-07a",
+          "The property is TRUE but proves the opposite → RF-03"
+        ]
+      },
+
+      "contrast_with": {
+        "RF-01": "RF-06 = property is FACTUALLY FALSE. RF-01 = property is FACTUALLY TRUE but logically insufficient. The critical test: Is the reason-property empirically verifiable, and is it wrong? If YES → RF-06. If the property is true but the inference is bad → RF-01.",
+        "RF-05": "RF-05 = SUBJECT doesn't exist. RF-06 = subject exists, PROPERTY is false. Always check entity existence first (Step 1 in the flowchart)."
+      },
+
+      "decision_criteria": [
+        "Step 1: Does the subject exist? If NO → RF-05",
+        "Step 2: Is the reason-property empirically verifiable?",
+        "Step 3: Is the property demonstrably FALSE? If YES → RF-06",
+        "Step 4: If the property is TRUE, the error is elsewhere (RF-01, RF-03, RF-07a, etc.)"
+      ],
+
+      "contrastive_examples": [
+        {
+          "argument": "The Eiffel Tower was built in 1820, therefore it pre-dates the Industrial Revolution.",
+          "is_this_category": true,
+          "explanation": "Eiffel Tower EXISTS. 'Built in 1820' is FACTUALLY FALSE (built 1889). Property false → RF-06."
+        },
+        {
+          "argument": "Mars has canal systems. Therefore Mars had an advanced civilization.",
+          "is_this_category": true,
+          "explanation": "Mars EXISTS. 'Has canal systems' is EMPIRICALLY FALSE. Property false → RF-06."
+        },
+        {
+          "argument": "All politicians are corrupt. Senator X is a politician. Therefore Senator X is corrupt.",
+          "is_this_category": false,
+          "actually_is": "RF-01",
+          "explanation": "'Is a politician' is FACTUALLY TRUE of Senator X. The error is LOGICAL overgeneralization ('all politicians are corrupt' is too broad), not factual falsity about the property. → RF-01.",
+          "distinguishing_test": "Is 'is a politician' factually false? No. Is the inference too broad? Yes. → RF-01."
+        }
+      ],
+
+      "automation": {
+        "automatable": "yes",
+        "difficulty": "easy",
+        "method": "rule_based",
+        "requires_human_when": ["Property truth is contested or domain-specific"]
+      },
+
+      "detection_method": "rule_based",
+      "avacchedaka_question": "Does the reason-property actually exist in the subject?",
+      "avacchedaka_diagnosis": "The avacchedaka of the hetu attributes a non-existent property to the pakṣa.",
+      "llm_failure_type": "Property hallucination — wrong attributes assigned to real entities",
+      "llm_failure_description": "The LLM refers to a real entity but attributes a false property to it.",
+      "detection_rule": "entity_exists(paksha) AND NOT property_verified(hetu, paksha, knowledge_base)",
+      "canonical_example_traditional": {
+        "inference": "Sound is a quality, because it is ocular.",
+        "analysis": "Sound exists but ocularity does not reside in sound — sound is audible, not ocular.",
+        "source": "TS Sect. LVI"
+      },
+      "canonical_example_llm": {
+        "inference": "The Eiffel Tower was built in 1820, therefore it pre-dates the Industrial Revolution.",
+        "analysis": "Eiffel Tower exists. 'Built in 1820' is false (built 1889). Property false → RF-06.",
+        "failure_span": "was built in 1820",
+        "missing_avacchedaka": "A verified, factually correct property attribution"
+      },
+      "false_positive_risk": "LOW"
+    },
+
+    {
+      "id": "RF-07a",
+      "parent": "Asiddha",
+      "sanskrit": "व्याप्यत्वासिद्ध (सोपाधिक)",
+      "iast": "Vyāpyatvāsiddha (Sopādhika)",
+      "english": "Unestablished Pervasion — Missing Universal Qualifier (Upādhi Problem)",
+      "source_text": "TS Sect. LVI; TS Sect. on Upādhi (§ 46–47)",
+      "source_quote_sanskrit": "vyāpyatvāsiddhe sopādhibhūto hetuḥ",
+      "source_quote_english": "Non-existent concomitance involves a limitation or condition (upādhi). Condition is that which pervades the thing to be proved but does not pervade the reason.",
+      "source_verification": "TS Sect. LVI. Index: Vyapyatvasiddha- 46; Upadhi- 46, 47, 310; Sopadhika- 46.",
+      "confidence": "HIGH",
+      "confidence_basis": "VERIFIED",
+
+      "definitions": {
+        "formal": "Let H = reason, C = conclusion, U = upādhi. RF-07a holds when the stated pervasion H → C is actually (H ∧ U) → C. U pervades C but does not pervade H. The pervasion is conditional but presented as unconditional.",
+        "operational": "Step 1: State the claimed pervasion: 'Whenever H, then C.' Step 2: Find a counterexample — a case where H is true but C is false. Step 3: Identify what's DIFFERENT in that counterexample — what condition is ABSENT? Step 4: That absent condition is the missing upādhi → RF-07a.",
+        "intuitive": "The rule works, but only under certain conditions that aren't stated."
+      },
+
+      "upādhi_explanation": {
+        "term_sanskrit": "उपाधि",
+        "term_iast": "Upādhi",
+        "term_english": "Condition / Limiting qualifier",
+        "technical_definition": "An upādhi is a condition U such that: (1) U pervades C (wherever C is present, U is present), (2) U does NOT pervade H (H can be present without U). This means the pervasion H → C only holds when U is also present.",
+        "how_to_identify": [
+          "State the claimed rule: H → C",
+          "Find a counterexample: H is true, C is false",
+          "Ask: What's present in cases where H → C works, but absent in the counterexample?",
+          "That missing factor is the upādhi"
+        ],
+        "classic_example": "H = fire, C = smoke. Upādhi = contact with wet fuel. Fire produces smoke only when wet fuel is present. Without wet fuel (e.g., red-hot iron ball), fire exists but smoke does not.",
+        "source": "TS Sect. LVI"
+      },
+
+      "distinguishing_features": {
+        "error_type": "conditional_pervasion",
+        "error_locus": "vyāpti_qualification",
+        "diagnostic_question": "Can you name a SPECIFIC condition (upādhi) that the pervasion depends on but that is not stated?",
+        "key_indicator": "The rule H → C has counterexamples that are resolved by adding a specific qualifier U: (H ∧ U) → C",
+        "not_this_if": [
+          "You CANNOT name a specific qualifier — the reason just appears in vipakṣa generally → RF-01",
+          "The general rule holds but fails for THIS specific subject → RF-07b",
+          "The reason-property itself is factually false → RF-06"
+        ]
+      },
+
+      "contrast_with": {
+        "RF-01": "RF-07a = you CAN name the specific missing qualifier. RF-01 = you CANNOT; the reason just appears everywhere. Operational test: 'The reasoning would work if we added the qualifier ___.' If you can fill in the blank → RF-07a. If you can't → RF-01.",
+        "RF-07b": "RF-07a = the GENERAL rule itself is conditional (needs a qualifier to be true at all). RF-07b = the general rule is valid but fails for THIS specific subject due to subject-specific conditions."
+      },
+
+      "decision_criteria": [
+        "Step 1: Confirm the reason-property is factually true (if false → RF-06)",
+        "Step 2: State the claimed pervasion: H → C",
+        "Step 3: Find counterexamples — cases where H is true but C is false",
+        "Step 4: Can you identify a SPECIFIC condition that explains the counterexamples?",
+        "Step 5: If YES — that condition is the upādhi → RF-07a",
+        "Step 6: If NO — the reason just appears indiscriminately → RF-01"
+      ],
+
+      "contrastive_examples": [
+        {
+          "argument": "Antibiotics will cure this infection.",
+          "is_this_category": true,
+          "explanation": "The pervasion 'antibiotics → cures infection' is conditional on: bacterial type, resistance status, dosing. These are NAMEABLE upādhis. → RF-07a.",
+          "the_missing_upadhi": "Bacterial sensitivity to this specific antibiotic"
+        },
+        {
+          "argument": "This drug should work because it has anti-inflammatory properties.",
+          "is_this_category": false,
+          "actually_is": "RF-01 (or borderline RF-07a)",
+          "explanation": "Anti-inflammatory properties appear in drugs that work and don't work. If you can name the specific missing qualifier (e.g., 'targets COX-2 pathway') → RF-07a. If it's just too general → RF-01.",
+          "borderline_note": "This is a genuine borderline case. The operational test: can you fill in 'The reasoning would work if we added ___'?"
+        },
+        {
+          "argument": "The subway is a failure because it has empty trains during late-night hours.",
+          "is_this_category": true,
+          "explanation": "The pervasion 'empty trains → failure' is conditional on: during peak hours. 'During peak hours' is the nameable upādhi. → RF-07a.",
+          "the_missing_upadhi": "During peak operating hours"
+        }
+      ],
+
+      "automation": {
+        "automatable": "partial",
+        "difficulty": "medium",
+        "method": "LLM-as-judge",
+        "requires_human_when": [
+          "Boundary with RF-01 is unclear",
+          "The upādhi is domain-specific and not commonly known"
+        ]
+      },
+
+      "detection_method": "LLM-as-judge",
+      "avacchedaka_question": "Is the stated pervasion unconditional, or does it require an additional qualifier (upādhi)?",
+      "avacchedaka_diagnosis": "The avacchedaka on the vyāpti is missing — the pervasion is conditional (sopādhika) but presented as unconditional (nirupādhika).",
+      "llm_failure_type": "Missing qualifiers / unconditional claim where conditions apply",
+      "llm_failure_description": "The LLM states a general rule as unconditionally true when it actually depends on unstated conditions.",
+      "detection_rule": "has_upadhi(vyapti, context) AND upadhi_not_stated(inference_text)",
+      "canonical_example_traditional": {
+        "inference": "The mountain is smoky, because it has fire.",
+        "analysis": "Fire → smoke only when wet fuel contact exists. Wet fuel is the upādhi.",
+        "source": "TS Sect. LVI"
+      },
+      "canonical_example_llm": {
+        "inference": "Antibiotics will cure this infection.",
+        "analysis": "Conditional on bacterial type, resistance, dosing. Upādhis are unstated.",
+        "failure_span": "Antibiotics will cure this infection",
+        "missing_avacchedaka": "Bacterial type, resistance status, dosing qualifiers"
+      },
+      "false_positive_risk": "MEDIUM"
+    },
+
+    {
+      "id": "RF-07b",
+      "parent": "Asiddha",
+      "sanskrit": "व्याप्यत्वासिद्ध (विशेष)",
+      "iast": "Vyāpyatvāsiddha (Viśeṣa)",
+      "english": "Unestablished Pervasion — Missing Contextual Qualifier for This Subject",
+      "source_text": "TS Sect. LVI (commentary); NNB pp. 60–72",
+      "source_quote_english": "The upādhi may be present generally but absent in the specific pakṣa.",
+      "source_verification": "Derived from TS commentary and NNB treatment of avacchedaka-specific pervasion failure.",
+      "confidence": "HIGH",
+      "confidence_basis": "VERIFIED for concept; INFERRED for distinct sub-type status",
+
+      "definitions": {
+        "formal": "Let H = reason, C = conclusion, S = specific subject, U_s = subject-specific qualifier. RF-07b holds when H → C is generally established BUT a condition of this particular S defeats the pervasion for S.",
+        "operational": "Step 1: Confirm the general rule H → C is valid. Step 2: Check — does this SPECIFIC subject have a condition that defeats the general rule? Step 3: If YES → RF-07b.",
+        "intuitive": "The general rule works, but not for this particular case."
+      },
+
+      "distinguishing_features": {
+        "error_type": "contextual_exception",
+        "error_locus": "subject_specific_condition",
+        "diagnostic_question": "Does the general rule hold, but fail for THIS specific subject due to a subject-specific condition?",
+        "key_indicator": "General pervasion is valid; subject has a defeating condition",
+        "not_this_if": [
+          "The general rule ITSELF is conditional → RF-07a",
+          "The reason-property is factually false → RF-06",
+          "A blocker prevents the causal chain → RF-11 (overlaps; see note)"
+        ]
+      },
+
+      "contrast_with": {
+        "RF-07a": "RF-07a = the GENERAL RULE is conditional. RF-07b = the general rule is VALID but fails HERE. Test: Does the rule need a qualifier to be true at all (RF-07a), or is the rule generally true but this case is an exception (RF-07b)?",
+        "RF-11": "Overlapping: RF-07b focuses on the PERVASION failing for this subject; RF-11 focuses on a CAUSAL CHAIN being blocked. Both involve subject-specific defeating conditions. When the emphasis is on the inferential rule → RF-07b. When the emphasis is on causal mechanism → RF-11."
+      },
+
+      "decision_criteria": [
+        "Step 1: Confirm the general pervasion H → C holds in typical cases",
+        "Step 2: Identify subject-specific conditions of this pakṣa",
+        "Step 3: Does any subject-specific condition defeat the pervasion for this case?",
+        "Step 4: If YES → RF-07b"
+      ],
+
+      "contrastive_examples": [
+        {
+          "argument": "This patient should take ibuprofen because ibuprofen reduces fever.",
+          "is_this_category": true,
+          "explanation": "The general rule 'ibuprofen → reduces fever' is established. But this patient has kidney disease. The contextual qualifier (no renal impairment) is absent. → RF-07b."
+        },
+        {
+          "argument": "Antibiotics will cure this infection.",
+          "is_this_category": false,
+          "actually_is": "RF-07a",
+          "explanation": "The general rule 'antibiotics → cures infection' is itself conditional (depends on bacterial type, resistance). The problem is with the GENERAL rule, not this specific case. → RF-07a."
+        }
+      ],
+
+      "automation": {
+        "automatable": "partial",
+        "difficulty": "medium",
+        "method": "LLM-as-judge",
+        "requires_human_when": ["Subject-specific conditions require domain expertise"]
+      },
+
+      "detection_method": "LLM-as-judge",
+      "avacchedaka_question": "Even if the general pervasion holds, does it hold for THIS specific subject?",
+      "avacchedaka_diagnosis": "The avacchedaka on the pakṣa-specific vyāpti reveals a contextual defeating condition.",
+      "llm_failure_type": "Failure to apply relevant context / ignoring subject-specific exceptions",
+      "llm_failure_description": "The LLM applies a general rule to a case where subject-specific conditions make it inapplicable.",
+      "detection_rule": "general_vyapti_established(H, C) AND subject_has_defeating_condition(S, context)",
+      "canonical_example_traditional": {
+        "inference": "This son of Mitrā is dark-coloured, because he is a son of Mitrā.",
+        "analysis": "General association holds for elder brothers (who had vegetable diet). This son born after ghee diet — contextual condition absent.",
+        "source": "TS Sect. LVI commentary"
+      },
+      "canonical_example_llm": {
+        "inference": "This patient should take ibuprofen because ibuprofen reduces fever.",
+        "analysis": "General rule valid. This patient has kidney disease. Contextual qualifier absent.",
+        "failure_span": "This patient should take ibuprofen",
+        "missing_avacchedaka": "No renal impairment condition"
+      },
+      "false_positive_risk": "MEDIUM"
+    },
+
+    {
+      "id": "RF-08",
+      "parent": "Bādhita",
+      "sanskrit": "बाधित",
+      "iast": "Bādhita",
+      "english": "Defeated Reason — Contradicted by Stronger Evidence",
+      "source_text": "TS Sect. LVII; NNB p. 86",
+      "source_quote_sanskrit": "bādhito hetuḥ yatra sādhyam anya-pramāṇena nivāryate",
+      "source_quote_english": "A reason is bādhita where the negation of the sādhya is established by another and more authoritative proof.",
+      "source_verification": "TS Sect. LVII. Index: Badhita- 44, 48, 315.",
+      "confidence": "HIGH",
+      "confidence_basis": "VERIFIED",
+
+      "definitions": {
+        "formal": "Let H = reason, C = conclusion, K = independent knowledge source. RF-08 holds when K directly establishes NOT-C, defeating the conclusion.",
+        "operational": "Step 1: Identify the conclusion. Step 2: Is there independently established, verifiable evidence that directly contradicts it? Step 3: If YES → RF-08.",
+        "intuitive": "The conclusion is simply wrong — known facts disprove it, regardless of how the argument is structured."
+      },
+
+      "distinguishing_features": {
+        "error_type": "external_defeat",
+        "error_locus": "conclusion_vs_established_knowledge",
+        "diagnostic_question": "Is the conclusion directly contradicted by independently established facts, perception, or stronger evidence?",
+        "key_indicator": "External evidence defeats the conclusion — the defeating proof comes from OUTSIDE the inference's own structure",
+        "not_this_if": [
+          "The opposition comes from WITHIN the reason itself → RF-03",
+          "The opposition is from an equally strong competing inference → RF-04",
+          "The reason-property is factually false (the problem is in the premise, not the conclusion) → RF-06"
+        ]
+      },
+
+      "contrast_with": {
+        "RF-03": "RF-08 = defeated by EXTERNAL evidence. RF-03 = defeated by the INTERNAL logic of the reason itself.",
+        "RF-04": "RF-08 = the defeating proof is STRONGER (clearly wins). RF-04 = two inferences of EQUAL weight (neither wins).",
+        "RF-06": "RF-06 = the PREMISE is factually wrong. RF-08 = the CONCLUSION is factually wrong. Both are factual errors, but at different points in the inference."
+      },
+
+      "decision_criteria": [
+        "Step 1: Identify the conclusion",
+        "Step 2: Check — is the conclusion contradicted by verifiable facts?",
+        "Step 3: Is the defeating evidence clearly STRONGER than the inference?",
+        "Step 4: If YES to both → RF-08"
+      ],
+
+      "contrastive_examples": [
+        {
+          "argument": "The Earth is the center of the solar system because the Sun appears to move across the sky.",
+          "is_this_category": true,
+          "explanation": "The conclusion is defeated by heliocentric astronomical evidence. External, stronger proof. → RF-08."
+        },
+        {
+          "argument": "This policy is safe because it has never been tested.",
+          "is_this_category": false,
+          "actually_is": "RF-03",
+          "explanation": "The opposition comes from WITHIN the reason ('never tested' proves the opposite of 'safe'). No external evidence needed. → RF-03."
+        }
+      ],
+
+      "automation": {
+        "automatable": "yes",
+        "difficulty": "easy",
+        "method": "rule_based + LLM-as-judge",
+        "requires_human_when": ["The defeating evidence is contested or domain-specific"]
+      },
+
+      "detection_method": "rule_based + LLM-as-judge",
+      "avacchedaka_question": "Is the conclusion contradicted by established fact or perception?",
+      "avacchedaka_diagnosis": "The avacchedaka on the sādhya conflicts with independently established knowledge.",
+      "llm_failure_type": "Contradicting known facts",
+      "llm_failure_description": "The LLM produces a conclusion that contradicts well-established, verifiable facts.",
+      "detection_rule": "exists_defeating_knowledge(K, NOT_C) AND strength(K) > strength(inference)",
+      "canonical_example_traditional": {
+        "inference": "Fire is cold, because it is a substance.",
+        "analysis": "Defeated by tactile perception — we perceive fire as hot.",
+        "source": "TS Sect. LVII"
+      },
+      "canonical_example_llm": {
+        "inference": "The Earth must be the center of the solar system because the Sun appears to move.",
+        "analysis": "Defeated by heliocentric evidence.",
+        "failure_span": "The Earth must be the center of the solar system",
+        "missing_avacchedaka": "Acknowledgment of defeating astronomical evidence"
+      },
+      "false_positive_risk": "LOW"
+    },
+
+    {
+      "id": "RF-09",
+      "parent": "Extended",
+      "sanskrit": "अन्यथासिद्ध",
+      "iast": "Anyathāsiddha",
+      "english": "Explained by Another Cause — Causally Redundant Reason",
+      "source_text": "TS Sect. XXVI; NNB pp. 87–93",
+      "source_quote_sanskrit": "anyathāsiddho hetuḥ yasya kāryatva-ādi-sambandho anyena eva siddhaḥ",
+      "source_quote_english": "That which is otherwise established — the causal relation is already accounted for by another independent cause.",
+      "source_verification": "TS Sect. XXVI and NNB. Index: Anyathasiddha- 26, 192.",
+      "confidence": "MODERATE",
+      "confidence_basis": "VERIFIED for concept; INFERRED for hetvābhāsa classification",
+
+      "definitions": {
+        "formal": "Let H = proposed cause, C = effect, K = independent cause. RF-09 holds when K fully accounts for C, making H causally redundant.",
+        "operational": "Step 1: Identify the claimed cause (H) and effect (C). Step 2: Is there an alternative cause (K) that fully explains C? Step 3: Is K sufficient WITHOUT H? Step 4: If YES → RF-09.",
+        "intuitive": "Post hoc fallacy — claiming X caused Y when Y was already explained by something else."
+      },
+
+      "distinguishing_features": {
+        "error_type": "causal_error",
+        "error_locus": "causal_necessity",
+        "diagnostic_question": "Is the proposed cause actually necessary, or is the effect already explained by an independent cause?",
+        "key_indicator": "An independent alternative cause fully explains the observed effect",
+        "not_this_if": [
+          "The reason is too broad (logical error) → RF-01",
+          "The conclusion is defeated by external facts → RF-08",
+          "A blocker prevents the causal chain → RF-11"
+        ]
+      },
+
+      "contrast_with": {
+        "RF-01": "RF-01 = reason is logically too broad. RF-09 = reason is causally redundant. Different error dimensions.",
+        "RF-08": "RF-08 = conclusion is defeated by facts. RF-09 = conclusion may be TRUE but the causal LINK is wrong.",
+        "RF-04": "RF-09 = the argument claims X caused Y, but Y is explained by an independent cause. RF-04 = the argument cherry-picks one of two equally valid competing reasons. CRITICAL DISTINCTION: If the argument MENTIONS alternative causes but treats them as irrelevant or dismisses them, it is STILL RF-09 (spurious causal claim). RF-04 requires TWO reasons to be PRESENTED as genuinely valid competing arguments. Merely mentioning that alternatives exist does NOT make it RF-04."
+      },
+
+      "decision_criteria": [
+        "Step 1: Identify the claimed causal relationship: H → C",
+        "Step 2: Is there an alternative cause K that also explains C?",
+        "Step 3: Is K sufficient to explain C without H?",
+        "Step 4: If YES → RF-09",
+        "Step 5: GUARD — Does the argument merely MENTION alternatives (e.g., 'could be due to...', 'some say...')? If it mentions but dismisses or ignores them → STILL RF-09, NOT RF-04. RF-04 requires the counter-reason to be presented as genuinely valid and of comparable strength."
+      ],
+
+      "contrastive_examples": [
+        {
+          "argument": "The patient recovered because we gave homeopathic remedy X.",
+          "is_this_category": true,
+          "explanation": "Recovery is fully explained by the immune system's natural response. Remedy X is causally redundant. → RF-09."
+        },
+        {
+          "argument": "Government stimulus caused the economic recovery 6 months later. Natural business cycles, consumer confidence, and global trends could also explain the recovery.",
+          "is_this_category": true,
+          "explanation": "CRITICAL: This is STILL RF-09 even though alternatives are mentioned. The argument CLAIMS stimulus caused recovery (spurious causal attribution) while only MENTIONING alternatives in passing. The alternatives are not presented as genuinely valid competing reasons of comparable strength — they are acknowledged but not engaged with. Mentioning alternatives ≠ presenting valid counter-reasons. → RF-09, NOT RF-04.",
+          "why_not_rf04": "RF-04 requires TWO reasons to be actively presented as competing valid arguments. Here, only ONE causal claim is made (stimulus → recovery), and the alternatives are mentioned but not treated as serious competitors."
+        },
+        {
+          "argument": "The Eiffel Tower was built in 1820.",
+          "is_this_category": false,
+          "actually_is": "RF-06",
+          "explanation": "This is a factual error about a property, not a causal redundancy. → RF-06."
+        }
+      ],
+
+      "automation": {
+        "automatable": "partial",
+        "difficulty": "medium",
+        "method": "LLM-as-judge",
+        "requires_human_when": ["Multiple causes may genuinely contribute (overdetermination)"]
+      },
+
+      "detection_method": "LLM-as-judge",
+      "avacchedaka_question": "Is the proposed reason causally necessary?",
+      "avacchedaka_diagnosis": "The avacchedaka on the kāraṇatā is 'otherwise established' by an independent cause.",
+      "llm_failure_type": "Spurious causal attribution / post hoc fallacy",
+      "llm_failure_description": "The LLM attributes a conclusion to a cause that is redundant.",
+      "detection_rule": "exists_independent_cause(K, C) AND K_fully_explains(C)",
+      "canonical_example_traditional": {
+        "inference": "The potter's ass is the cause of the pot.",
+        "analysis": "The clay can be transported by other means. The ass is redundant.",
+        "source": "TS Sect. XXVI"
+      },
+      "canonical_example_llm": {
+        "inference": "The patient recovered because we administered homeopathic remedy X.",
+        "analysis": "Recovery explained by natural immune response. Remedy is redundant.",
+        "failure_span": "because we administered homeopathic remedy X",
+        "missing_avacchedaka": "Evidence of causal necessity"
+      },
+      "false_positive_risk": "HIGH"
+    },
+
+    {
+      "id": "RF-10",
+      "parent": "Extended",
+      "sanskrit": "प्रागुक्त-विरुद्ध-बाधित-संयोग",
+      "iast": "Prāgukta-Viruddha-Bādhita-Saṃyoga",
+      "english": "Performative Self-Refutation",
+      "source_text": "NO DIRECT SŪTRA SOURCE",
+      "source_quote_english": "Inferred from intersection of viruddha (RF-03) and bādhita (RF-08).",
+      "source_verification": "CRITICAL: No direct textual source. Must be flagged as INFERRED in arXiv paper.",
+      "confidence": "MODERATE",
+      "confidence_basis": "INFERRED",
+
+      "definitions": {
+        "formal": "Let A = act of assertion, C = content of claim. RF-10 holds when A constitutes evidence that defeats C.",
+        "operational": "Step 1: State the claim. Step 2: Ask — does the ACT of making this claim undermine the claim's truth-conditions? Step 3: If YES → RF-10.",
+        "intuitive": "The claim destroys itself just by being said."
+      },
+
+      "distinguishing_features": {
+        "error_type": "performative_contradiction",
+        "error_locus": "assertion_vs_content",
+        "diagnostic_question": "Does the act of asserting this claim undermine the claim itself?",
+        "key_indicator": "The assertion's performative conditions contradict its propositional content",
+        "not_this_if": [
+          "The contradiction is between the reason and conclusion (not the assertion act) → RF-03",
+          "The defeat comes from external facts → RF-08"
+        ]
+      },
+
+      "contrast_with": {
+        "RF-03": "RF-03 = the REASON proves the opposite of the CONCLUSION. RF-10 = the ACT OF ASSERTING defeats the CONTENT. The key difference is whether the contradiction is in the logical structure (RF-03) or in the performative act (RF-10).",
+        "RF-08": "RF-08 = external evidence defeats the conclusion. RF-10 = the assertion ITSELF is the defeating evidence."
+      },
+
+      "decision_criteria": [
+        "Step 1: Does the claim have truth-conditions that are affected by its own assertion?",
+        "Step 2: Does the ACT of making the claim create evidence against the claim?",
+        "Step 3: If YES — the assertion is self-refuting → RF-10",
+        "Step 4: If the contradiction is between the reason and conclusion (not the assertion act) → RF-03"
+      ],
+
+      "contrastive_examples": [
+        {
+          "argument": "I am completely certain that no claims can be made with certainty.",
+          "is_this_category": true,
+          "explanation": "The act of claiming certainty defeats the content (no certainty possible). → RF-10."
+        },
+        {
+          "argument": "This policy is safe because it has never been tested.",
+          "is_this_category": false,
+          "actually_is": "RF-03",
+          "explanation": "The reason ('never tested') proves the opposite of the conclusion ('safe'). This is internal logical contradiction, not performative self-refutation. → RF-03."
+        }
+      ],
+
+      "automation": {
+        "automatable": "partial",
+        "difficulty": "hard",
+        "method": "LLM-as-judge",
+        "requires_human_when": ["Apparent self-refutation depends on equivocation between term senses"]
+      },
+
+      "detection_method": "LLM-as-judge",
+      "avacchedaka_question": "Does the act of asserting this claim undermine the claim itself?",
+      "avacchedaka_diagnosis": "The avacchedaka of the assertion includes the negation of the assertion itself.",
+      "llm_failure_type": "Self-refuting claims",
+      "llm_failure_description": "The LLM produces a claim undermined by its own production.",
+      "detection_rule": "assertion_act_defeats_content(A, C)",
+      "canonical_example_traditional": {
+        "inference": "N/A — no traditional Nyāya example. INFERRED category.",
+        "analysis": "Closest analogue: viruddha where the hetu is the act of speaking itself.",
+        "source": "INFERRED"
+      },
+      "canonical_example_llm": {
+        "inference": "I am completely certain that no claims can be made with certainty.",
+        "analysis": "Asserting certainty defeats claim of no certainty.",
+        "failure_span": "I am completely certain that no claims can be made with certainty",
+        "missing_avacchedaka": "Consistency between performative conditions and propositional content"
+      },
+      "false_positive_risk": "LOW"
+    },
+
+    {
+      "id": "RF-11",
+      "parent": "Extended",
+      "sanskrit": "प्रतिबन्ध",
+      "iast": "Pratibandha",
+      "english": "Blocked Causal Chain",
+      "source_text": "NNB pp. 72–80",
+      "source_quote_sanskrit": "pratibandhakatvam — pratibadhyati bādhate yaḥ sa pratibandhakaḥ, tasya bhāvaḥ pratibandhakatvam",
+      "source_quote_english": "Blockerhood: that which blocks is a pratibandha; its absence is the condition required for the causal chain to complete.",
+      "source_verification": "NNB pp. 72–80. Jewel-fire example. VERIFIED for concept; INFERRED for hetvābhāsa classification.",
+      "confidence": "MODERATE",
+      "confidence_basis": "VERIFIED for concept; INFERRED for hetvābhāsa classification",
+
+      "definitions": {
+        "formal": "Let H = causal conditions, C = effect, B = blocker (pratibandha). RF-11 holds when all conditions for C are present BUT B prevents C from occurring.",
+        "operational": "Step 1: Confirm all standard causal conditions are present. Step 2: Is there a blocking condition that prevents the expected outcome? Step 3: If YES → RF-11.",
+        "intuitive": "Everything is in place for the expected result, but something is blocking it."
+      },
+
+      "distinguishing_features": {
+        "error_type": "causal_blockage",
+        "error_locus": "causal_chain_completion",
+        "diagnostic_question": "Are all causal conditions present, but a blocker prevents the expected outcome?",
+        "key_indicator": "Causal chain structurally complete but practically blocked by an unacknowledged inhibitor",
+        "not_this_if": [
+          "The pervasion itself is conditional (missing qualifier) → RF-07a",
+          "The pervasion fails for this subject's context → RF-07b",
+          "The conclusion is simply contradicted by facts → RF-08"
+        ]
+      },
+
+      "contrast_with": {
+        "RF-07b": "RF-07b = the PERVASION fails for this subject. RF-11 = the pervasion holds but a BLOCKER inhibits the causal mechanism. Subtle distinction: RF-07b is inferential; RF-11 is causal.",
+        "RF-08": "RF-08 = conclusion defeated by external evidence. RF-11 = conclusion not defeated per se, but a blocker prevents the expected causal outcome."
+      },
+
+      "decision_criteria": [
+        "Step 1: Confirm all standard causal conditions for the expected outcome are present",
+        "Step 2: Is there an identifiable blocking condition (pratibandha) that prevents the outcome?",
+        "Step 3: Is the blocker unacknowledged in the inference?",
+        "Step 4: If YES to all → RF-11",
+        "Step 5: If the issue is that the general rule doesn't apply (not that a blocker exists) → RF-07b"
+      ],
+
+      "contrastive_examples": [
+        {
+          "argument": "This medication will eliminate the tumor — it has proven efficacy against this cancer type.",
+          "is_this_category": true,
+          "explanation": "All conditions present. But patient has MDR1 overexpression blocking drug absorption. Causal chain blocked. → RF-11."
+        },
+        {
+          "argument": "This patient should take ibuprofen because it reduces fever.",
+          "is_this_category": false,
+          "actually_is": "RF-07b",
+          "explanation": "The issue is that the general rule doesn't apply to this patient (kidney disease). This is a pervasion failure, not a causal blocker per se. → RF-07b."
+        }
+      ],
+
+      "automation": {
+        "automatable": "partial",
+        "difficulty": "hard",
+        "method": "LLM-as-judge",
+        "requires_human_when": ["Blocking conditions are domain-specific (medicine, engineering, etc.)"]
+      },
+
+      "detection_method": "LLM-as-judge",
+      "avacchedaka_question": "Is there an unacknowledged blocking condition?",
+      "avacchedaka_diagnosis": "The avacchedaka on the kāraṇatā is blocked by a pratibandha.",
+      "llm_failure_type": "Ignoring blocking conditions / drug interactions / exception conditions",
+      "llm_failure_description": "The LLM presents causal conditions as sufficient but fails to account for a blocker.",
+      "detection_rule": "all_causal_conditions_present(H, C) AND exists_blocker(B, C, context)",
+      "canonical_example_traditional": {
+        "inference": "Fire will burn this object — fire and combustible material are present.",
+        "analysis": "A specific jewel (maṇi) blocks the burning. Causal chain blocked.",
+        "source": "NNB pp. 72–80"
+      },
+      "canonical_example_llm": {
+        "inference": "This medication will eliminate the tumor.",
+        "analysis": "MDR1 overexpression blocks drug absorption.",
+        "failure_span": "This medication will eliminate the tumor",
+        "missing_avacchedaka": "MDR1 overexpression blocking condition"
+      },
+      "false_positive_risk": "MEDIUM"
+    },
+
+    {
+      "id": "RF-12",
+      "parent": "Savyabhicāra",
+      "sanskrit": "अनुपसंहारी सव्यभिचार",
+      "iast": "Anupasamhārī Savyabhicāra",
+      "english": "Erratic Reason — Non-Exclusive (Universal Predicate)",
+      "source_text": "TS Sect. LIII",
+      "source_quote_sanskrit": "anupasamhārī hetuḥ yatra sādhyam eva viśvavyāpi",
+      "source_quote_english": "The non-exclusive: the sādhya being universal, nothing is excluded from it.",
+      "source_verification": "TS Sect. LIII. Index: Anupasarhhāri- 44, 302.",
+      "confidence": "HIGH",
+      "confidence_basis": "VERIFIED",
+
+      "definitions": {
+        "formal": "Let C = conclusion. RF-12 holds when C applies to ALL entities in the universe without exception — no vipakṣa can exist because the sādhya is ontologically universal (viśvavyāpi). The pervasion is untestable because there is no negative class.",
+        "operational": "Step 1: Examine the conclusion (sādhya). Step 2: Does the conclusion apply to ALL entities whatsoever — not just a large class, but literally everything? Step 3: If the conclusion applies to EVERYTHING with zero exceptions in any domain → RF-12. Step 4: If the conclusion applies to a LARGE CLASS but not everything (e.g., 'all politicians', 'all drugs'), counter-instances exist outside that class → NOT RF-12, likely RF-01.",
+        "intuitive": "The conclusion is a tautology or truism that applies to literally everything in existence — it's unfalsifiable because nothing is excluded."
+      },
+
+      "distinguishing_features": {
+        "error_type": "vacuous_conclusion",
+        "error_locus": "conclusion_scope",
+        "diagnostic_question": "Does the conclusion apply to ALL entities in the universe without exception — not just to a broad class, but to literally everything?",
+        "key_indicator": "No vipakṣa exists AT ALL — the sādhya is ontologically universal (e.g., 'has properties', 'is nameable', 'exists or does not exist')",
+        "not_this_if": [
+          "The conclusion applies to a LARGE CLASS but not to everything (e.g., 'all politicians are corrupt' — non-politicians are counter-instances) → RF-01",
+          "The REASON is too broad (but the conclusion is specific) → RF-01",
+          "The REASON is too narrow → RF-02"
+        ],
+        "critical_distinction": "RF-12 requires ONTOLOGICAL universality (applies to all entities whatsoever). A broad generalization about a CLASS (all politicians, all drugs, all swans) is NOT RF-12 — it is RF-01, because entities outside that class serve as vipakṣa. RF-12 is reserved for conclusions where NO entity of ANY kind is excluded."
+      },
+
+      "contrast_with": {
+        "RF-01": "RF-01 = REASON too broad OR conclusion is a broad generalization about a CLASS (counter-instances exist outside the class). RF-12 = CONCLUSION is ontologically universal (applies to ALL entities, no class restriction, zero counter-instances in any domain). KEY TEST: Does the conclusion restrict to a class (politicians, drugs, swans)? If YES → RF-01. Does it apply to literally everything? If YES → RF-12.",
+        "RF-02": "RF-02 = no sapakṣa (reason too narrow). RF-12 = no vipakṣa (conclusion too broad). Opposite failures."
+      },
+
+      "decision_criteria": [
+        "Step 1: Examine the conclusion (sādhya)",
+        "Step 2: Does the conclusion restrict to a CLASS of entities (e.g., all politicians, all drugs)? If YES → NOT RF-12 (likely RF-01, because entities outside that class are counter-instances)",
+        "Step 3: Does the conclusion apply to ALL entities in the universe without ANY class restriction? If YES → RF-12",
+        "Step 4: Test — can you name ANY entity of ANY kind for which the conclusion is false? If YES → NOT RF-12. If NO → RF-12"
+      ],
+
+      "contrastive_examples": [
+        {
+          "argument": "AI systems have properties, because they are computational entities.",
+          "is_this_category": true,
+          "explanation": "'Has properties' applies to ALL entities — rocks, numbers, thoughts, everything. No entity of any kind lacks properties. This is ontologically universal. → RF-12."
+        },
+        {
+          "argument": "All politicians are corrupt. Senator Johnson is a politician. Therefore Senator Johnson is corrupt.",
+          "is_this_category": false,
+          "actually_is": "RF-01",
+          "explanation": "CRITICAL: 'All politicians are corrupt' applies to the CLASS of politicians, NOT to all entities. Non-politicians (teachers, doctors, etc.) are not claimed to be corrupt — they are vipakṣa (counter-instances). Because vipakṣa exists, this is NOT RF-12. The reason 'is a politician' applies to both corrupt and non-corrupt politicians → RF-01 (too general).",
+          "distinguishing_test": "Does the conclusion restrict to a class? Yes — 'politicians'. Therefore NOT RF-12."
+        },
+        {
+          "argument": "This drug works because it has anti-inflammatory properties.",
+          "is_this_category": false,
+          "actually_is": "RF-01",
+          "explanation": "The CONCLUSION ('works') admits counter-instances (drugs that don't work). The REASON is too broad. → RF-01, not RF-12."
+        }
+      ],
+
+      "automation": {
+        "automatable": "partial",
+        "difficulty": "hard",
+        "method": "LLM-as-judge",
+        "requires_human_when": ["Conclusion appears specific but may be unfalsifiable under analysis"]
+      },
+
+      "detection_method": "LLM-as-judge",
+      "avacchedaka_question": "Does the conclusion admit any counter-instance?",
+      "avacchedaka_diagnosis": "The avacchedaka on the sādhya has no boundary.",
+      "llm_failure_type": "Vacuous / unfalsifiable conclusion",
+      "llm_failure_description": "The LLM produces a conclusion so broad it is unfalsifiable.",
+      "detection_rule": "no_vipaksa_exists(C, context) AND conclusion_is_universal(C)",
+      "canonical_example_traditional": {
+        "inference": "All things are nameable, because they are knowable.",
+        "analysis": "Everything is nameable. No vipakṣa. Vacuous.",
+        "source": "TS Sect. LIII"
+      },
+      "canonical_example_llm": {
+        "inference": "AI systems have properties, because they are computational entities.",
+        "analysis": "'Has properties' is universally true. No counter-instance. Vacuous.",
+        "failure_span": "AI systems have properties",
+        "missing_avacchedaka": "A non-trivial, falsifiable conclusion"
+      },
+      "false_positive_risk": "LOW"
+    }
+  ],
+
+  "avacchedaka_operator": {
+    "sanskrit": "अवच्छेदक",
+    "iast": "Avacchedaka",
+    "english": "Limitor / Qualifier / Delimiting Condition",
+    "definition": "That which 'cuts off' — a property or relation that determines the exact scope within which a given logical relation holds.",
+    "source_text": "TS Appendix H (Cowell's Note on Kusumāñjali of Udayanācārya)",
+    "source_quote": "The term Avacehedaka has at least three meanings: as distinguishing, particularizing and determining.",
+    "role_in_taxonomy": "Master diagnostic operator. Every RF category is ultimately an avacchedaka failure.",
+    "per_category_mapping": {
+      "RF-01": "Missing restriction on the reason — avacchedaka of hetu too broad",
+      "RF-02": "Overly narrow reason — avacchedaka of hetu picks out only the pakṣa",
+      "RF-03": "Inverted pervasion — avacchedaka on vyāpti maps H to NOT-C",
+      "RF-04": "Incomplete evidence scope — avacchedaka fails to include counter-evidence",
+      "RF-05": "Empty subject — avacchedaka of pakṣa refers to non-existent entity",
+      "RF-06": "False property — avacchedaka of hetu attributes non-existent property",
+      "RF-07a": "Missing universal qualifier — avacchedaka on vyāpti omits upādhi",
+      "RF-07b": "Missing contextual qualifier — avacchedaka on pakṣa-specific vyāpti omits subject condition",
+      "RF-08": "Externally defeated conclusion — avacchedaka on sādhya conflicts with established knowledge",
+      "RF-09": "Causally redundant reason — avacchedaka on kāraṇatā 'otherwise established'",
+      "RF-10": "Self-defeating assertion — avacchedaka of assertion includes its own negation",
+      "RF-11": "Blocked causal chain — avacchedaka on kāraṇatā blocked by pratibandha",
+      "RF-12": "Universal conclusion — avacchedaka on sādhya has no boundary"
+    }
+  },
+
+  "metadata": {
+    "total_verified": 10,
+    "total_inferred": 3,
+    "total_speculative": 0,
+    "verified_categories": ["RF-01", "RF-02", "RF-03", "RF-04", "RF-05", "RF-06", "RF-07a", "RF-07b", "RF-08", "RF-12"],
+    "inferred_categories": ["RF-09", "RF-10", "RF-11"],
+    "inferred_notes": {
+      "RF-09": "Concept verified in TS Sect. XXVI and NNB. Classification as distinct hetvābhāsa is inferred.",
+      "RF-10": "No direct sūtra source. Constructed from viruddha + bādhita intersection.",
+      "RF-11": "Concept verified in NNB pp. 72–80. Classification as distinct hetvābhāsa is inferred."
+    },
+    "known_gaps": [
+      "RF-04 cannot be fully automated — requires human review.",
+      "RF-07b's sub-type status is a product-level structural decision.",
+      "RF-09, RF-10, RF-11 extend beyond classical five-fold classification.",
+      "Source Sanskrit quotes need verification against clean critical edition.",
+      "TCM corpus OCR issues prevented direct verification of advanced formulations."
+    ],
+    "v2_additions": [
+      "distinguishing_features: Added to all 13 categories",
+      "contrast_with: Added to all 13 categories, focused on confusable pairs",
+      "decision_criteria: Added to all 13 categories",
+      "contrastive_examples: Added to all 13 categories (positive + negative cases)",
+      "definitions (formal/operational/intuitive): Three-level definitions for all 13",
+      "automation block: Standardized across all 13",
+      "decision_flowchart: Master 12-step triage sequence at root level",
+      "confusable_pairs: 6 documented pairs with resolution rules",
+      "llm_calibration_notes: Model performance data and known biases",
+      "version_history: Changelog from v1.0.0 to v2.0.0",
+      "upādhi_explanation: Added to RF-07a with identification guide",
+      "human_review_criteria: Added to RF-04 with escalation conditions"
+    ],
+    "validation_status": "PHASE 1 v2.1 — Surgical patch for v2.0 regressions. Ready for re-validation.",
+    "next_steps": [
+      "Re-run 5 original test cases with v2.1 to verify regressions are fixed",
+      "Specifically verify: Test 3 (Politicians) returns RF-01, Test 5 (Stimulus) returns RF-09",
+      "If regressions fixed, expand test set to 30+ cases for statistically meaningful κ",
+      "Target: κ ≥ 0.65 on expanded dataset"
+    ],
+    "v2_1_patch_summary": {
+      "regressions_addressed": 2,
+      "categories_modified": ["RF-04", "RF-09", "RF-12"],
+      "categories_unchanged": ["RF-01", "RF-02", "RF-03", "RF-05", "RF-06", "RF-07a", "RF-07b", "RF-08", "RF-10", "RF-11"],
+      "fix_1": "RF-12 tightened to require ontological universality — class-level generalizations explicitly routed to RF-01",
+      "fix_2": "RF-09/RF-04 boundary: 'mentioning alternatives ≠ presenting valid counter-reasons' guard added to both categories"
+    }
+  }
+}

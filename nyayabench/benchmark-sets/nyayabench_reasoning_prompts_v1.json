@@ -1,0 +1,366 @@
+{
+  "benchmark_name": "NyayaBench Reasoning Prompts v1.0",
+  "version": "1.0.0",
+  "created": "2026-03-08",
+  "description": "50 reasoning questions designed to test LLM reasoning quality. Each question invites inferential reasoning where models may exhibit reasoning failures. No fixed ground truth - the Vyapti scorer judges each response.",
+  "prompt_count": 50,
+  "domain_distribution": {
+    "medicine_health": 10,
+    "technology_engineering": 10,
+    "economics_finance": 10,
+    "science_environment": 10,
+    "law_ethics_society": 10
+  },
+  "cases": [
+    {
+      "id": "RP-001",
+      "prompt": "A patient presents with flu-like symptoms including fever, cough, and body aches. Should antibiotics be prescribed? Explain your reasoning.",
+      "domain": "medicine_health",
+      "likely_failure_categories": ["RF-07a"],
+      "reasoning_complexity": "moderate"
+    },
+    {
+      "id": "RP-002",
+      "prompt": "A clinical trial showed that patients taking a new supplement had 15% fewer headaches. One participant reported complete headache elimination. Does this prove the supplement is effective for treating headaches?",
+      "domain": "medicine_health",
+      "likely_failure_categories": ["RF-02", "RF-01"],
+      "reasoning_complexity": "moderate"
+    },
+    {
+      "id": "RP-003",
+      "prompt": "A drug that has never been tested in clinical trials has also never had any adverse effects reported. Is it therefore safe for human consumption?",
+      "domain": "medicine_health",
+      "likely_failure_categories": ["RF-03"],
+      "reasoning_complexity": "moderate"
+    },
+    {
+      "id": "RP-004",
+      "prompt": "Vaccines generally provide immunity against diseases. A patient with an autoimmune disorder asks if they should receive the standard vaccination. What factors should be considered?",
+      "domain": "medicine_health",
+      "likely_failure_categories": ["RF-07b", "RF-07a"],
+      "reasoning_complexity": "high"
+    },
+    {
+      "id": "RP-005",
+      "prompt": "A patient's chronic pain improved after starting both acupuncture treatment and prescription pain medication simultaneously. Can we conclude that acupuncture is an effective pain treatment?",
+      "domain": "medicine_health",
+      "likely_failure_categories": ["RF-09"],
+      "reasoning_complexity": "moderate"
+    },
+    {
+      "id": "RP-006",
+      "prompt": "Exercise is known to promote weight loss. Will a person who exercises one hour daily definitely lose weight, regardless of other factors?",
+      "domain": "medicine_health",
+      "likely_failure_categories": ["RF-07a"],
+      "reasoning_complexity": "moderate"
+    },
+    {
+      "id": "RP-007",
+      "prompt": "A new herbal remedy cured my cold in three days. Should I recommend it to others as an effective treatment?",
+      "domain": "medicine_health",
+      "likely_failure_categories": ["RF-02", "RF-09"],
+      "reasoning_complexity": "moderate"
+    },
+    {
+      "id": "RP-008",
+      "prompt": "Dr. James Morton's 2024 Harvard study proved that drinking eight glasses of water daily prevents all kidney diseases. Should this change clinical guidelines?",
+      "domain": "medicine_health",
+      "likely_failure_categories": ["RF-05"],
+      "reasoning_complexity": "moderate"
+    },
+    {
+      "id": "RP-009",
+      "prompt": "A medication designed for oral consumption cannot be absorbed by a patient with a rare condition affecting their digestive tract. Should we expect normal therapeutic effects?",
+      "domain": "medicine_health",
+      "likely_failure_categories": ["RF-07b", "RF-11"],
+      "reasoning_complexity": "high"
+    },
+    {
+      "id": "RP-010",
+      "prompt": "A study found that people who take vitamin D supplements have lower rates of depression. Does this mean vitamin D cures depression?",
+      "domain": "medicine_health",
+      "likely_failure_categories": ["RF-01", "RF-09"],
+      "reasoning_complexity": "moderate"
+    },
+    {
+      "id": "RP-011",
+      "prompt": "A software system has been operating for five years without any reported bugs. Can we conclude it is completely bug-free?",
+      "domain": "technology_engineering",
+      "likely_failure_categories": ["RF-03", "RF-01"],
+      "reasoning_complexity": "moderate"
+    },
+    {
+      "id": "RP-012",
+      "prompt": "A smartphone's specifications claim 12-hour battery life. Independent tests show only 5-hour battery life under normal usage. Which claim should consumers trust?",
+      "domain": "technology_engineering",
+      "likely_failure_categories": ["RF-08"],
+      "reasoning_complexity": "low"
+    },
+    {
+      "id": "RP-013",
+      "prompt": "A bridge was designed to support loads up to 50 tons. Engineers have recently expressed concerns that it may not meet this specification. Is the bridge still safe?",
+      "domain": "technology_engineering",
+      "likely_failure_categories": ["RF-03", "RF-08"],
+      "reasoning_complexity": "moderate"
+    },
+    {
+      "id": "RP-014",
+      "prompt": "Neural networks can achieve high accuracy on image recognition tasks. Does this mean any system using neural networks will be reliable for critical applications?",
+      "domain": "technology_engineering",
+      "likely_failure_categories": ["RF-01", "RF-07a"],
+      "reasoning_complexity": "moderate"
+    },
+    {
+      "id": "RP-015",
+      "prompt": "A waterproof phone is designed with ventilation holes for heat dissipation. Will this phone function properly when submerged?",
+      "domain": "technology_engineering",
+      "likely_failure_categories": ["RF-06"],
+      "reasoning_complexity": "moderate"
+    },
+    {
+      "id": "RP-016",
+      "prompt": "A solar panel system was installed, but on a cloudy day it produces minimal power. Does this indicate the system is defective?",
+      "domain": "technology_engineering",
+      "likely_failure_categories": ["RF-07b"],
+      "reasoning_complexity": "moderate"
+    },
+    {
+      "id": "RP-017",
+      "prompt": "According to the Robertson-Yamamoto quantum coherence principle, all computers will be obsolete within five years. Should companies halt their hardware investments?",
+      "domain": "technology_engineering",
+      "likely_failure_categories": ["RF-05"],
+      "reasoning_complexity": "moderate"
+    },
+    {
+      "id": "RP-018",
+      "prompt": "A startup raised venture capital funding last year and has since tripled in value. Does this prove that raising venture capital leads to company success?",
+      "domain": "technology_engineering",
+      "likely_failure_categories": ["RF-02", "RF-01"],
+      "reasoning_complexity": "moderate"
+    },
+    {
+      "id": "RP-019",
+      "prompt": "A customer ordered a product online and paid for expedited shipping. The warehouse confirmed the order. However, the delivery truck broke down. Will the customer receive their package on time?",
+      "domain": "technology_engineering",
+      "likely_failure_categories": ["RF-11"],
+      "reasoning_complexity": "moderate"
+    },
+    {
+      "id": "RP-020",
+      "prompt": "A copper wire is known to conduct electricity. Will it conduct electricity if it is completely wrapped in rubber insulation?",
+      "domain": "technology_engineering",
+      "likely_failure_categories": ["RF-07a", "RF-07b"],
+      "reasoning_complexity": "high"
+    },
+    {
+      "id": "RP-021",
+      "prompt": "Historically, stock markets have risen over long time periods. Does this mean any stock investment held long enough will be profitable?",
+      "domain": "economics_finance",
+      "likely_failure_categories": ["RF-01", "RF-07a"],
+      "reasoning_complexity": "moderate"
+    },
+    {
+      "id": "RP-022",
+      "prompt": "My neighbor invested in a particular cryptocurrency and made 500% returns. Should I invest my savings in the same cryptocurrency?",
+      "domain": "economics_finance",
+      "likely_failure_categories": ["RF-02"],
+      "reasoning_complexity": "low"
+    },
+    {
+      "id": "RP-023",
+      "prompt": "Bitcoin has increased dramatically in price over the past decade. Is it therefore a safe investment for retirement savings?",
+      "domain": "economics_finance",
+      "likely_failure_categories": ["RF-04", "RF-01"],
+      "reasoning_complexity": "moderate"
+    },
+    {
+      "id": "RP-024",
+      "prompt": "A company's stock price rose 20% after they announced a new logo design. Does this prove that rebranding increases shareholder value?",
+      "domain": "economics_finance",
+      "likely_failure_categories": ["RF-09", "RF-02"],
+      "reasoning_complexity": "moderate"
+    },
+    {
+      "id": "RP-025",
+      "prompt": "According to basic economics, increasing the supply of housing should lower prices. Will building more houses in a city definitely make housing more affordable?",
+      "domain": "economics_finance",
+      "likely_failure_categories": ["RF-07a"],
+      "reasoning_complexity": "moderate"
+    },
+    {
+      "id": "RP-026",
+      "prompt": "Countries that invest more in education tend to have higher GDP growth. Should we conclude that simply increasing education spending will boost our economy?",
+      "domain": "economics_finance",
+      "likely_failure_categories": ["RF-01", "RF-07a"],
+      "reasoning_complexity": "moderate"
+    },
+    {
+      "id": "RP-027",
+      "prompt": "A fund advertises consistent 15% annual returns and claims to be completely risk-free. Is this a trustworthy investment opportunity?",
+      "domain": "economics_finance",
+      "likely_failure_categories": ["RF-06", "RF-03"],
+      "reasoning_complexity": "moderate"
+    },
+    {
+      "id": "RP-028",
+      "prompt": "The company's marketing describes it as the most ethical employer in the industry. Investigative reports reveal systematic labor violations. Which source should we believe?",
+      "domain": "economics_finance",
+      "likely_failure_categories": ["RF-08"],
+      "reasoning_complexity": "moderate"
+    },
+    {
+      "id": "RP-029",
+      "prompt": "A payment for goods was processed and the warehouse prepared the shipment. But the shipping company went bankrupt before delivery. Will the goods arrive?",
+      "domain": "economics_finance",
+      "likely_failure_categories": ["RF-11"],
+      "reasoning_complexity": "moderate"
+    },
+    {
+      "id": "RP-030",
+      "prompt": "An investment that has never lost money in the past must be safe for future investments. Is this reasoning valid?",
+      "domain": "economics_finance",
+      "likely_failure_categories": ["RF-01", "RF-03"],
+      "reasoning_complexity": "moderate"
+    },
+    {
+      "id": "RP-031",
+      "prompt": "Water boils at 100 degrees Celsius. Will water boil at exactly this temperature when you're cooking at a high-altitude mountain camp?",
+      "domain": "science_environment",
+      "likely_failure_categories": ["RF-07a"],
+      "reasoning_complexity": "moderate"
+    },
+    {
+      "id": "RP-032",
+      "prompt": "Electric vehicles produce no tailpipe emissions. Are they therefore completely environmentally friendly?",
+      "domain": "science_environment",
+      "likely_failure_categories": ["RF-04", "RF-07a"],
+      "reasoning_complexity": "moderate"
+    },
+    {
+      "id": "RP-033",
+      "prompt": "A weather forecast predicted sunny skies, but it rained heavily all day. Which is more reliable: the forecast or the observed weather?",
+      "domain": "science_environment",
+      "likely_failure_categories": ["RF-08"],
+      "reasoning_complexity": "low"
+    },
+    {
+      "id": "RP-034",
+      "prompt": "The Great Wall of China is visible from the Moon with the naked eye. Is this a true statement?",
+      "domain": "science_environment",
+      "likely_failure_categories": ["RF-06", "RF-08"],
+      "reasoning_complexity": "low"
+    },
+    {
+      "id": "RP-035",
+      "prompt": "Heavier objects fall faster than lighter objects due to gravity. Is this an accurate description of how gravity works?",
+      "domain": "science_environment",
+      "likely_failure_categories": ["RF-06", "RF-08"],
+      "reasoning_complexity": "moderate"
+    },
+    {
+      "id": "RP-036",
+      "prompt": "A seed was planted in soil with proper nutrients and adequate water. But it was kept in complete darkness. Will it grow normally?",
+      "domain": "science_environment",
+      "likely_failure_categories": ["RF-07b", "RF-11"],
+      "reasoning_complexity": "high"
+    },
+    {
+      "id": "RP-037",
+      "prompt": "Nuclear power produces clean energy without carbon emissions. Is it therefore the safest energy source available?",
+      "domain": "science_environment",
+      "likely_failure_categories": ["RF-04", "RF-07a"],
+      "reasoning_complexity": "moderate"
+    },
+    {
+      "id": "RP-038",
+      "prompt": "A rare orchid species was discovered in a remote rainforest in 2015. According to Professor Maria Santos' research published at Oxford in 2016, this orchid can cure cancer. Should pharmaceutical companies pursue this lead?",
+      "domain": "science_environment",
+      "likely_failure_categories": ["RF-05"],
+      "reasoning_complexity": "moderate"
+    },
+    {
+      "id": "RP-039",
+      "prompt": "City crime rates dropped after more streetlights were installed. During the same period, police presence was doubled. What caused the crime reduction?",
+      "domain": "science_environment",
+      "likely_failure_categories": ["RF-09"],
+      "reasoning_complexity": "moderate"
+    },
+    {
+      "id": "RP-040",
+      "prompt": "Fire requires oxygen to burn. Will a flame continue in a vacuum chamber?",
+      "domain": "science_environment",
+      "likely_failure_categories": ["RF-07b", "RF-11"],
+      "reasoning_complexity": "moderate"
+    },
+    {
+      "id": "RP-041",
+      "prompt": "I know for certain that absolute certainty is impossible. Is this statement logically coherent?",
+      "domain": "law_ethics_society",
+      "likely_failure_categories": ["RF-10"],
+      "reasoning_complexity": "moderate"
+    },
+    {
+      "id": "RP-042",
+      "prompt": "No generalizations are ever valid, including generalizations about science, history, and human behavior. Is this a sound philosophical position?",
+      "domain": "law_ethics_society",
+      "likely_failure_categories": ["RF-10"],
+      "reasoning_complexity": "moderate"
+    },
+    {
+      "id": "RP-043",
+      "prompt": "A contract was signed and payment was made for a service. But the service provider declared bankruptcy before fulfilling the contract. Will the service be delivered?",
+      "domain": "law_ethics_society",
+      "likely_failure_categories": ["RF-11"],
+      "reasoning_complexity": "moderate"
+    },
+    {
+      "id": "RP-044",
+      "prompt": "A politician speaks confidently about their policy proposals. Does this mean their policies will be effective?",
+      "domain": "law_ethics_society",
+      "likely_failure_categories": ["RF-01"],
+      "reasoning_complexity": "low"
+    },
+    {
+      "id": "RP-045",
+      "prompt": "A job application was submitted and the candidate was selected for interview. The candidate prepared thoroughly. But the company announced a hiring freeze. Will the candidate get the job?",
+      "domain": "law_ethics_society",
+      "likely_failure_categories": ["RF-11"],
+      "reasoning_complexity": "moderate"
+    },
+    {
+      "id": "RP-046",
+      "prompt": "Social media platforms enable rapid information sharing. Are they therefore beneficial for society?",
+      "domain": "law_ethics_society",
+      "likely_failure_categories": ["RF-04", "RF-07a"],
+      "reasoning_complexity": "moderate"
+    },
+    {
+      "id": "RP-047",
+      "prompt": "Users of a defunct social network are demanding their data be restored. The platform was shut down and all servers decommissioned two years ago. Can their demands be met?",
+      "domain": "law_ethics_society",
+      "likely_failure_categories": ["RF-05"],
+      "reasoning_complexity": "moderate"
+    },
+    {
+      "id": "RP-048",
+      "prompt": "A successful CEO was born in a small rural town. Does their birthplace explain their business success?",
+      "domain": "law_ethics_society",
+      "likely_failure_categories": ["RF-02"],
+      "reasoning_complexity": "low"
+    },
+    {
+      "id": "RP-049",
+      "prompt": "You should never trust anyone's advice, including from experts, family, or friends. I strongly recommend following this principle.",
+      "domain": "law_ethics_society",
+      "likely_failure_categories": ["RF-10"],
+      "reasoning_complexity": "moderate"
+    },
+    {
+      "id": "RP-050",
+      "prompt": "A vegan restaurant serves plant-based burgers. The menu describes them as containing 'beef-style patties made from real ground beef.' Is this menu accurate?",
+      "domain": "law_ethics_society",
+      "likely_failure_categories": ["RF-06"],
+      "reasoning_complexity": "low"
+    }
+  ]
+}

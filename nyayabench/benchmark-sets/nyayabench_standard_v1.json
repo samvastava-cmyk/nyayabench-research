@@ -1,0 +1,373 @@
+{
+  "benchmark_name": "NyayaBench Standard Benchmark v1.0",
+  "version": "1.0.0",
+  "created": "2026-03-08",
+  "description": "Frozen 50-prompt standard evaluation set for cross-model reasoning quality comparison. Ground-truth labels human-verified. This set is versioned and never changes.",
+  "prompt_count": 50,
+  "category_distribution": {
+    "RF-01": 5,
+    "RF-02": 4,
+    "RF-03": 4,
+    "RF-04": 4,
+    "RF-05": 4,
+    "RF-06": 5,
+    "RF-07a": 5,
+    "RF-07b": 5,
+    "RF-08": 4,
+    "RF-09": 4,
+    "RF-10": 3,
+    "RF-11": 3
+  },
+  "cases": [
+    {
+      "id": "STD-001",
+      "text": "Studies show that most successful entrepreneurs wake up before 6 AM. Therefore, if you start waking up at 5 AM, you will definitely become a successful entrepreneur.",
+      "expected_rf": "RF-01",
+      "domain": "economics",
+      "difficulty": "standard"
+    },
+    {
+      "id": "STD-002",
+      "text": "Tall people tend to earn higher salaries on average according to economic research. Since Marcus is 6'4\", he will certainly earn more than his shorter colleagues throughout his career.",
+      "expected_rf": "RF-01",
+      "domain": "sociology",
+      "difficulty": "standard"
+    },
+    {
+      "id": "STD-003",
+      "text": "Countries with higher education spending generally have better economic outcomes. This means that if we simply increase education funding by 20%, our GDP growth will definitely improve proportionally.",
+      "expected_rf": "RF-01",
+      "domain": "policy",
+      "difficulty": "standard"
+    },
+    {
+      "id": "STD-004",
+      "text": "Research indicates that people who read regularly have larger vocabularies. Since she reads two books per month, she must be an excellent public speaker.",
+      "expected_rf": "RF-01",
+      "domain": "education",
+      "difficulty": "boundary"
+    },
+    {
+      "id": "STD-005",
+      "text": "Organic produce typically contains fewer pesticide residues than conventional produce. Consequently, switching entirely to organic food will guarantee protection from all food-related health risks.",
+      "expected_rf": "RF-01",
+      "domain": "nutrition",
+      "difficulty": "boundary"
+    },
+    {
+      "id": "STD-006",
+      "text": "My neighbor invested in this cryptocurrency last year and tripled his money. This proves that investing in this cryptocurrency is a reliable path to wealth.",
+      "expected_rf": "RF-02",
+      "domain": "finance",
+      "difficulty": "standard"
+    },
+    {
+      "id": "STD-007",
+      "text": "I tried this herbal remedy once when I had a cold, and I felt better the next day. This shows that the remedy is an effective treatment for colds.",
+      "expected_rf": "RF-02",
+      "domain": "health",
+      "difficulty": "standard"
+    },
+    {
+      "id": "STD-008",
+      "text": "A painting sold at this auction house fetched $50 million last month. Therefore, all paintings sold at this auction house will command premium prices.",
+      "expected_rf": "RF-02",
+      "domain": "art",
+      "difficulty": "boundary"
+    },
+    {
+      "id": "STD-009",
+      "text": "The CEO of this company happens to have been born in a small town in Ohio. This unusual biographical detail explains why the company has such a strong community-focused culture.",
+      "expected_rf": "RF-02",
+      "domain": "management",
+      "difficulty": "boundary"
+    },
+    {
+      "id": "STD-010",
+      "text": "This new medication has been proven safe for human use because it has never been subjected to clinical trials, so no adverse effects have ever been documented.",
+      "expected_rf": "RF-03",
+      "domain": "pharmaceuticals",
+      "difficulty": "boundary"
+    },
+    {
+      "id": "STD-011",
+      "text": "The bridge must be structurally sound because structural engineers have repeatedly warned that it could collapse under heavy traffic loads.",
+      "expected_rf": "RF-03",
+      "domain": "engineering",
+      "difficulty": "standard"
+    },
+    {
+      "id": "STD-012",
+      "text": "This AI system has never made an error in judgment. However, it occasionally requires human operators to correct its outputs when they deviate from expected results.",
+      "expected_rf": "RF-03",
+      "domain": "computing",
+      "difficulty": "standard"
+    },
+    {
+      "id": "STD-013",
+      "text": "The investment fund is completely transparent about its operations. That said, the fund managers have declined to disclose their fee structure or portfolio holdings to investors.",
+      "expected_rf": "RF-03",
+      "domain": "finance",
+      "difficulty": "standard"
+    },
+    {
+      "id": "STD-014",
+      "text": "Electric vehicles produce zero emissions during operation, making them unambiguously better for the environment. However, the manufacturing process involves significant carbon output and the electricity often comes from fossil fuel plants.",
+      "expected_rf": "RF-04",
+      "domain": "environment",
+      "difficulty": "standard"
+    },
+    {
+      "id": "STD-015",
+      "text": "Working from home eliminates commuting time and allows for flexible schedules, clearly making it the superior work arrangement. On the other hand, studies show reduced collaboration, mentorship difficulties, and isolation among remote workers.",
+      "expected_rf": "RF-04",
+      "domain": "workplace",
+      "difficulty": "standard"
+    },
+    {
+      "id": "STD-016",
+      "text": "Nuclear power generates enormous amounts of clean energy without carbon emissions. At the same time, the risks of accidents and the unsolved problem of nuclear waste storage remain significant concerns.",
+      "expected_rf": "RF-04",
+      "domain": "energy",
+      "difficulty": "standard"
+    },
+    {
+      "id": "STD-017",
+      "text": "Social media platforms enable rapid information sharing and community building across distances. Yet these same platforms have been linked to increased polarization, mental health issues, and the spread of misinformation.",
+      "expected_rf": "RF-04",
+      "domain": "culture",
+      "difficulty": "standard"
+    },
+    {
+      "id": "STD-018",
+      "text": "Dr. Helena Morrison's 2024 Stanford longitudinal study conclusively demonstrated that daily meditation increases lifespan by 15 years on average.",
+      "expected_rf": "RF-05",
+      "domain": "psychology",
+      "difficulty": "standard"
+    },
+    {
+      "id": "STD-019",
+      "text": "According to the Westbrook-Chen phenomenological effect discovered in 2023, human memory capacity doubles every decade after age 30.",
+      "expected_rf": "RF-05",
+      "domain": "neuroscience",
+      "difficulty": "standard"
+    },
+    {
+      "id": "STD-020",
+      "text": "The ancient Library of Zephyria, which housed over two million scrolls, contained definitive proof of extraterrestrial contact with early human civilizations.",
+      "expected_rf": "RF-05",
+      "domain": "history",
+      "difficulty": "standard"
+    },
+    {
+      "id": "STD-021",
+      "text": "Users of the discontinued social network FriendSpace are demanding that the company restore their data, even though the platform was shut down and all servers were decommissioned three years ago.",
+      "expected_rf": "RF-05",
+      "domain": "computing",
+      "difficulty": "standard"
+    },
+    {
+      "id": "STD-022",
+      "text": "This vegan cheese is made from 100% plant-based ingredients including milk casein derived from cow's milk.",
+      "expected_rf": "RF-06",
+      "domain": "food",
+      "difficulty": "standard"
+    },
+    {
+      "id": "STD-023",
+      "text": "The completely silent air conditioner makes a gentle humming noise when it operates at full capacity.",
+      "expected_rf": "RF-06",
+      "domain": "appliances",
+      "difficulty": "standard"
+    },
+    {
+      "id": "STD-024",
+      "text": "This fireproof safe is constructed with materials that will melt at temperatures above 500 degrees Fahrenheit.",
+      "expected_rf": "RF-06",
+      "domain": "safety",
+      "difficulty": "standard"
+    },
+    {
+      "id": "STD-025",
+      "text": "The caffeine-free energy drink contains 150mg of caffeine per serving to give you that extra boost.",
+      "expected_rf": "RF-06",
+      "domain": "beverages",
+      "difficulty": "standard"
+    },
+    {
+      "id": "STD-026",
+      "text": "The waterproof smartphone is designed with deliberate ventilation holes to prevent overheating during use.",
+      "expected_rf": "RF-06",
+      "domain": "electronics",
+      "difficulty": "boundary"
+    },
+    {
+      "id": "STD-027",
+      "text": "Water boils at 100 degrees Celsius, so when you're camping at high altitude in the mountains, you can expect water to boil at exactly 100 degrees.",
+      "expected_rf": "RF-07a",
+      "domain": "physics",
+      "difficulty": "standard"
+    },
+    {
+      "id": "STD-028",
+      "text": "Antibiotics effectively treat infections. Therefore, this patient with severe flu symptoms should be prescribed antibiotics immediately.",
+      "expected_rf": "RF-07a",
+      "domain": "medicine",
+      "difficulty": "standard"
+    },
+    {
+      "id": "STD-029",
+      "text": "Exercise leads to weight loss. Anyone who exercises regularly will lose weight regardless of their diet, metabolism, or medical conditions.",
+      "expected_rf": "RF-07a",
+      "domain": "fitness",
+      "difficulty": "standard"
+    },
+    {
+      "id": "STD-030",
+      "text": "Supply and demand determine market prices. Therefore, if we increase the supply of housing, prices will definitely fall, regardless of zoning laws, construction costs, or local regulations.",
+      "expected_rf": "RF-07a",
+      "domain": "economics",
+      "difficulty": "standard"
+    },
+    {
+      "id": "STD-031",
+      "text": "Metal conducts electricity efficiently. This copper wire will conduct electricity perfectly even though it is wrapped in thick rubber insulation.",
+      "expected_rf": "RF-07a",
+      "domain": "physics",
+      "difficulty": "boundary"
+    },
+    {
+      "id": "STD-032",
+      "text": "Vaccines generally provide immunity against diseases. However, this immunocompromised patient's weakened immune system cannot mount the normal antibody response to vaccination.",
+      "expected_rf": "RF-07b",
+      "domain": "medicine",
+      "difficulty": "standard"
+    },
+    {
+      "id": "STD-033",
+      "text": "Keys open their corresponding locks reliably. But this particular lock mechanism has been jammed by rust and corrosion, so even the correct key cannot turn it.",
+      "expected_rf": "RF-07b",
+      "domain": "daily_life",
+      "difficulty": "boundary"
+    },
+    {
+      "id": "STD-034",
+      "text": "Sunlight enables photosynthesis in plants. These seedlings have adequate soil nutrients and water, but they remain in a windowless basement with no natural or artificial light.",
+      "expected_rf": "RF-07b",
+      "domain": "biology",
+      "difficulty": "boundary"
+    },
+    {
+      "id": "STD-035",
+      "text": "Smartphones can connect to cellular networks. However, this phone's antenna was damaged in a fall, preventing it from receiving any signal despite being in an area with strong coverage.",
+      "expected_rf": "RF-07b",
+      "domain": "electronics",
+      "difficulty": "boundary"
+    },
+    {
+      "id": "STD-036",
+      "text": "The medication typically alleviates symptoms within hours of administration. But this patient's body has developed a resistance mechanism that blocks the drug's absorption entirely.",
+      "expected_rf": "RF-07b",
+      "domain": "pharmacology",
+      "difficulty": "boundary"
+    },
+    {
+      "id": "STD-037",
+      "text": "The product manual claims the laptop battery lasts 12 hours. Independent testing by three consumer organizations found it lasts only 4 hours under normal usage conditions.",
+      "expected_rf": "RF-08",
+      "domain": "consumer",
+      "difficulty": "standard"
+    },
+    {
+      "id": "STD-038",
+      "text": "The restaurant's advertisement describes the dish as locally sourced and organic. Health department inspections revealed the ingredients are imported frozen products with synthetic preservatives.",
+      "expected_rf": "RF-08",
+      "domain": "food",
+      "difficulty": "standard"
+    },
+    {
+      "id": "STD-039",
+      "text": "The weather forecast predicted clear skies and sunshine for the outdoor wedding. Throughout the ceremony, heavy rain fell continuously, soaking all the guests.",
+      "expected_rf": "RF-08",
+      "domain": "meteorology",
+      "difficulty": "standard"
+    },
+    {
+      "id": "STD-040",
+      "text": "The company's marketing materials emphasize its commitment to ethical labor practices. Investigative journalists documented systematic wage theft and unsafe working conditions in its factories.",
+      "expected_rf": "RF-08",
+      "domain": "labor",
+      "difficulty": "boundary"
+    },
+    {
+      "id": "STD-041",
+      "text": "The patient's headache disappeared after she started wearing a magnetic bracelet. However, she also began taking prescription pain medication at the same time, which is known to effectively treat headaches.",
+      "expected_rf": "RF-09",
+      "domain": "medicine",
+      "difficulty": "standard"
+    },
+    {
+      "id": "STD-042",
+      "text": "The company's sales increased after they changed their logo color from blue to green. This proves that the color change caused the sales improvement. However, they also launched a major advertising campaign and cut prices by 30% during the same period.",
+      "expected_rf": "RF-09",
+      "domain": "marketing",
+      "difficulty": "standard"
+    },
+    {
+      "id": "STD-043",
+      "text": "The student's grades improved after she started drinking more water. Staying hydrated must be the key to academic success. She also hired a tutor and began studying three hours more per day.",
+      "expected_rf": "RF-09",
+      "domain": "education",
+      "difficulty": "boundary"
+    },
+    {
+      "id": "STD-044",
+      "text": "Crime rates dropped in the city after they installed more streetlights. The additional lighting reduced criminal activity. During the same period, the police force doubled in size and implemented community policing programs.",
+      "expected_rf": "RF-09",
+      "domain": "criminology",
+      "difficulty": "boundary"
+    },
+    {
+      "id": "STD-045",
+      "text": "I am absolutely certain that no one can ever be certain about anything. This is an undeniable truth that applies universally to all claims.",
+      "expected_rf": "RF-10",
+      "domain": "philosophy",
+      "difficulty": "standard"
+    },
+    {
+      "id": "STD-046",
+      "text": "No written statement can ever convey meaning accurately. I am writing this to clearly explain why written communication always fails.",
+      "expected_rf": "RF-10",
+      "domain": "linguistics",
+      "difficulty": "standard"
+    },
+    {
+      "id": "STD-047",
+      "text": "You should never trust advice from anyone. I strongly advise you to follow this principle in all your decision-making.",
+      "expected_rf": "RF-10",
+      "domain": "ethics",
+      "difficulty": "standard"
+    },
+    {
+      "id": "STD-048",
+      "text": "The customer ordered and paid for next-day delivery of a laptop. The warehouse confirmed the payment and prepared the shipment. But the delivery truck was involved in an accident, and all packages were destroyed before reaching their destinations.",
+      "expected_rf": "RF-11",
+      "domain": "logistics",
+      "difficulty": "boundary"
+    },
+    {
+      "id": "STD-049",
+      "text": "The job applicant submitted a complete application and was selected for an interview. She prepared thoroughly and arrived on time. However, the company announced a hiring freeze that morning and cancelled all scheduled interviews.",
+      "expected_rf": "RF-11",
+      "domain": "employment",
+      "difficulty": "standard"
+    },
+    {
+      "id": "STD-050",
+      "text": "The concert tickets were purchased and the venue confirmed the reservation. The fans traveled across the country to attend. Upon arrival, they learned the performer had cancelled due to illness three hours before showtime.",
+      "expected_rf": "RF-11",
+      "domain": "entertainment",
+      "difficulty": "standard"
+    }
+  ]
+}

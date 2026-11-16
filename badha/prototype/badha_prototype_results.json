@@ -1,0 +1,164 @@
+{
+ "generated_pairs": 300,
+ "items": 600,
+ "sampling_attempts": 426700,
+ "cells": {
+  "authority|k=3": 25,
+  "authority|k=5": 25,
+  "authority|k=8": 25,
+  "specificity|k=3": 25,
+  "specificity|k=5": 25,
+  "specificity|k=8": 25,
+  "recency|k=3": 25,
+  "recency|k=5": 25,
+  "recency|k=8": 25,
+  "tie|k=3": 25,
+  "tie|k=5": 25,
+  "tie|k=8": 25
+ },
+ "twins_differ_by_exactly_one_token": "300/300",
+ "answer_distribution": {
+  "CRED": 133,
+  "SHAR": 131,
+  "SLEV": 127,
+  "DEBT": 133,
+  "ESCALATE": 76
+ },
+ "decider_distribution_all_items": {
+  "authority": 262,
+  "specificity": 160,
+  "recency": 102,
+  "tie": 76
+ },
+ "shortcut_audit": {
+  "first-listed rule": {
+   "item_acc": 29.0,
+   "pair_acc": 0.0,
+   "by_decider": {
+    "authority": 34.7,
+    "specificity": 30.6,
+    "recency": 33.3,
+    "tie": 0.0
+   }
+  },
+  "last-listed rule": {
+   "item_acc": 30.0,
+   "pair_acc": 0.0,
+   "by_decider": {
+    "authority": 33.2,
+    "specificity": 35.0,
+    "recency": 36.3,
+    "tie": 0.0
+   }
+  },
+  "highest authority listed": {
+   "item_acc": 37.5,
+   "pair_acc": 0.0,
+   "by_decider": {
+    "authority": 59.5,
+    "specificity": 26.9,
+    "recency": 25.5,
+    "tie": 0.0
+   }
+  },
+  "newest rule listed": {
+   "item_acc": 34.7,
+   "pair_acc": 0.0,
+   "by_decider": {
+    "authority": 35.5,
+    "specificity": 36.9,
+    "recency": 54.9,
+    "tie": 0.0
+   }
+  },
+  "narrowest jurisdiction listed": {
+   "item_acc": 35.7,
+   "pair_acc": 0.0,
+   "by_decider": {
+    "authority": 35.5,
+    "specificity": 60.0,
+    "recency": 24.5,
+    "tie": 0.0
+   }
+  },
+  "majority value listed": {
+   "item_acc": 32.5,
+   "pair_acc": 0.0,
+   "by_decider": {
+    "authority": 40.5,
+    "specificity": 37.5,
+    "recency": 28.4,
+    "tie": 0.0
+   }
+  },
+  "always ESCALATE": {
+   "item_acc": 12.7,
+   "pair_acc": 0.0,
+   "by_decider": {
+    "authority": 0.0,
+    "specificity": 0.0,
+    "recency": 0.0,
+    "tie": 100.0
+   }
+  },
+  "authority only (applicable rules)": {
+   "item_acc": 63.0,
+   "pair_acc": 36.0,
+   "by_decider": {
+    "authority": 100.0,
+    "specificity": 41.2,
+    "recency": 49.0,
+    "tie": 0.0
+   }
+  },
+  "full policy, ignoring applicability": {
+   "item_acc": 45.5,
+   "pair_acc": 0.0,
+   "by_decider": {
+    "authority": 46.6,
+    "specificity": 59.4,
+    "recency": 27.5,
+    "tie": 36.8
+   }
+  },
+  "full policy, never escalates": {
+   "item_acc": 87.3,
+   "pair_acc": 74.7,
+   "by_decider": {
+    "authority": 100.0,
+    "specificity": 100.0,
+    "recency": 100.0,
+    "tie": 0.0
+   }
+  }
+ },
+ "hwr_as_shipped": {
+  "errors": 0,
+  "item_acc": 77.3,
+  "by_decider": {
+   "authority": 79.0,
+   "specificity": 98.8,
+   "recency": 97.1,
+   "tie": 0.0
+  },
+  "example_authority_inversions": [
+   {
+    "hwr_winner": "Market-practice group / APAC / 2024-07-01",
+    "policy_winner": "Payment scheme / GLOBAL / 2022-01-01"
+   },
+   {
+    "hwr_winner": "Bank policy / ONE / 2026-10-01",
+    "policy_winner": "Market-practice group / GLOBAL / 2025-07-01"
+   },
+   {
+    "hwr_winner": "Bank policy / AMER / 2024-01-01",
+    "policy_winner": "Market-practice group / GLOBAL / 2024-01-01"
+   }
+  ]
+ },
+ "example_item": "POLICY. A rule applies only if its jurisdiction covers the debtor country and its condition holds.\nWhen applicable rules prescribe different values: (1) the higher authority prevails (Regulator > Payment scheme > Market-practice group > Bank policy); (2) at equal authority, the narrower jurisdiction prevails; (3) at equal authority and jurisdiction, the later effective date prevails; (4) if still tied, answer ESCALATE.\nMESSAGE. pacs.008; debtor country SG; currency EUR; amount 250000.\nRULES (listed in no particular order).\nR1 [Regulator; jurisdiction: all countries; effective 2024-07-01; condition: currency is EUR] Charge bearer must be CRED.\nR2 [Market-practice group; jurisdiction: all countries; effective 2023-07-01] Charge bearer must be SHAR.\nR3 [Regulator; jurisdiction: US, CA, BR; effective 2025-10-01; condition: currency is EUR] Charge bearer must be SHAR.\nQUESTION. Which charge-bearer value must be used (DEBT, CRED, SHAR, SLEV or ESCALATE)?",
+ "example_answer": "CRED",
+ "example_decider": "authority",
+ "example_twin_country": "BR",
+ "example_twin_answer": "SHAR"
+}

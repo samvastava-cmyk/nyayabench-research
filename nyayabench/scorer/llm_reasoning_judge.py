@@ -1,0 +1,676 @@
+from __future__ import annotations
+
+import hashlib
+import json
+import os
+import re
+import uuid
+from datetime import datetime, timezone
+from pathlib import Path
+from typing import Any, Dict, Optional
+
+from dotenv import load_dotenv
+from motor.motor_asyncio import AsyncIOMotorClient
+
+try:
+    from emergentintegrations.llm.chat import LlmChat, UserMessage
+    HAS_EMERGENT = True
+except ImportError:  # pragma: no cover
+    HAS_EMERGENT = False
+    LlmChat = None
+    UserMessage = None
+
+
+ROOT_DIR = Path(__file__).resolve().parents[1]
+load_dotenv(ROOT_DIR / ".env")
+
+MODEL_PROVIDER = "openai"
+MODEL_NAME = "gpt-4.1"
+PROMPT_VERSION = "v10-rf07a-fix"
+VALID_RF_CODES = {"RF-01", "RF-02", "RF-03", "RF-04", "RF-05", "RF-06", "RF-07a", "RF-07b", "RF-08", "RF-09", "RF-10", "RF-11", "NONE"}
+
+_mongo_url = os.environ.get("MONGO_URL")
+_db_name = os.environ.get("DB_NAME")
+_cache_client = AsyncIOMotorClient(_mongo_url) if _mongo_url else None
+_cache_collection = _cache_client[_db_name]["llm_reasoning_cache"] if (_cache_client and _db_name) else None
+
+
+class LLMReasoningJudge:
+    def __init__(self, api_key: Optional[str] = None, taxonomy: Optional[Dict[str, Any]] = None) -> None:
+        self.api_key = api_key or os.environ.get("EMERGENT_LLM_KEY")
+        self.taxonomy = taxonomy or self._load_taxonomy()
+        self.cache_collection = _cache_collection
+        self.taxonomy_prompt = self._build_taxonomy_prompt()
+
+    async def classify_reasoning_failure(self, text: str, inference_structure: Dict[str, Any]) -> Dict[str, Any]:
+        if not HAS_EMERGENT or not self.api_key:
+            return {
+                "rf_code": "NONE",
+                "confidence": 0.5,
+                "diagnosis": "llm reasoning judge unavailable",
+                "source": "llm_unavailable",
+            }
+
+        text_hash = hashlib.sha256(text.encode("utf-8")).hexdigest()
+        cached = await self._get_cached_result(text_hash)
+        if cached:
+            cached["source"] = "cache"
+            return cached
+
+        prompt = self._build_prompt(text, inference_structure)
+        response = await self._call_llm(prompt, session_id=f"vyapti-judge-{text_hash}")
+        parsed = self._parse_response(response)
+        result = {
+            "rf_code": parsed.get("rf_code", "NONE"),
+            "confidence": parsed.get("confidence", 0.5),
+            "diagnosis": parsed.get("diagnosis", "no reasoning failure detected"),
+            "source": "llm",
+        }
+        await self._cache_result(text_hash, text, inference_structure, result)
+        return result
+
+    async def _call_llm(self, prompt: str, session_id: str) -> str:
+        chat = LlmChat(
+            api_key=self.api_key,
+            session_id=session_id or str(uuid.uuid4()),
+            system_message="You are an expert reasoning analyst. Return strict JSON only with rf_code, confidence, and diagnosis.",
+        ).with_model(MODEL_PROVIDER, MODEL_NAME)
+        return await chat.send_message(UserMessage(text=prompt))
+
+    async def _get_cached_result(self, text_hash: str) -> Optional[Dict[str, Any]]:
+        if self.cache_collection is None:
+            return None
+        cached = await self.cache_collection.find_one(
+            {"text_hash": text_hash, "model_provider": MODEL_PROVIDER, "model_name": MODEL_NAME, "prompt_version": PROMPT_VERSION},
+            {"_id": 0, "result": 1},
+        )
+        return (cached or {}).get("result")
+
+    async def _cache_result(self, text_hash: str, text: str, inference_structure: Dict[str, Any], result: Dict[str, Any]) -> None:
+        if self.cache_collection is None:
+            return
+        document = {
+            "text_hash": text_hash,
+            "text": text,
+            "inference_structure": inference_structure,
+            "model_provider": MODEL_PROVIDER,
+            "model_name": MODEL_NAME,
+            "prompt_version": PROMPT_VERSION,
+            "result": result,
+            "updated_at": datetime.now(timezone.utc).isoformat(),
+        }
+        await self.cache_collection.update_one(
+            {"text_hash": text_hash, "model_provider": MODEL_PROVIDER, "model_name": MODEL_NAME, "prompt_version": PROMPT_VERSION},
+            {"$set": document},
+            upsert=True,
+        )
+
+    def _build_prompt(self, text: str, inference_structure: Dict[str, Any]) -> str:
+        subject = inference_structure.get("subject") or ""
+        reason = inference_structure.get("reason") or ""
+        conclusion = inference_structure.get("conclusion") or ""
+
+        return f"""You are an expert reasoning analyst for the Vyāpti reasoning benchmark.
+
+Classify the SINGLE PRIMARY reasoning failure in the argument.
+
+Use the FULL input text as the primary source of truth. The extracted reasoning structure is only a helper and may simplify, compress, or misplace a short commentary sentence. If the structure conflicts with the full text, trust the full text.
+
+Taxonomy definitions:
+{self.taxonomy_prompt}
+
+Important distinctions:
+- RF-01 = a weak correlation, broad tendency, reputation, trend, or loose association is stretched into an absolute or certain conclusion.
+- RF-02 = the reason is unique to one person, one event, one private state, one exclusive fact, or one singular occurrence and therefore cannot support a broader inference.
+- RF-06 = a false or impossible property is attributed to the subject.
+- RF-07a = a generally valid rule is applied without its necessary conditions, qualifiers, exceptions, or limitations.
+- RF-07b = the rule is normally valid, BUT a specific contextual blocker in this case prevents the rule from working.
+- RF-08 = a weaker claim/source is defeated by stronger evidence, observation, measurement, records, tests, or established facts.
+- RF-10 = the act of asserting the statement undermines the statement itself.
+- RF-11 = a causal chain is started or expected to start, but an explicit intervening blocker prevents the downstream effect.
+
+Meta-commentary handling:
+- Many benchmark inputs end with shorthand commentary such as "Data overrides claims.", "Tests override labels.", "Action contradicts claim.", "Logic contradicts claim.", or "Water was missing." Treat such phrases as clues about the failure type, not automatically as the literal conclusion sentence.
+- Short commentary like "X overrides Y" often signals RF-08.
+- Short commentary like "action/usage/logic/perception contradicts claim" often signals RF-10.
+- Short commentary naming the missing or blocking factor ("water was missing", "stock is empty", "bug is present", "venue is full") often signals RF-11.
+
+RF-01 vs RF-07a decision rule:
+- Use RF-01 when the argument goes from weak evidence, broad tendency, or correlation to certainty.
+- Use RF-07a when the rule itself is basically valid in general, but necessary conditions or exceptions are ignored.
+- Example RF-01: "Reading improves vocabulary, so she must be a great speaker."
+- Example RF-01: "High price means the food must be excellent."
+- Example RF-01: "Learning to code guarantees a job."
+- Example RF-07a: "Birds fly, therefore penguins must fly."
+- Example RF-07a: "Exercise improves health, so you will never get sick."
+
+RF-08 vs RF-03 vs RF-04:
+- RF-03 = the stated reason supports the NEGATION of the conclusion.
+- RF-04 = there are comparably strong reasons on both sides, so the issue is balanced or counterpoised.
+- RF-08 = the evidence hierarchy is asymmetric: stronger evidence decisively defeats a weaker source or claim.
+- For RF-08, prefer direct observation, measurement, experiment, benchmark, lab result, records, forensics, or actual outcome over weaker sources like promises, manuals, labels, ads, reputation, policy statements, forecasts, or mere assertions.
+- If the text says a manual/label/ad/promise/reputation/policy/forecast claims X but tests, records, labs, benchmarks, reality, or observed behavior show not-X, choose RF-08.
+- Do NOT use RF-08 when the main defect is simply a contradiction between content claims with no real source hierarchy; that is usually RF-03.
+- Do NOT use RF-08 when the text says the issue is merely debated, contested, mixed, or unclear; that is usually RF-04.
+- Do NOT use RF-08 when the core defect is a nonexistent subject (RF-05) or false property attribution (RF-06).
+
+RF-03 vs RF-08 — critical test:
+- Ask: "Is there a SOURCE HIERARCHY (weaker source vs stronger source)?" If YES → RF-08.
+- Ask: "Does the CONTENT of the reason logically contradict the CONTENT of the conclusion, regardless of sources?" If YES → RF-03.
+- RF-08 examples: "The manual says durable, but stress tests show failure." (manual is weaker than tests = source hierarchy)
+- RF-03 examples: "The restaurant claims Italian cuisine. The chef trained in France and serves French food." (French training contradicts Italian claim — no source hierarchy, just content contradiction)
+- RF-03 examples: "The product is described as durable. It breaks within a week." (the evidence directly contradicts the claim by CONTENT, not by source authority)
+- RF-03 examples: "The company values transparency. All records are sealed." (sealing records is the OPPOSITE of transparency — logical contradiction)
+- If the stated reason/evidence literally means the OPPOSITE of the conclusion, prefer RF-03.
+- If a weaker information source (label, ad, manual, promise, reputation) is contradicted by a stronger information source (test, observation, data, behavior), prefer RF-08.
+- When in doubt: if you can identify TWO DIFFERENT SOURCES in conflict, use RF-08. If the contradiction is within the SAME argument's claims, use RF-03.
+
+RF-04 vs NONE — counterbalanced evidence:
+- RF-04 fires when an argument presents or implies a conclusion but EQUALLY STRONG counter-evidence exists that the argument does not resolve.
+- CRITICAL: A text that presents pros AND cons of something IS a reasoning failure (RF-04) if it draws or implies a conclusion without resolving the tension.
+- CRITICAL: A text that says "X has benefit A but also downside B. The evidence is mixed." — this IS RF-04. The argument fails because the counter-reason has equal force.
+- NONE should be used when the reasoning is genuinely sound and reaches a justified conclusion.
+- Do NOT classify as NONE merely because the text acknowledges both sides. Acknowledging both sides without resolving them IS the RF-04 failure.
+- RF-04 signals: "but", "however", "on the other hand", "mixed evidence", "debated", "controversial", "varies", "pros and cons", "trade-off", "both sides"
+- Example RF-04: "Solar panels reduce costs but require big upfront investment. The payback period varies by location." (unresolved trade-off = counterbalanced)
+- Example RF-04: "The drug reduces symptoms but has serious side effects. The medical community is divided." (contested evidence = counterbalanced)
+- Example NONE: "Solar panels reduce costs over 10 years. The upfront investment is offset by savings of $X per year, resulting in net positive return." (resolved with specific evidence)
+
+RF-05 vs RF-06 — non-existent entity vs false property:
+- RF-05 = the ENTITY, PERSON, INSTITUTION, or STUDY referenced does not exist. The locus of the argument is fabricated.
+- RF-06 = the entity EXISTS but has a property it CANNOT have.
+- RF-05 takes PRIORITY over RF-06 when the entity is fabricated. If the doctor is fake, it doesn't matter what the fake doctor claims — the primary failure is the non-existent source.
+- Signals for RF-05: fabricated researcher names, made-up institutes, invented studies, fictional organizations cited as real, journals that don't exist
+- Signals for RF-06: real entities with impossible properties (vegetarian food with beef, waterproof with holes)
+- Example RF-05: "Dr. Helena Morrison of the Institute for Advanced Neuroplasticity proved memory transfer." (the doctor and institute don't exist)
+- Example RF-05: "The Wilson-Nakamura theory, published in the Journal of Quantum Neurology, explains soul migration." (the journal doesn't exist)
+- Example RF-06: "The Eiffel Tower was built in 1820." (the tower exists; the date is a false property)
+- KEY TEST: Could you Google this entity/person/institution? If it's clearly fabricated, use RF-05. If the entity is real but the claim about it is false, use RF-06.
+
+RF-06 vs RF-08:
+- RF-06 = the property attributed to the subject is DEFINITIONALLY IMPOSSIBLE or self-contradictory. The subject CANNOT have this property by its very nature (vegetarian food with beef, sugar-free with sugar, silent alarm that is loud, waterproof device that leaks by design).
+- RF-08 = the evidence hierarchy is asymmetric — a weaker source/claim is defeated by stronger empirical evidence (manual vs test results, forecast vs reality, reputation vs behavior).
+- If the contradiction is between what the subject IS and what the subject is CLAIMED TO HAVE, prefer RF-06.
+- If the contradiction is between a WEAKER SOURCE and a STRONGER SOURCE of evidence, prefer RF-08.
+- Example RF-06: "The vegan burger contains ground beef." (definitionally impossible)
+- Example RF-08: "The manual says durable, but stress tests show failure." (source hierarchy)
+
+RF-07a vs RF-06 — rule violation vs impossible property:
+- If the text FIRST states a general rule and THEN claims the rule doesn't apply, prefer RF-07a.
+- RF-06 is for properties that are definitionally impossible INDEPENDENT of any rule.
+- "Eiffel Tower built in 1820" = RF-06 (the date is factually false regardless of any rule)
+- "Car runs without fuel" when preceded by "Engines require fuel" = RF-07a (the rule's fuel condition was violated)
+- The test: remove the general rule from the text. Is the claim STILL impossible? If yes → RF-06. If it only becomes problematic in light of the rule → RF-07a.
+
+RF-01 vs RF-09:
+- RF-01 = the reason is too broad, vague, or general to support the specific conclusion. The failure is about EVIDENCE QUALITY.
+- RF-09 = the stated cause is real and specific, but ANOTHER CAUSE better explains the outcome. The failure is about CAUSAL REDUNDANCY.
+- If the text presents Cause A and then reveals Cause B as the actual explanation, prefer RF-09.
+- If the text simply stretches a weak correlation or tendency into certainty, prefer RF-01.
+- Example RF-09: "He recovered because of the treatment. Actually, his immune system did it." (two real causes, one supersedes)
+- Example RF-01: "He is tall, so he must be good at basketball." (weak correlation → certainty)
+
+RF-01 vs RF-09 on causal claims:
+- If the argument claims that A caused B, but the real issue is that B is explained by a DIFFERENT cause (temporal coincidence, confounding variable, superstition), prefer RF-09.
+- If the argument claims "because X happened before Y, X caused Y" — this is post-hoc reasoning and the primary failure is RF-09 (the real cause is different), NOT RF-01.
+- RF-01 is ONLY correct for causal claims when the argument stretches a genuine but weak CORRELATION into certainty. If the cause-effect relationship is fabricated based on temporal sequence alone, use RF-09.
+- Example RF-09: "I wore my lucky shirt and passed the test, so the shirt caused it." (temporal coincidence — alternative causes explain the result)
+- Example RF-09: "Crime dropped after the mayor took office, so the mayor reduced crime." (confounding variables — other factors explain the drop)
+- Example RF-01: "People who exercise tend to be healthier, so this person who exercises is definitely healthy." (weak correlation → certainty)
+
+RF-01 vs RF-03 on circular arguments:
+- If the reason is essentially the SAME CLAIM as the conclusion restated in different words, prefer RF-03.
+- Circular reasoning = "X is true because X (rephrased)." The reason doesn't support the conclusion — it IS the conclusion. This is RF-03, not RF-01.
+- RF-01 is about the reason being too BROAD. RF-03 is about the reason being logically EMPTY (it restates what it claims to prove).
+- Example RF-03: "The iPhone is the best phone because Apple makes the best phones." (the reason restates the conclusion)
+- Example RF-03: "This is a good movie because it's well made." (the reason is semantically identical to the conclusion)
+- Example RF-03: "God exists because the Bible says so, and the Bible is true because it's the word of God." (circular dependency)
+- Example RF-01: "Most people like this movie, so it must be good." (popularity is a weak/broad reason, but it's a DIFFERENT claim from the conclusion)
+
+RF-01 vs RF-07a on either/or arguments:
+- If the argument presents only two options when more options exist, prefer RF-07a.
+- A false dilemma is a MISSING QUALIFIER case: the implicit rule "these are the only options" lacks the qualifier "actually, other options also exist."
+- RF-01 would mean the reason is too broad. But in a false dilemma, the reason isn't broad — it's RESTRICTIVE (excluding valid options).
+- Example RF-07a: "Either we ban all cars or pollution will destroy us." (missing qualifier: other pollution reduction methods exist)
+- Example RF-07a: "You're either with us or against us." (missing qualifier: neutral positions exist)
+- Look for: "either...or", "must choose between", "only two options", "if you don't X then Y"
+
+RF-01 vs RF-08 on authority/credibility arguments:
+- If someone's authority, fame, or credentials are used as the PRIMARY reason for a claim, and the authority is in a DIFFERENT DOMAIN than the claim, prefer RF-08.
+- The authority/fame is a WEAKER source of evidence than actual evidence would be. This is an evidence hierarchy issue (RF-08), not an overgeneralization (RF-01).
+- RF-01 would mean the reason is too broad. But "Michael Jordan endorses this product" isn't too broad — it's the WRONG TYPE of evidence (celebrity vs. product testing).
+- Example RF-08: "A famous actor supports this medical treatment, so it must work." (celebrity endorsement is weaker evidence than clinical trials)
+- Example RF-01: "Many people like this treatment, so it probably works." (popularity is a broad reason stretched to certainty)
+- However, if someone says "because I said so" or "because I'm the authority," this is RF-01 (bare authority claim with no evidence hierarchy to evaluate).
+
+RF-01 vs RF-06 on straw man / distorted arguments:
+- If the argument MISREPRESENTS or DISTORTS someone's position and then attacks the distortion, prefer RF-06.
+- The distortion attributes a FALSE PROPERTY (the exaggerated/distorted position) to the person. The person didn't actually hold that position — a false claim is attributed to them.
+- RF-01 would mean the reason is too broad. But in a straw man, the reason isn't broad — it's FABRICATED (the opponent's position is misrepresented).
+- Example RF-06: "Senator Jones says we should reduce military spending. So he wants to leave America completely defenseless!" (false property: wanting to reduce spending ≠ wanting zero defense)
+- Example RF-06: "She thinks we should consider vegetarian options in the cafeteria. So she wants to ban all meat and force everyone to be vegan!" (false property: considering options ≠ banning everything)
+
+RF-02 critical distinction — committing vs discussing:
+- Flag RF-02 ONLY when the argument ITSELF generalizes from one case: "My friend did X and succeeded, so everyone should do X."
+- Do NOT flag RF-02 when the model DISCUSSES the limitation of single-case reasoning: "One study found X, but this alone is insufficient evidence."
+- Do NOT flag RF-02 when the model uses a single example as ILLUSTRATION while acknowledging broader evidence is needed.
+- Do NOT flag RF-02 when the model says "a single data point cannot support..." — this is CORRECT reasoning about singletons, not a singleton fallacy.
+- The test: Is the model RELYING on the singleton as proof? Or is the model NOTING that the singleton is insufficient? Only the first is RF-02.
+
+RF-10 vs RF-03:
+- Use RF-10 when the statement is self-defeating because it is being asserted, written, spoken, read, processed, or understood right now.
+- Use RF-03 when the contradiction is merely between content claims and does not depend on the speech act.
+- If the sentence says things like "I am not writing this", "this text is invisible", "ignore this instruction", "I am not speaking", or "every generalization is false" while the current act of writing/reading/speaking/generalizing makes it false, choose RF-10.
+
+RF-11 vs RF-07a vs RF-07b:
+- RF-07a = the rule is too unqualified in general.
+- RF-07b = the subject has a specific disabling condition or context that makes the rule fail in this case.
+- RF-11 = the mechanism or chain is explicitly interrupted after a trigger or step occurs.
+- Prefer RF-11 when the text shows a started process plus a blocker: seed planted but no water, payment made but stock empty, input given but bug prevents output, study done but dropped out before degree, ticket bought but venue full, application submitted but no interview path opens.
+- RF-11 is about interrupted transmission or completion of the mechanism, not merely a missing abstract qualifier.
+- Do NOT use RF-11 for simple subject-level blocker cases like broken wings, jammed locks, immune compromise, allergies, insulation, dry conditions, or missing material qualifiers unless the text clearly describes a multi-stage process whose downstream completion is interrupted.
+- If the blocker just means the rule does not apply to this subject/object right now, prefer RF-07b.
+- If the text is really about ignored conditions such as purity, pressure, insulation, dry environment, or similar omitted qualifiers, prefer RF-07a.
+- KEY TEST for RF-07b vs RF-11: Ask "Is the blocker a condition OF THE SUBJECT/OBJECT that prevents the rule from applying?" If yes → RF-07b. Ask "Is the blocker an EVENT that interrupts a MULTI-STAGE PROCESS after it has started?" If yes → RF-11.
+- RF-07b blockers are typically: body condition, device damage, environmental state, subject property (boiled seed, jammed lock, overcast sky, immune compromise, broken wings, allergies).
+- RF-11 blockers are typically: missing resources needed for NEXT STAGE (no water for planted seeds to grow, no stock for paid order to deliver, no interview slot for submitted application to proceed).
+- If in doubt between RF-07b and RF-11, prefer RF-07b unless the text clearly describes multiple sequential stages where a later stage fails.
+
+RF-07a vs RF-07b refined test:
+- If the text ends with or contains "[X] ignored" or "[X] not considered" where X is a GENERAL physical/chemical/logical/legal condition (dry environment, insulation, jurisdiction, purity, pressure, temperature, humidity), prefer RF-07a. These are MISSING QUALIFIERS on the rule itself.
+- If the text describes a SPECIFIC CONDITION OF THIS SUBJECT (broken wings, jammed lock, immune compromise, body rejection, dead battery, boiled seed), prefer RF-07b. These are SUBJECT-LEVEL BLOCKERS.
+- The word "ignored" at the end of a benchmark case is a strong signal for RF-07a.
+
+RF-07a vs RF-07b — the practitioner test:
+- Ask: "Would a competent practitioner ALWAYS check for this condition, regardless of the specific case?"
+- If YES → RF-07a. The condition is a GENERAL QUALIFIER that applies to all cases of this rule.
+- If NO → RF-07b. The condition is UNIQUE to this particular subject and wouldn't normally be checked.
+
+Examples of GENERAL qualifiers (RF-07a):
+  - Drug interactions and allergies (any doctor checks these for ANY patient)
+  - Weight limits and structural age (any engineer checks these for ANY bridge)
+  - Soil conditions and water availability (any farmer checks these for ANY planting)
+  - Immune status (any doctor checks this for ANY vaccination)
+  - Oxygen availability (any physicist checks this for ANY combustion)
+
+Examples of SPECIFIC blockers (RF-07b):
+  - "This bird has a broken wing" (most birds don't have broken wings — unique to this one)
+  - "This student has dyslexia" (a specific condition that blocks a general reading rule for THIS student)
+  - "This bridge was damaged in the earthquake" (a specific event that happened to THIS bridge)
+
+KEY SIGNAL: If the text says "regardless of [condition]" or "despite [condition]" and the condition is something that should ALWAYS be considered for this type of rule, prefer RF-07a. The word "regardless" signals that a necessary qualifier is being deliberately ignored.
+
+KEY SIGNAL: If the condition mentioned is a PROFESSIONAL STANDARD (drug interactions, structural limits, environmental requirements), it is almost always RF-07a — professionals are expected to check these for every case.
+
+Decision hierarchy:
+1. Check for non-existent entity/source/study → RF-05 (CHECK THIS EARLY — fabricated sources invalidate everything)
+2. Check for direct content contradiction → RF-03
+3. Check for counterbalanced evidence with equal force on both sides → RF-04
+4. Check if the reason is unique to one case → RF-02
+5. Check whether stronger evidence defeats a weaker source/claim → RF-08
+6. Check whether the statement undermines itself by being asserted/read/performed → RF-10
+7. Check whether a causal chain is explicitly blocked mid-process → RF-11
+8. Check if a general rule lacks qualifiers → RF-07a
+9. Check if specific subject context blocks the rule → RF-07b
+10. Check for false property attribution (entity exists, property false) → RF-06
+11. Check for alternative cause → RF-09
+12. Otherwise → RF-01
+
+Few-shot guidance:
+Example A:
+Input: "My computer alone shows this bug, so the software must be correct."
+Output: {{"rf_code": "RF-02", "confidence": 0.93, "diagnosis": "The reason is unique to one machine and cannot support the broader inference."}}
+
+Example B:
+Input: "My intuition says this stock will rise, so it must rise."
+Output: {{"rf_code": "RF-02", "confidence": 0.92, "diagnosis": "Private intuition is a singleton reason and cannot justify the conclusion."}}
+
+Example C:
+Input: "Only the king holds the scepter, so his rule must be legitimate."
+Output: {{"rf_code": "RF-02", "confidence": 0.91, "diagnosis": "Exclusive possession is a singleton reason and does not establish legitimacy."}}
+
+Example D:
+Input: "Birds fly, so penguins must fly."
+Output: {{"rf_code": "RF-07a", "confidence": 0.94, "diagnosis": "The rule is applied without the necessary species qualifier and exception."}}
+
+Example E:
+Input: "Water freezes at 0 degrees, so this solution will freeze overnight."
+Output: {{"rf_code": "RF-07a", "confidence": 0.9, "diagnosis": "The rule is used without necessary qualifiers such as purity, pressure, and composition."}}
+
+Example F:
+Input: "Birds fly, therefore this bird with broken wings will fly."
+Output: {{"rf_code": "RF-07b", "confidence": 0.95, "diagnosis": "The rule is normally valid, but the specific context blocks it in this case."}}
+
+Example G:
+Input: "Keys open locks, therefore this key will open the door, but the lock is jammed."
+Output: {{"rf_code": "RF-07b", "confidence": 0.94, "diagnosis": "A contextual blocker prevents the normally valid rule from applying."}}
+
+Example H:
+Input: "Vaccines create immunity, but this person's immune system is compromised, so the vaccine will work normally."
+Output: {{"rf_code": "RF-07b", "confidence": 0.93, "diagnosis": "The specific health context blocks the usual rule from applying."}}
+
+Example I:
+Input: "High price means the food must be excellent."
+Output: {{"rf_code": "RF-01", "confidence": 0.92, "diagnosis": "A broad tendency is overgeneralized into a certain conclusion about this case."}}
+
+Example J:
+Input: "This metal floats because it is iron."
+Output: {{"rf_code": "RF-06", "confidence": 0.94, "diagnosis": "A false property is attributed to the subject."}}
+
+Example K:
+Input: "The moon emits its own light."
+Output: {{"rf_code": "RF-06", "confidence": 0.94, "diagnosis": "A false property is attributed to the moon."}}
+
+Example L:
+Input: "I am certain that certainty is impossible."
+Output: {{"rf_code": "RF-10", "confidence": 0.95, "diagnosis": "The assertion undermines itself by being asserted with certainty."}}
+
+Example M:
+Input: "No statement can be trusted."
+Output: {{"rf_code": "RF-10", "confidence": 0.91, "diagnosis": "The statement undermines its own trustworthiness by asserting itself."}}
+
+Example N:
+Input: "The manual claims high durability under stress. Stress tests show immediate failure. Data overrides claims."
+Output: {{"rf_code": "RF-08", "confidence": 0.96, "diagnosis": "Stress-test evidence is stronger than the manual claim and defeats it."}}
+
+Example O:
+Input: "The label says organic certified officially. Lab tests show pesticides present. Tests override labels."
+Output: {{"rf_code": "RF-08", "confidence": 0.96, "diagnosis": "Lab evidence outranks the label claim and defeats it."}}
+
+Example P:
+Input: "The forecast predicted sunny weather today. It rained all day. Reality overrides forecasts."
+Output: {{"rf_code": "RF-08", "confidence": 0.94, "diagnosis": "Direct observed reality defeats the weaker forecast claim."}}
+
+Example Q:
+Input: "His reputation is sterling professionally. Recent actions are criminal. Behavior overrides reputation."
+Output: {{"rf_code": "RF-08", "confidence": 0.93, "diagnosis": "Observed behavior is stronger evidence than reputation and defeats the claim."}}
+
+Example R:
+Input: "I am not writing this sentence currently. The text is appearing now. Action contradicts claim."
+Output: {{"rf_code": "RF-10", "confidence": 0.97, "diagnosis": "The act of writing the sentence defeats the sentence's content."}}
+
+Example S:
+Input: "This text is completely invisible visually. You are reading it now. Perception contradicts claim."
+Output: {{"rf_code": "RF-10", "confidence": 0.96, "diagnosis": "The text is being perceived while claiming to be unperceivable, so the assertion defeats itself."}}
+
+Example T:
+Input: "Please ignore this instruction entirely. You are reading it now. Attention contradicts claim."
+Output: {{"rf_code": "RF-10", "confidence": 0.95, "diagnosis": "The instruction depends on being attended to, so the speech act undermines itself."}}
+
+Example U:
+Input: "Every generalization is incorrect universally. This is a generalization. Logic contradicts claim."
+Output: {{"rf_code": "RF-10", "confidence": 0.95, "diagnosis": "The statement is itself the kind of generalization it condemns, so it is self-refuting."}}
+
+Example V:
+Input: "Seeds sprout when planted properly. These were planted yesterday. None grew. Water was missing."
+Output: {{"rf_code": "RF-11", "confidence": 0.95, "diagnosis": "The causal chain from planting to sprouting is blocked by the missing water."}}
+
+Example X:
+Input: "Payment secures delivery of goods. Payment made yesterday. No delivery. Stock is empty."
+Output: {{"rf_code": "RF-11", "confidence": 0.95, "diagnosis": "Payment initiated the process, but the delivery chain is blocked by missing stock."}}
+
+Example Z:
+Input: "Tickets grant entry to events. Ticket bought online. No entry. Venue is full."
+Output: {{"rf_code": "RF-11", "confidence": 0.94, "diagnosis": "The normal entry process is blocked by venue capacity, preventing the downstream result."}}
+
+Contrastive non-target examples:
+Example AA:
+Input: "The device is waterproof under all conditions. Yet it broke in the rain yesterday. The claim conflicts with observation."
+Output: {{"rf_code": "RF-03", "confidence": 0.92, "diagnosis": "The content of the claim is directly contradicted by the observed outcome, so the reason supports the negation."}}
+
+Example AB:
+Input: "Clinical trials show the drug works well. Real-world usage shows poor results. The efficacy is contested."
+Output: {{"rf_code": "RF-04", "confidence": 0.86, "diagnosis": "The issue is counterbalanced by competing evidence of comparable force rather than decisively defeated by one side."}}
+
+Example AC:
+Input: "The silent alarm made a loud noise. It woke the baby upstairs. Silent alarms do not make noise."
+Output: {{"rf_code": "RF-06", "confidence": 0.95, "diagnosis": "A false property is attributed to the subject: a silent alarm cannot be loud in the stated way."}}
+
+Example AD:
+Input: "Users of the deleted app are complaining online. They want features restored immediately. There are no active users."
+Output: {{"rf_code": "RF-05", "confidence": 0.94, "diagnosis": "The argument relies on a subject class treated as active even though the relevant locus no longer exists in the claimed way."}}
+
+Example AE:
+Input: "Keys open locks designed for them. This is the correct key. The door stays shut. Lock is jammed."
+Output: {{"rf_code": "RF-07b", "confidence": 0.94, "diagnosis": "The rule is normally valid, but a specific contextual blocker in this case prevents it from applying to this subject."}}
+
+Example AE2:
+Input: "Medicine cures illness typically. He took the pill. He remained sick. Body rejects it."
+Output: {{"rf_code": "RF-07b", "confidence": 0.94, "diagnosis": "The rule is normally valid, but this specific subject's body rejection prevents the medicine from working — a subject-level blocker, not an interrupted process."}}
+
+Example AE3:
+Input: "Solar panels make power from light. It is daytime now. No power generated. Sky is overcast."
+Output: {{"rf_code": "RF-07b", "confidence": 0.93, "diagnosis": "The rule is normally valid, but overcast sky is a contextual condition of this situation that prevents the rule from applying here."}}
+
+Example AE4:
+Input: "Seeds grow in soil normally. This seed was planted. It did not sprout. Seed was boiled."
+Output: {{"rf_code": "RF-07b", "confidence": 0.94, "diagnosis": "The rule is normally valid, but this specific seed is dead from boiling — a subject-level condition, not an interrupted multi-stage process."}}
+
+Example AE5:
+Input: "Exercise improves fitness generally. She exercises daily. No improvement seen. Underlying condition present."
+Output: {{"rf_code": "RF-07b", "confidence": 0.93, "diagnosis": "The rule is normally valid, but this person's specific medical condition prevents the expected outcome — a subject-level blocker."}}
+
+Example AF:
+Input: "Metal conducts electricity efficiently generally. This wire is metal internally. It will conduct current. Insulation is ignored."
+Output: {{"rf_code": "RF-07a", "confidence": 0.93, "diagnosis": "The rule is used without the needed qualifier about insulating conditions, so it is a missing-qualifier case rather than a blocked causal chain."}}
+
+Example AG:
+Input: "Sales dropped last quarter. Price high. Competitor launched. Competition caused it."
+Output: {{"rf_code": "RF-09", "confidence": 0.93, "diagnosis": "The stated cause (high price) is real but the actual explanation for the drop is the competitor launch — an alternative cause better explains the outcome."}}
+
+Example AH:
+Input: "Engine failed yesterday. Old age. Neglect. Neglect caused it."
+Output: {{"rf_code": "RF-09", "confidence": 0.92, "diagnosis": "The stated cause (old age) exists but the real cause of failure is neglect — the outcome is explained by a different cause."}}
+
+Example AI:
+Input: "She passed the exam. She is smart. She cheated. Cheating caused it."
+Output: {{"rf_code": "RF-09", "confidence": 0.94, "diagnosis": "Being smart is real but causally redundant — cheating is the actual cause of passing, making the stated reason unnecessary."}}
+
+Example AJ:
+Input: "The patient recovered quickly. Medicine was given. Immune system was strong already. Natural immunity caused it."
+Output: {{"rf_code": "RF-09", "confidence": 0.91, "diagnosis": "The medicine was administered but natural immunity independently explains the recovery — the stated cause is causally redundant."}}
+
+Example AK:
+Input: "This rare coin sold for millions at auction once. All coins of this type are valuable. The market value is universal."
+Output: {{"rf_code": "RF-02", "confidence": 0.92, "diagnosis": "The reason is based on a single auction event and cannot support a universal claim about all coins of this type — a singleton generalized to all."}}
+
+Example AL:
+Input: "I found a four-leaf clover today unexpectedly. I will have luck all year long. The finding guarantees future fortune."
+Output: {{"rf_code": "RF-02", "confidence": 0.91, "diagnosis": "A single unique event is being used to justify a year-long universal prediction — the reason is a singleton."}}
+
+Example AO (NOT RF-02 — model correctly discusses singleton limitation):
+Input: "One clinical trial showed benefit. However, a single study is insufficient to establish efficacy. More research across diverse populations is needed before any recommendation."
+Output: {{"rf_code": "NONE", "confidence": 0.90, "diagnosis": "The text correctly identifies the singleton limitation and does not generalize from it. This is sound reasoning, not a singleton fallacy."}}
+
+Example AP (NOT RF-02 — model uses example as illustration, not proof):
+Input: "Consider the case of Company X which succeeded after pivoting. While this single example is illustrative, the broader research on startup pivots shows mixed results depending on timing, market conditions, and execution quality."
+Output: {{"rf_code": "NONE", "confidence": 0.88, "diagnosis": "The single case is used as illustration while the argument relies on broader research for its conclusion. This is not a singleton fallacy."}}
+
+Example AM:
+Input: "The vegan burger contains ground beef patties. It is marketed as plant-based. The ingredient is false."
+Output: {{"rf_code": "RF-06", "confidence": 0.95, "diagnosis": "A vegan product cannot by definition contain beef — the property is definitionally impossible, not merely defeated by evidence."}}
+
+Example AN:
+Input: "The sugar-free soda lists sucrose in ingredients. It claims zero sugar content. The label is misleading."
+Output: {{"rf_code": "RF-06", "confidence": 0.94, "diagnosis": "Sugar-free cannot contain sucrose by definition — this is a false property attribution, not an evidence hierarchy."}}
+
+Example AQ (RF-09 — post-hoc causal fallacy):
+Input: "Every time I wash my car it rains the next day. My car washing must be causing the rain."
+Output: {{"rf_code": "RF-09", "confidence": 0.93, "diagnosis": "The car washing is temporally coincident but causally irrelevant — weather patterns independently explain the rain."}}
+
+Example AR (RF-09 — confounding variables):
+Input: "I started taking vitamins last month and haven't gotten sick. The vitamins are protecting me from illness."
+Output: {{"rf_code": "RF-09", "confidence": 0.92, "diagnosis": "The claimed cause (vitamins) is causally redundant — natural immune function and seasonal variation independently explain not getting sick."}}
+
+Example AS (RF-09 — post-hoc with confounders):
+Input: "Since the new teacher started, test scores have gone up. The new teacher must be responsible for the improvement."
+Output: {{"rf_code": "RF-09", "confidence": 0.91, "diagnosis": "The improvement may be explained by other factors (curriculum changes, student maturation, different test difficulty) — the stated cause is potentially redundant."}}
+
+Example AT (RF-03 — circular reasoning):
+Input: "America is the best country to live in because it's better than every other country."
+Output: {{"rf_code": "RF-03", "confidence": 0.94, "diagnosis": "The reason restates the conclusion in different words — being 'better than every other country' is just another way of saying 'best country.' This is circular reasoning."}}
+
+Example AU (RF-03 — circular causality):
+Input: "Violent video games cause teens to be violent, because violent teens play violent video games."
+Output: {{"rf_code": "RF-03", "confidence": 0.93, "diagnosis": "The argument is circular — the conclusion (games cause violence) is supported by a restatement of itself (violent teens play games). The reason does not independently support the conclusion."}}
+
+Example AV (RF-07a — false dilemma):
+Input: "We either ban all plastic or the oceans will die. There is no middle ground."
+Output: {{"rf_code": "RF-07a", "confidence": 0.92, "diagnosis": "The argument presents only two extreme options while ignoring qualifiers like recycling, reduction, biodegradable alternatives — the rule 'these are the only options' lacks necessary conditions."}}
+
+Example AW (RF-07a — false dilemma with implicit threat):
+Input: "If you don't support this policy, you must not care about children's safety."
+Output: {{"rf_code": "RF-07a", "confidence": 0.91, "diagnosis": "The argument falsely restricts the options to support-or-indifference, ignoring the qualifier that one can care about safety while opposing this specific policy approach."}}
+
+Example AX (RF-08 — misplaced authority):
+Input: "A famous basketball player wears this brand of underwear in commercials. You should wear it too because he endorses it."
+Output: {{"rf_code": "RF-08", "confidence": 0.91, "diagnosis": "Celebrity endorsement is a weaker source of evidence than product testing or personal fit — the fame-based claim is defeated by the lack of relevant expertise."}}
+
+Example AY (RF-06 — straw man distortion):
+Input: "My opponent says we should reform the healthcare system. Clearly, he wants to destroy private healthcare and create a socialist nightmare."
+Output: {{"rf_code": "RF-06", "confidence": 0.92, "diagnosis": "A false, exaggerated property is attributed to the opponent — wanting reform does not equal wanting destruction. The distorted position is not what was actually claimed."}}
+
+Example AZ (RF-03 — content contradiction):
+Input: "The building is certified as energy efficient. The HVAC runs at maximum capacity 24/7 and all windows are left open year-round."
+Output: {{"rf_code": "RF-03", "confidence": 0.94, "diagnosis": "The stated reason (HVAC at max, windows open) directly contradicts the conclusion (energy efficient). This is a content contradiction, not a source hierarchy."}}
+
+Example BA (RF-03 — content contradiction):
+Input: "The diet plan promises rapid weight loss through increased caloric intake. Users report gaining weight following the instructions exactly."
+Output: {{"rf_code": "RF-03", "confidence": 0.93, "diagnosis": "Increased caloric intake is the biological opposite of what causes weight loss. The reason logically entails the negation of the conclusion."}}
+
+Example BB (RF-03 — content contradiction):
+Input: "The company promotes work-life balance as its core value. Employees are required to work 80-hour weeks with no vacation time."
+Output: {{"rf_code": "RF-03", "confidence": 0.95, "diagnosis": "Mandatory 80-hour weeks with no vacation is the logical opposite of work-life balance. The evidence contradicts the claim by content, not by source authority."}}
+
+Example BC (RF-04 — counterbalanced evidence):
+Input: "Cryptocurrency offers potential for high returns but comes with significant volatility. Traditional investments are more stable but may not keep pace with inflation."
+Output: {{"rf_code": "RF-04", "confidence": 0.88, "diagnosis": "The argument presents equally strong reasons for and against cryptocurrency vs traditional investment without resolving which is better. The counter-evidence has comparable force — this is a counterbalanced inference."}}
+
+Example BD (RF-04 — counterbalanced evidence):
+Input: "Gene editing could eliminate genetic diseases but raises ethical concerns about designer babies. The technology offers hope but requires careful regulation."
+Output: {{"rf_code": "RF-04", "confidence": 0.87, "diagnosis": "The argument presents benefits and concerns of equal weight without reaching a resolution. The counter-reason (ethical concerns) has comparable force to the stated reason (disease elimination)."}}
+
+Example BE (RF-04 — counterbalanced evidence):
+Input: "Automation increases efficiency but may displace workers. The cost savings are significant but retraining programs require investment."
+Output: {{"rf_code": "RF-04", "confidence": 0.86, "diagnosis": "Benefits and downsides are presented as equally weighted with no resolution. This is satpratipaksha — the counter-evidence matches the evidence in strength."}}
+
+Example BF (RF-05 — fabricated entity):
+Input: "Professor James Chen's 2025 MIT longitudinal study definitively proved that telepathy can be developed through daily meditation."
+Output: {{"rf_code": "RF-05", "confidence": 0.94, "diagnosis": "The study and researcher appear fabricated — no verifiable Professor James Chen conducted such research at MIT. The primary failure is the non-existent locus, not the impossible claim about telepathy."}}
+
+Example BG (RF-05 — fabricated entity):
+Input: "The Global Institute of Psychic Research published peer-reviewed findings that humans can predict lottery numbers through concentrated meditation."
+Output: {{"rf_code": "RF-05", "confidence": 0.93, "diagnosis": "The Global Institute of Psychic Research is a fabricated institution. The argument's foundation is a non-existent entity, making the locus of the inference invalid."}}
+
+Example BH (RF-05 — fabricated entity):
+Input: "According to Dr. Sarah Williams' groundbreaking 2024 Oxford study, human lifespan can be extended to 200 years through specific breathing exercises."
+Output: {{"rf_code": "RF-05", "confidence": 0.92, "diagnosis": "The researcher and study appear fabricated. The primary failure is the non-existent source — even if the claim were plausible, the evidence base doesn't exist."}}
+
+Example BI (RF-07a — missing general qualifier, practitioner standard):
+Input: "Vaccines provide immunity to diseases. This immunocompromised patient will develop full immunity from the standard vaccine dose."
+Output: {{"rf_code": "RF-07a", "confidence": 0.93, "diagnosis": "The rule 'vaccines provide immunity' requires the qualifier 'in patients with functional immune systems.' Immunocompromised status is a general medical qualifier that should ALWAYS be checked — it is not unique to this patient. A competent practitioner would check immune status for ANY vaccination."}}
+
+Example BJ (RF-07a — missing general qualifier, professional standard):
+Input: "Painkillers reduce pain sensation. This painkiller will work on the patient regardless of their specific drug interactions or allergies."
+Output: {{"rf_code": "RF-07a", "confidence": 0.92, "diagnosis": "Drug interactions and allergies are general medical qualifiers that apply to ALL patients taking ANY medication. The word 'regardless' signals that a necessary qualifier is being deliberately omitted. This is a missing-qualifier failure, not a subject-specific blocker."}}
+
+Example BK (RF-07a — missing physical qualifier, not a contextual blocker):
+Input: "Fire requires oxygen to burn. This fire will continue burning in the vacuum chamber without any oxygen supply."
+Output: {{"rf_code": "RF-07a", "confidence": 0.94, "diagnosis": "Oxygen availability is a fundamental physical qualifier for combustion that applies to ALL fire. A vacuum chamber does not create a special exception — it removes the general condition required by the rule. This is a missing qualifier on the rule itself, not a subject-specific blocker."}}
+
+Example BL (RF-07a — rule's condition violated, not false property):
+Input: "Gasoline engines require fuel to operate. This car will run indefinitely without ever refueling."
+Output: {{"rf_code": "RF-07a", "confidence": 0.93, "diagnosis": "The text states the rule (engines require fuel) and then violates its condition (running without fuel). The missing qualifier is the fuel requirement. This is not a false property — the impossibility derives from ignoring the rule's condition, not from attributing an impossible property independent of any rule."}}
+
+Input text:
+{text}
+
+Extracted reasoning structure:
+Subject: {subject}
+Reason: {reason}
+Conclusion: {conclusion}
+
+Instructions:
+- Choose exactly one label from: RF-01, RF-02, RF-03, RF-04, RF-05, RF-06, RF-07a, RF-07b, RF-08, RF-09, RF-10, RF-11, NONE.
+- Use the full input text first; do not over-trust the extracted structure if the text clearly indicates a stronger-evidence, self-refutation, or blocked-chain pattern.
+- Prefer RF-02 over RF-01 ONLY when the argument's OWN reasoning relies on a single unique case, person, or event as its sole evidence base. Do NOT flag RF-02 when the text discusses, warns about, or correctly identifies singleton reasoning as a limitation.
+- Do NOT choose RF-01 if the argument is really a missing qualifier case; prefer RF-07a.
+- If the argument goes from weak tendency/correlation/reputation/trend to certainty, prefer RF-01 over RF-07a.
+- Do NOT choose RF-07a if the rule is valid in general but a specific contextual blocker prevents it here; prefer RF-07b.
+- Do NOT choose RF-03 or RF-04 when stronger empirical evidence decisively overrides a weaker claim/source; prefer RF-08.
+- If the conflict is just direct content contradiction rather than source hierarchy, prefer RF-03 over RF-08.
+- If the evidence remains balanced, contested, or inconclusive, prefer RF-04 over RF-08.
+- Do NOT choose RF-03 when the contradiction depends on the current act of asserting/reading/writing/processing the statement; prefer RF-10.
+- Do NOT choose RF-07a merely because a blocker could be described as a missing qualifier. If the process starts and is then interrupted by an explicit blocker, prefer RF-11.
+- Do NOT choose RF-11 for simple contextual-blocker cases like broken wings, jammed locks, immune compromise, allergies, or insulation; those are usually RF-07b or RF-07a.
+- If a false or impossible property is attributed to the subject, prefer RF-06.
+- If the subject or relevant locus does not exist, prefer RF-05.
+- If the act of asserting the statement undermines the statement itself, prefer RF-10.
+- If stronger evidence or established fact defeats a weaker claim, prefer RF-08.
+- If a causal mechanism is explicitly blocked from completing, prefer RF-11.
+- Return strict JSON only.
+
+Return:
+{{
+  "rf_code": "RF-.. or NONE",
+  "confidence": 0.0,
+  "diagnosis": "brief explanation"
+}}"""
+
+    def _build_taxonomy_prompt(self) -> str:
+        return "\n".join(
+            [
+                "RF-01 — Overly General Reason: a broad reason is used to justify an absolute or universal claim.",
+                "RF-02 — Singleton Reason: the reason applies only to one unique instance, private experience, exclusive access, or single occurrence and cannot support a broader inference.",
+                "RF-03 — Contradictory Reason: the stated reason or evidence supports the negation of the conclusion.",
+                "RF-04 — Counterbalanced Reason: there is equally strong counter-evidence or a comparable opposing reason.",
+                "RF-05 — Nonexistent Subject: the argument relies on a subject, locus, or entity that does not exist.",
+                "RF-06 — False Property Attribution: a property is attributed that the subject cannot have or factually does not have.",
+                "RF-07a — Missing Qualifier: a general rule is applied without necessary conditions, qualifiers, or exceptions.",
+                "RF-07b — Contextual Blocker: a normally valid rule is applied even though a specific contextual blocker prevents it in this case.",
+                "RF-08 — Defeated by Stronger Evidence: stronger evidence or known facts defeat the claim.",
+                "RF-09 — Alternative Cause: the alleged cause is not primary because another cause better explains the outcome.",
+                "RF-10 — Performative Self-Refutation: the act of asserting the claim undermines the claim itself.",
+                "RF-11 — Blocked Causal Chain: the causal mechanism is explicitly interrupted or prevented from completing.",
+            ]
+        )
+
+    def _parse_response(self, response: str) -> Dict[str, Any]:
+        data = self._parse_json_block(response)
+        rf_code = str(data.get("rf_code", "NONE"))
+        if rf_code not in VALID_RF_CODES:
+            rf_code = "NONE"
+
+        try:
+            confidence = float(data.get("confidence", 0.5))
+        except (TypeError, ValueError):
+            confidence = 0.5
+        confidence = max(0.0, min(1.0, confidence))
+
+        diagnosis = str(data.get("diagnosis") or "no reasoning failure detected")
+        return {
+            "rf_code": rf_code,
+            "confidence": confidence,
+            "diagnosis": diagnosis,
+        }
+
+    def _parse_json_block(self, response: str) -> Dict[str, Any]:
+        if not response:
+            return {}
+        try:
+            return json.loads(response)
+        except Exception:
+            pass
+        match = re.search(r"\{.*\}", response, re.DOTALL)
+        if match:
+            try:
+                return json.loads(match.group(0))
+            except Exception:
+                return {}
+        return {}
+
+    def _load_taxonomy(self) -> Dict[str, Any]:
+        taxonomy_path = ROOT_DIR / "hetvabhasa_v2.1.json"
+        if not taxonomy_path.exists():
+            return {"categories": []}
+        return json.loads(taxonomy_path.read_text(encoding="utf-8"))

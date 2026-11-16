@@ -1,0 +1,317 @@
+{
+  "benchmark_name": "NyayaBench Reasoning Prompts v2.0",
+  "version": "2.0.0",
+  "created": "2026-03-08",
+  "description": "50 open-ended reasoning questions that require LLMs to reason independently. Designed to elicit genuine reasoning — not meta-analysis of presented fallacies. Models are scored on whether their OWN reasoning contains structural failures.",
+  "design_principle": "Every prompt asks the model to REASON, not to EVALUATE. The model must produce its own inferential chain, which may or may not contain failures.",
+  "prompt_count": 50,
+  "domain_distribution": {
+    "medicine_health": 10,
+    "technology_engineering": 10,
+    "economics_finance": 10,
+    "science_environment": 10,
+    "law_policy_society": 10
+  },
+  "cases": [
+    {
+      "id": "RP2-001",
+      "prompt": "A 65-year-old diabetic patient with moderate kidney impairment has developed a bacterial throat infection. Recommend an appropriate antibiotic treatment plan and explain your reasoning.",
+      "domain": "medicine_health",
+      "reasoning_target": "Must consider kidney function when selecting antibiotics"
+    },
+    {
+      "id": "RP2-002",
+      "prompt": "A patient's chronic fatigue improved significantly over three months after starting a new supplement. During the same period, they also began sleeping 8 hours nightly and exercising regularly. Their doctor is considering whether to continue prescribing the supplement long-term. Write your clinical recommendation.",
+      "domain": "medicine_health",
+      "reasoning_target": "Must recognize confounding factors in recovery"
+    },
+    {
+      "id": "RP2-003",
+      "prompt": "Design a vaccination schedule for a 2-year-old child whose parents report that the child had a severe allergic reaction requiring hospitalization after their previous vaccine dose. What modifications would you recommend?",
+      "domain": "medicine_health",
+      "reasoning_target": "Must account for specific patient contraindication"
+    },
+    {
+      "id": "RP2-004",
+      "prompt": "A pharmaceutical company reports that their new pain medication reduced pain scores by 30% in a clinical trial of 500 healthy adults aged 25-40. A geriatric care facility wants to use this medication for their elderly patients with multiple comorbidities. Write your recommendation.",
+      "domain": "medicine_health",
+      "reasoning_target": "Must recognize population generalization limits"
+    },
+    {
+      "id": "RP2-005",
+      "prompt": "A patient who has been taking blood thinners for a heart condition now needs dental surgery. The surgeon asks whether the patient should stop the blood thinners before the procedure. Provide your recommendation.",
+      "domain": "medicine_health",
+      "reasoning_target": "Must balance competing medical requirements"
+    },
+    {
+      "id": "RP2-006",
+      "prompt": "A hospital administrator notices that patients in the new wing have better recovery rates than those in the old wing. They propose expanding the new wing design to all facilities. The new wing also has more natural lighting, newer equipment, and higher nurse-to-patient ratios. Write your analysis of this proposal.",
+      "domain": "medicine_health",
+      "reasoning_target": "Must identify confounding variables"
+    },
+    {
+      "id": "RP2-007",
+      "prompt": "A pregnant woman in her first trimester has developed a moderate skin infection. Recommend an appropriate treatment approach considering her condition.",
+      "domain": "medicine_health",
+      "reasoning_target": "Must consider pregnancy contraindications"
+    },
+    {
+      "id": "RP2-008",
+      "prompt": "A nurse reports that a patient's blood pressure normalized after switching from morning to evening medication administration. Recommend whether this timing change should be adopted as standard protocol for all hypertension patients.",
+      "domain": "medicine_health",
+      "reasoning_target": "Must recognize single-case limitation"
+    },
+    {
+      "id": "RP2-009",
+      "prompt": "An immunocompromised cancer patient asks whether they should receive the standard flu vaccine this season. Their oncologist has asked for your recommendation.",
+      "domain": "medicine_health",
+      "reasoning_target": "Must consider immune system limitations"
+    },
+    {
+      "id": "RP2-010",
+      "prompt": "A clinic has observed that patients who use their mobile app for appointment reminders have better medication adherence. They want to make the app mandatory for all patients. Write your recommendation considering that 40% of their patient base is elderly and may have limited smartphone access.",
+      "domain": "medicine_health",
+      "reasoning_target": "Must consider implementation constraints"
+    },
+    {
+      "id": "RP2-011",
+      "prompt": "A client wants to deploy a machine learning model that achieved 99.2% accuracy on a benchmark dataset to diagnose rare skin conditions in a rural clinic with limited internet connectivity. Write your deployment recommendation.",
+      "domain": "technology_engineering",
+      "reasoning_target": "Must consider deployment environment constraints"
+    },
+    {
+      "id": "RP2-012",
+      "prompt": "An engineering team must decide whether to use standard steel beams for a bridge construction in a coastal city with high salt air exposure. Write the material specification recommendation.",
+      "domain": "technology_engineering",
+      "reasoning_target": "Must consider environmental qualifiers"
+    },
+    {
+      "id": "RP2-013",
+      "prompt": "A startup's mobile app crashed on 0.1% of user devices during beta testing. The CEO wants to launch next week to meet investor deadlines. Write your recommendation for the product team.",
+      "domain": "technology_engineering",
+      "reasoning_target": "Must balance competing priorities"
+    },
+    {
+      "id": "RP2-014",
+      "prompt": "A software team found that their new caching system reduced page load times by 80% in their test environment. They want to deploy it to production immediately. Their production environment handles 100x the traffic and has different database configurations. Write your deployment recommendation.",
+      "domain": "technology_engineering",
+      "reasoning_target": "Must recognize test-to-production generalization limits"
+    },
+    {
+      "id": "RP2-015",
+      "prompt": "Design a backup power system for a hospital in an area that experiences occasional 30-minute power outages. The hospital has critical life-support equipment that cannot tolerate any power interruption.",
+      "domain": "technology_engineering",
+      "reasoning_target": "Must account for zero-tolerance requirements"
+    },
+    {
+      "id": "RP2-016",
+      "prompt": "A company's facial recognition system performs with 98% accuracy on their training data. They want to deploy it for employee attendance tracking at their offices in Asia, Europe, and South America. Write your deployment analysis.",
+      "domain": "technology_engineering",
+      "reasoning_target": "Must consider dataset bias and population diversity"
+    },
+    {
+      "id": "RP2-017",
+      "prompt": "An autonomous vehicle performed perfectly in 10,000 hours of testing in Arizona's dry conditions. The manufacturer wants to market it for worldwide use. Write your recommendation for the regulatory submission.",
+      "domain": "technology_engineering",
+      "reasoning_target": "Must recognize limited test conditions"
+    },
+    {
+      "id": "RP2-018",
+      "prompt": "A data center needs to expand its capacity. The facilities team suggests building in a location that offers cheap electricity from a nearby dam. The location is in a flood plain. Write your site selection recommendation.",
+      "domain": "technology_engineering",
+      "reasoning_target": "Must weigh conflicting factors"
+    },
+    {
+      "id": "RP2-019",
+      "prompt": "A smartwatch battery achieved 5-day battery life in laboratory conditions at room temperature. Write product specifications for marketing this claim to consumers who will use the watch in varying temperatures during exercise.",
+      "domain": "technology_engineering",
+      "reasoning_target": "Must account for real-world usage conditions"
+    },
+    {
+      "id": "RP2-020",
+      "prompt": "A company's network security system successfully blocked all intrusion attempts during a security audit. The IT director wants to reduce the security team headcount since the automated system is working. Write your recommendation.",
+      "domain": "technology_engineering",
+      "reasoning_target": "Must recognize testing vs ongoing threat landscape"
+    },
+    {
+      "id": "RP2-021",
+      "prompt": "A city's unemployment rate dropped 3% in the year after a large manufacturing plant opened. The mayor wants to offer similar tax incentives to attract more manufacturing plants. Write an economic analysis to advise the city council.",
+      "domain": "economics_finance",
+      "reasoning_target": "Must recognize causation vs correlation"
+    },
+    {
+      "id": "RP2-022",
+      "prompt": "Your friend made a 40% return on their stock portfolio last year using a momentum trading strategy. They suggest you invest your retirement savings the same way. Write your analysis of this recommendation.",
+      "domain": "economics_finance",
+      "reasoning_target": "Must recognize single-case generalization"
+    },
+    {
+      "id": "RP2-023",
+      "prompt": "A country raised its minimum wage by 15% and saw consumer spending increase the following quarter. A neighboring country is considering the same policy. Write a policy brief for their economic advisors.",
+      "domain": "economics_finance",
+      "reasoning_target": "Must consider confounding economic factors"
+    },
+    {
+      "id": "RP2-024",
+      "prompt": "A financial advisor recommends that all clients in their 30s invest 80% of their portfolio in high-growth tech stocks, citing historical returns. Write your assessment of this recommendation.",
+      "domain": "economics_finance",
+      "reasoning_target": "Must recognize overgeneralization from historical data"
+    },
+    {
+      "id": "RP2-025",
+      "prompt": "A small business owner observes that their revenue increased after they changed their logo. They recommend that struggling businesses in their industry do the same. Write your analysis.",
+      "domain": "economics_finance",
+      "reasoning_target": "Must recognize insufficient sample and confounders"
+    },
+    {
+      "id": "RP2-026",
+      "prompt": "A developing nation wants to replicate Singapore's economic success by implementing similar trade policies. Write a policy analysis considering that the nation has different geographic, demographic, and resource conditions.",
+      "domain": "economics_finance",
+      "reasoning_target": "Must account for contextual differences"
+    },
+    {
+      "id": "RP2-027",
+      "prompt": "An investor notes that gold prices have risen during every recession in the past 50 years. They recommend moving 100% of client assets to gold now that economists predict a recession. Write your investment recommendation.",
+      "domain": "economics_finance",
+      "reasoning_target": "Must recognize overgeneralization and single-strategy risk"
+    },
+    {
+      "id": "RP2-028",
+      "prompt": "A retail chain closed its physical stores and saw profits increase after focusing on e-commerce. Recommend whether other retailers in different market segments should adopt the same strategy.",
+      "domain": "economics_finance",
+      "reasoning_target": "Must consider business model specificity"
+    },
+    {
+      "id": "RP2-029",
+      "prompt": "A startup that raised $50 million in Series A funding failed within two years. An investor uses this example to argue that Series A rounds are too risky. Write your response to this investment thesis.",
+      "domain": "economics_finance",
+      "reasoning_target": "Must recognize single-case fallacy"
+    },
+    {
+      "id": "RP2-030",
+      "prompt": "A bank's algorithm approved loans to customers with credit scores above 700 and had low default rates. Management wants to lower the threshold to 650 to increase loan volume. Write your risk assessment.",
+      "domain": "economics_finance",
+      "reasoning_target": "Must recognize population distribution shifts"
+    },
+    {
+      "id": "RP2-031",
+      "prompt": "A farmer observed that crop yields increased substantially in the same year they started using a new fertilizer. That year also had unusually high rainfall. Write a recommendation for whether neighboring farms should adopt this fertilizer.",
+      "domain": "science_environment",
+      "reasoning_target": "Must recognize confounding variables"
+    },
+    {
+      "id": "RP2-032",
+      "prompt": "A manufacturer claims their new insulation material maintains R-30 thermal resistance under all temperature conditions. Write engineering specifications for using this material in an Arctic research station that experiences -60°C winters.",
+      "domain": "science_environment",
+      "reasoning_target": "Must verify claims against extreme conditions"
+    },
+    {
+      "id": "RP2-033",
+      "prompt": "A solar panel installation performed excellently during summer months in California. The installer recommends the same configuration for a home in Seattle. Write your recommendation for the Seattle installation.",
+      "domain": "science_environment",
+      "reasoning_target": "Must account for geographic/climate differences"
+    },
+    {
+      "id": "RP2-034",
+      "prompt": "A conservation group observed that a endangered species population increased after predators were removed from one reserve. They propose removing predators from all reserves where this species lives. Write your ecological recommendation.",
+      "domain": "science_environment",
+      "reasoning_target": "Must consider ecosystem complexity"
+    },
+    {
+      "id": "RP2-035",
+      "prompt": "A laboratory experiment showed that a new biodegradable plastic breaks down within 6 months under controlled conditions. A company wants to market it as an ocean-safe alternative. Write your product claim assessment.",
+      "domain": "science_environment",
+      "reasoning_target": "Must recognize lab vs real-world conditions"
+    },
+    {
+      "id": "RP2-036",
+      "prompt": "A city planted 10,000 trees and saw average summer temperatures drop by 2°C the following year. A neighboring city wants to plant the same number of trees expecting similar results. Write your climate mitigation recommendation.",
+      "domain": "science_environment",
+      "reasoning_target": "Must consider multiple factors in temperature change"
+    },
+    {
+      "id": "RP2-037",
+      "prompt": "An electric vehicle achieved a range of 400 miles in manufacturer testing conducted at 70°F. Write the range specification that should be communicated to customers in Minnesota who will drive in winter conditions.",
+      "domain": "science_environment",
+      "reasoning_target": "Must account for temperature effects on batteries"
+    },
+    {
+      "id": "RP2-038",
+      "prompt": "A wind farm proposal shows excellent wind speed data from measurements taken during autumn. The developer wants to proceed with financing based on these projections. Write your energy production forecast recommendation.",
+      "domain": "science_environment",
+      "reasoning_target": "Must recognize seasonal variation"
+    },
+    {
+      "id": "RP2-039",
+      "prompt": "A drought-resistant crop variety performed well in trial plots in Arizona. Agricultural advisors recommend introducing it to drought-affected regions in Africa. Write your crop introduction recommendation.",
+      "domain": "science_environment",
+      "reasoning_target": "Must consider soil, climate, and agricultural context differences"
+    },
+    {
+      "id": "RP2-040",
+      "prompt": "A chemical that showed no toxicity in laboratory rat studies will be used in consumer products. The manufacturer wants to label it as completely safe for human use. Write your safety labeling recommendation.",
+      "domain": "science_environment",
+      "reasoning_target": "Must recognize species and dosage extrapolation limits"
+    },
+    {
+      "id": "RP2-041",
+      "prompt": "A country legalized recreational cannabis and saw a 15% drop in violent crime the following year. A neighboring country is debating similar legislation. Write a policy analysis for their parliament.",
+      "domain": "law_policy_society",
+      "reasoning_target": "Must recognize correlation vs causation in policy"
+    },
+    {
+      "id": "RP2-042",
+      "prompt": "A school district found that students who used laptops in class had test scores 10% lower than those who did not. The superintendent proposes banning all technology from classrooms. Write your policy recommendation.",
+      "domain": "law_policy_society",
+      "reasoning_target": "Must consider selection bias and confounders"
+    },
+    {
+      "id": "RP2-043",
+      "prompt": "A city installed speed cameras and saw traffic fatalities drop by 20% the next year. Another city with different road infrastructure and traffic patterns wants to implement the same approach. Write your traffic safety recommendation.",
+      "domain": "law_policy_society",
+      "reasoning_target": "Must account for contextual differences"
+    },
+    {
+      "id": "RP2-044",
+      "prompt": "A company's four-day work week pilot showed increased productivity among volunteer participants. Leadership wants to mandate four-day weeks for all 5,000 employees. Write your HR policy recommendation.",
+      "domain": "law_policy_society",
+      "reasoning_target": "Must recognize volunteer bias and scale-up challenges"
+    },
+    {
+      "id": "RP2-045",
+      "prompt": "A prison education program showed reduced recidivism among participants. Budget constraints require cutting one program. Administrators are considering cutting this education program since participants would likely have succeeded anyway. Write your budget recommendation.",
+      "domain": "law_policy_society",
+      "reasoning_target": "Must address selection bias argument"
+    },
+    {
+      "id": "RP2-046",
+      "prompt": "A housing policy that worked successfully in a small Scandinavian country is proposed for implementation in a large diverse nation. Write your policy adaptation recommendation.",
+      "domain": "law_policy_society",
+      "reasoning_target": "Must account for scale and context differences"
+    },
+    {
+      "id": "RP2-047",
+      "prompt": "Research shows that neighborhoods with more police presence have higher arrest rates. A city council member argues this proves police cause crime. Write your analysis of this argument for the council.",
+      "domain": "law_policy_society",
+      "reasoning_target": "Must recognize reverse causation"
+    },
+    {
+      "id": "RP2-048",
+      "prompt": "A universal basic income pilot with 100 participants in a wealthy suburb showed positive results. Advocates want to implement it nationwide. Write your policy scaling recommendation.",
+      "domain": "law_policy_society",
+      "reasoning_target": "Must recognize pilot limitations"
+    },
+    {
+      "id": "RP2-049",
+      "prompt": "A judge gave lenient sentences in cases where defendants showed remorse, and those defendants had lower recidivism rates. Recommend whether this sentencing approach should become policy for all judges.",
+      "domain": "law_policy_society",
+      "reasoning_target": "Must recognize selection effects"
+    },
+    {
+      "id": "RP2-050",
+      "prompt": "A nonprofit's job training program showed that 80% of graduates found employment within a year. The organization wants to expand the program tenfold with government funding. Write your program evaluation recommendation.",
+      "domain": "law_policy_society",
+      "reasoning_target": "Must consider scale-up challenges and comparison groups"
+    }
+  ]
+}

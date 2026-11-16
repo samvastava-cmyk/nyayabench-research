@@ -1,0 +1,276 @@
+{
+ "claude-opus-5-5": {
+  "provider": "anthropic",
+  "n_items": 150,
+  "unparsed": 0,
+  "acc_by_arm": {
+   "N": 1.0,
+   "N2": 1.0,
+   "P": 1.0,
+   "L": 1.0,
+   "S": 1.0,
+   "X": 1.0,
+   "T": 1.0
+  },
+  "pair_acc_all": 1.0,
+  "pair_acc_by_k": {
+   "4": 1.0,
+   "8": 1.0,
+   "12": 1.0
+  },
+  "pair_acc_by_decider": {
+   "authority": 1.0,
+   "specificity": 1.0,
+   "recency": 1.0,
+   "tie": 1.0
+  },
+  "pair_acc_kmax": 1.0,
+  "kmax": 12,
+  "tie_escalation_recall_N": 1.0,
+  "false_escalation_N": 0.0,
+  "lure_rate": {
+   "N": 0.0,
+   "N2": 0.0,
+   "P": 0.0,
+   "L": 0.0,
+   "S": 0.0,
+   "X": 0.0
+  },
+  "lure_rate_ties": {
+   "N": 0.0,
+   "N2": 0.0,
+   "P": 0.0,
+   "L": 0.0,
+   "S": 0.0,
+   "X": 0.0
+  },
+  "effect_vs_N2": {
+   "P": 0.0,
+   "L": 0.0,
+   "S": 0.0,
+   "X": 0.0
+  },
+  "effect_ties_vs_N2": {
+   "P": 0.0,
+   "L": 0.0,
+   "S": 0.0,
+   "X": 0.0
+  },
+  "p_vs_N2": {
+   "P": 1.0,
+   "L": 1.0,
+   "S": 1.0,
+   "X": 1.0
+  }
+ },
+ "deepseek-v4-pro": {
+  "provider": "deepseek",
+  "n_items": 150,
+  "unparsed": 0,
+  "acc_by_arm": {
+   "N": 1.0,
+   "N2": 1.0,
+   "P": 1.0,
+   "L": 1.0,
+   "S": 1.0,
+   "X": 1.0,
+   "T": 1.0
+  },
+  "pair_acc_all": 1.0,
+  "pair_acc_by_k": {
+   "4": 1.0,
+   "8": 1.0,
+   "12": 1.0
+  },
+  "pair_acc_by_decider": {
+   "authority": 1.0,
+   "specificity": 1.0,
+   "recency": 1.0,
+   "tie": 1.0
+  },
+  "pair_acc_kmax": 1.0,
+  "kmax": 12,
+  "tie_escalation_recall_N": 1.0,
+  "false_escalation_N": 0.0,
+  "lure_rate": {
+   "N": 0.0,
+   "N2": 0.0,
+   "P": 0.0,
+   "L": 0.0,
+   "S": 0.0,
+   "X": 0.0
+  },
+  "lure_rate_ties": {
+   "N": 0.0,
+   "N2": 0.0,
+   "P": 0.0,
+   "L": 0.0,
+   "S": 0.0,
+   "X": 0.0
+  },
+  "effect_vs_N2": {
+   "P": 0.0,
+   "L": 0.0,
+   "S": 0.0,
+   "X": 0.0
+  },
+  "effect_ties_vs_N2": {
+   "P": 0.0,
+   "L": 0.0,
+   "S": 0.0,
+   "X": 0.0
+  },
+  "p_vs_N2": {
+   "P": 1.0,
+   "L": 1.0,
+   "S": 1.0,
+   "X": 1.0
+  }
+ },
+ "gpt-4.1": {
+  "provider": "openai",
+  "n_items": 150,
+  "unparsed": 0,
+  "acc_by_arm": {
+   "N": 0.3466666666666667,
+   "N2": 0.4,
+   "P": 0.36,
+   "L": 0.2733333333333333,
+   "S": 0.23333333333333334,
+   "X": 0.26,
+   "T": 0.7266666666666667
+  },
+  "pair_acc_all": 0.22666666666666666,
+  "pair_acc_by_k": {
+   "4": 0.2,
+   "8": 0.14,
+   "12": 0.34
+  },
+  "pair_acc_by_decider": {
+   "authority": 0.4,
+   "specificity": 0.3333333333333333,
+   "recency": 0.2,
+   "tie": 0.1
+  },
+  "pair_acc_kmax": 0.34,
+  "kmax": 12,
+  "tie_escalation_recall_N": 0.11666666666666667,
+  "false_escalation_N": 0.011111111111111112,
+  "lure_rate": {
+   "N": 0.4066666666666667,
+   "N2": 0.35333333333333333,
+   "P": 0.4,
+   "L": 0.58,
+   "S": 0.62,
+   "X": 0.6333333333333333
+  },
+  "lure_rate_ties": {
+   "N": 0.38333333333333336,
+   "N2": 0.4,
+   "P": 0.4166666666666667,
+   "L": 0.6,
+   "S": 0.65,
+   "X": 0.7166666666666667
+  },
+  "effect_vs_N2": {
+   "P": 0.04666666666666669,
+   "L": 0.22666666666666663,
+   "S": 0.26666666666666666,
+   "X": 0.27999999999999997
+  },
+  "effect_ties_vs_N2": {
+   "P": 0.016666666666666663,
+   "L": 0.19999999999999996,
+   "S": 0.25,
+   "X": 0.31666666666666665
+  },
+  "p_vs_N2": {
+   "P": 0.41875418826901556,
+   "L": 3.385685953372075e-06,
+   "S": 1.0325821975243343e-08,
+   "X": 1.0058579844832594e-07
+  }
+ },
+ "gpt-6.1-sol": {
+  "provider": "openai",
+  "n_items": 150,
+  "unparsed": 0,
+  "acc_by_arm": {
+   "N": 1.0,
+   "N2": 1.0,
+   "P": 1.0,
+   "L": 1.0,
+   "S": 1.0,
+   "X": 1.0,
+   "T": 1.0
+  },
+  "pair_acc_all": 1.0,
+  "pair_acc_by_k": {
+   "4": 1.0,
+   "8": 1.0,
+   "12": 1.0
+  },
+  "pair_acc_by_decider": {
+   "authority": 1.0,
+   "specificity": 1.0,
+   "recency": 1.0,
+   "tie": 1.0
+  },
+  "pair_acc_kmax": 1.0,
+  "kmax": 12,
+  "tie_escalation_recall_N": 1.0,
+  "false_escalation_N": 0.0,
+  "lure_rate": {
+   "N": 0.0,
+   "N2": 0.0,
+   "P": 0.0,
+   "L": 0.0,
+   "S": 0.0,
+   "X": 0.0
+  },
+  "lure_rate_ties": {
+   "N": 0.0,
+   "N2": 0.0,
+   "P": 0.0,
+   "L": 0.0,
+   "S": 0.0,
+   "X": 0.0
+  },
+  "effect_vs_N2": {
+   "P": 0.0,
+   "L": 0.0,
+   "S": 0.0,
+   "X": 0.0
+  },
+  "effect_ties_vs_N2": {
+   "P": 0.0,
+   "L": 0.0,
+   "S": 0.0,
+   "X": 0.0
+  },
+  "p_vs_N2": {
+   "P": 1.0,
+   "L": 1.0,
+   "S": 1.0,
+   "X": 1.0
+  }
+ },
+ "_verdict": {
+  "best": "claude-opus-5-5",
+  "H": false,
+  "S": false,
+  "G": false,
+  "K": false,
+  "thresholds": {
+   "headroom_pair_acc_max": 0.9,
+   "headroom_tie_recall_max": 0.8,
+   "surface_effect_min": 0.05,
+   "surface_min_providers": 2,
+   "gamechanger_effect_min": 0.1,
+   "gamechanger_tie_effect_min": 0.15,
+   "kill_pair_acc": 0.95,
+   "kill_tie_recall": 0.95,
+   "kill_effect_max": 0.02
+  }
+ }
+}

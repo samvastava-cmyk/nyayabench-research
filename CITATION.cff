@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite the paper below."
+title: "NyāyaBench Research: typed diagnosis of LLM reasoning failures with a Navya-Nyāya taxonomy"
+type: dataset
+authors:
+  - family-names: Srivastava
+    given-names: Samarth
+    affiliation: Independent researcher
+date-released: "2026-11-16"
+preferred-citation:
+  type: conference-paper
+  title: "Beyond Scalar Judging: Typed Diagnosis of LLM Reasoning Failures with a Navya-Nyaya Taxonomy"
+  authors:
+    - family-names: Srivastava
+      given-names: Samarth
+  conference:
+    name: "ICON 2026"
+    city: Guwahati
+    country: IN
+    date-start: "2026-12-20"
+    date-end: "2026-12-23"
+  year: 2026
+  status: in-press
+  notes: "Accepted for oral presentation. Camera-ready in preparation."

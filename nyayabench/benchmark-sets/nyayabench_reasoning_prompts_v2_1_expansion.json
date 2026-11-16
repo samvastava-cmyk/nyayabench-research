@@ -1,0 +1,317 @@
+{
+  "benchmark_name": "NyayaBench Reasoning Prompts v2.1 — Expansion Set",
+  "version": "2.1.0",
+  "created": "2026-03-28",
+  "description": "50 additional open-ended reasoning questions (RP2-051 to RP2-100) for VRS expansion from 50 to 100 prompts. Same design principles as v2.0: models must REASON, not EVALUATE. Covers same 5 domains, 10 prompts each.",
+  "design_principle": "Every prompt asks the model to REASON, not to EVALUATE. The model must produce its own inferential chain, which may or may not contain failures.",
+  "prompt_count": 50,
+  "domain_distribution": {
+    "medicine_health": 10,
+    "technology_engineering": 10,
+    "economics_finance": 10,
+    "science_environment": 10,
+    "law_policy_society": 10
+  },
+  "cases": [
+    {
+      "id": "RP2-051",
+      "prompt": "A hospital emergency department has noticed that patients triaged by their new AI system have 15% shorter wait times than those triaged by nurses. The hospital board wants to replace nurse triage entirely with the AI system. Write your recommendation.",
+      "domain": "medicine_health",
+      "reasoning_target": "Must consider AI performance in edge cases, liability, patient trust, and failure modes not captured in average metrics"
+    },
+    {
+      "id": "RP2-052",
+      "prompt": "A pharmaceutical company's clinical trial for a new blood pressure medication showed significant improvement in a group of 200 patients aged 40-55. They want to market it as effective for all adults with hypertension. Write your assessment of this plan.",
+      "domain": "medicine_health",
+      "reasoning_target": "Must recognize limited age range, sample size issues, and generalization risks to elderly and young adult populations"
+    },
+    {
+      "id": "RP2-053",
+      "prompt": "A patient with chronic back pain has been taking opioid medication for 6 months with good pain relief. Their doctor wants to continue the prescription indefinitely since the patient reports satisfaction. Write your clinical recommendation.",
+      "domain": "medicine_health",
+      "reasoning_target": "Must weigh addiction risk, tolerance development, and alternative treatment options against current pain relief"
+    },
+    {
+      "id": "RP2-054",
+      "prompt": "A rural health clinic has data showing that telemedicine consultations result in the same patient satisfaction scores as in-person visits. They propose shifting 80% of all appointments to telemedicine to reduce costs. Write your recommendation.",
+      "domain": "medicine_health",
+      "reasoning_target": "Must consider types of conditions requiring physical examination, digital divide in rural areas, and satisfaction vs clinical outcomes"
+    },
+    {
+      "id": "RP2-055",
+      "prompt": "A children's hospital found that patients who received therapy dogs during recovery had 20% fewer complaints of pain. They want to introduce therapy dogs to the ICU for critically ill children. Write your recommendation.",
+      "domain": "medicine_health",
+      "reasoning_target": "Must consider infection risk in ICU, allergies, immunocompromised patients, and extrapolation from general recovery to critical care"
+    },
+    {
+      "id": "RP2-056",
+      "prompt": "A health insurance company analyzed their data and found that customers who use gym memberships have 30% lower healthcare costs. They want to offer mandatory gym membership as a condition of their premium plan. Write your policy recommendation.",
+      "domain": "medicine_health",
+      "reasoning_target": "Must recognize selection bias — healthier people use gyms, gym use may not cause lower costs"
+    },
+    {
+      "id": "RP2-057",
+      "prompt": "A surgeon has performed 500 knee replacement surgeries with a 98% success rate. A patient with moderate arthritis in both knees is considering bilateral knee replacement in a single surgery to reduce overall recovery time. The surgeon supports this approach based on their track record. Write your assessment.",
+      "domain": "medicine_health",
+      "reasoning_target": "Must consider that bilateral surgery compounds risk, single-surgery stats don't apply to bilateral, and rehabilitation challenges"
+    },
+    {
+      "id": "RP2-058",
+      "prompt": "A dermatology clinic noticed that patients who switched from Brand A sunscreen to Brand B had fewer sunburns over the following summer. They want to recommend Brand B exclusively to all patients. Write your recommendation.",
+      "domain": "medicine_health",
+      "reasoning_target": "Must consider seasonal variation, behavior changes, sample bias, and lack of controlled comparison"
+    },
+    {
+      "id": "RP2-059",
+      "prompt": "A country's public health authority found that regions with higher rates of vaccination also have higher rates of autism diagnosis. An advocacy group is using this data to argue against mandatory vaccination. Write your analysis for the health minister.",
+      "domain": "medicine_health",
+      "reasoning_target": "Must address ecological fallacy, confounding variables (diagnostic access), and established scientific consensus"
+    },
+    {
+      "id": "RP2-060",
+      "prompt": "A hospital's post-surgical infection rate dropped from 5% to 2% after they implemented a new handwashing protocol AND switched to a new antibiotic prophylaxis regimen simultaneously. The chief medical officer attributes the improvement entirely to the new antibiotic and wants to publish a paper recommending it. Write your assessment.",
+      "domain": "medicine_health",
+      "reasoning_target": "Must recognize confounded interventions — cannot attribute improvement to either change alone"
+    },
+    {
+      "id": "RP2-061",
+      "prompt": "A tech startup's machine learning model predicts customer churn with 92% accuracy on historical data. The CEO wants to deploy it immediately to automatically cancel accounts flagged as likely to churn and offer them discount retention packages. Write your deployment recommendation.",
+      "domain": "technology_engineering",
+      "reasoning_target": "Must consider false positive impact, self-fulfilling prophecy, customer experience of automated actions, and train-test distribution shift"
+    },
+    {
+      "id": "RP2-062",
+      "prompt": "A city's smart traffic system reduced average commute times by 18% during a 3-month pilot in one district. The city council wants to deploy it across all districts immediately. Write your recommendation.",
+      "domain": "technology_engineering",
+      "reasoning_target": "Must consider different traffic patterns across districts, network effects, infrastructure requirements, and pilot-to-scale challenges"
+    },
+    {
+      "id": "RP2-063",
+      "prompt": "An engineering team tested a new battery chemistry that achieved 40% more energy density in laboratory conditions. The company wants to announce this as a breakthrough and begin mass production for electric vehicles within 6 months. Write your technical assessment.",
+      "domain": "technology_engineering",
+      "reasoning_target": "Must distinguish lab results from production readiness — cycle life, thermal stability, manufacturing yield, and safety testing"
+    },
+    {
+      "id": "RP2-064",
+      "prompt": "A cloud service provider experienced zero downtime over the past 12 months. Their sales team wants to guarantee 100% uptime in their enterprise contracts based on this track record. Write your recommendation.",
+      "domain": "technology_engineering",
+      "reasoning_target": "Must recognize past performance doesn't guarantee future, black swan events, and contractual liability of absolute guarantees"
+    },
+    {
+      "id": "RP2-065",
+      "prompt": "A social media platform's content moderation AI correctly removes 99.5% of reported hate speech. The platform wants to eliminate human content moderators entirely and rely solely on the AI. Write your recommendation.",
+      "domain": "technology_engineering",
+      "reasoning_target": "Must consider the 0.5% false negatives at scale, context-dependent decisions, appeals process, and evolving language"
+    },
+    {
+      "id": "RP2-066",
+      "prompt": "A cybersecurity firm's penetration testing tool found no vulnerabilities in a client's new web application after running 10,000 automated test cases. The firm wants to certify the application as 'fully secure' for production deployment. Write your assessment.",
+      "domain": "technology_engineering",
+      "reasoning_target": "Must recognize absence of evidence is not evidence of absence — automated testing has coverage limits, zero-day vulnerabilities, and human attack vectors"
+    },
+    {
+      "id": "RP2-067",
+      "prompt": "A warehouse company replaced 30% of its human workers with robots and saw a 25% increase in productivity. The CEO wants to replace the remaining 70% of workers to achieve proportionally greater gains. Write your operational recommendation.",
+      "domain": "technology_engineering",
+      "reasoning_target": "Must recognize non-linear scaling — the remaining tasks may be harder to automate, and human-robot collaboration effects"
+    },
+    {
+      "id": "RP2-068",
+      "prompt": "A software team rewrote their legacy application in a modern framework and reduced bug reports by 60% in the first month. The CTO wants to rewrite all company applications in the same framework. Write your technical recommendation.",
+      "domain": "technology_engineering",
+      "reasoning_target": "Must consider that the rewrite eliminated accumulated bugs, new codebase novelty effect, different application requirements, and cost-benefit"
+    },
+    {
+      "id": "RP2-069",
+      "prompt": "An autonomous drone delivery service completed 5,000 deliveries in a suburban test zone with zero incidents. The company wants regulatory approval to operate in dense urban areas and rural mountainous regions based on these results. Write your regulatory assessment.",
+      "domain": "technology_engineering",
+      "reasoning_target": "Must recognize environment-specific challenges — urban obstacles, mountain weather, population density risks not present in suburban tests"
+    },
+    {
+      "id": "RP2-070",
+      "prompt": "A company's A/B test showed that a red 'Buy Now' button increased conversion rates by 8% compared to a green button over a two-week period with 5,000 users. The marketing team wants to change all buttons across all products and markets to red. Write your recommendation.",
+      "domain": "technology_engineering",
+      "reasoning_target": "Must consider cultural color associations across markets, product type differences, novelty effect, and limited test duration"
+    },
+    {
+      "id": "RP2-071",
+      "prompt": "A hedge fund's quantitative model generated 35% returns over the past 3 years by trading on social media sentiment analysis. The fund manager wants to double the capital allocation to this strategy. Write your investment committee recommendation.",
+      "domain": "economics_finance",
+      "reasoning_target": "Must consider overfitting to a specific market regime, strategy capacity limits, and mean reversion of alpha"
+    },
+    {
+      "id": "RP2-072",
+      "prompt": "A developing nation's GDP grew 7% annually for the past 5 years while following an export-led growth model similar to South Korea's in the 1970s. The economic minister wants to continue the same strategy for the next 20 years to achieve similar outcomes. Write your economic assessment.",
+      "domain": "economics_finance",
+      "reasoning_target": "Must consider changed global trade environment, middle-income trap, domestic consumption needs, and non-replicable historical conditions"
+    },
+    {
+      "id": "RP2-073",
+      "prompt": "A city imposed a soda tax and obesity rates dropped by 3% over two years. A neighboring city wants to implement the same tax expecting the same results. Write your policy recommendation.",
+      "domain": "economics_finance",
+      "reasoning_target": "Must consider confounding factors, cross-border purchasing, demographic differences, and whether the tax caused the drop"
+    },
+    {
+      "id": "RP2-074",
+      "prompt": "A venture capital firm invested in 50 AI startups and 10 achieved successful exits. They conclude that AI is the best sector for investment and want to allocate 80% of their next fund to AI startups only. Write your investment strategy assessment.",
+      "domain": "economics_finance",
+      "reasoning_target": "Must consider survivorship bias, base rate of success across sectors, portfolio diversification principles, and market timing"
+    },
+    {
+      "id": "RP2-075",
+      "prompt": "A company offered free shipping on all orders and saw revenue increase 25% over 6 months. The CFO wants to make free shipping permanent as it 'clearly pays for itself.' Write your financial analysis.",
+      "domain": "economics_finance",
+      "reasoning_target": "Must analyze whether profit (not just revenue) increased, shipping cost absorption, customer behavior changes, and long-term sustainability"
+    },
+    {
+      "id": "RP2-076",
+      "prompt": "A microfinance institution in Southeast Asia reports that 90% of its borrowers successfully repaid their loans. They want to expand to Sub-Saharan Africa using the identical lending model and repayment terms. Write your expansion recommendation.",
+      "domain": "economics_finance",
+      "reasoning_target": "Must consider different economic contexts, cultural factors in repayment, currency risks, and non-transferable success conditions"
+    },
+    {
+      "id": "RP2-077",
+      "prompt": "A real estate developer notes that property values in a neighborhood increased 40% after a new metro station was built. They want to buy properties near a planned metro station in a different city expecting similar appreciation. Write your investment recommendation.",
+      "domain": "economics_finance",
+      "reasoning_target": "Must consider different market conditions, over-pricing of expected transit benefits, construction uncertainty, and local demand factors"
+    },
+    {
+      "id": "RP2-078",
+      "prompt": "A country lowered corporate tax rates from 30% to 20% and foreign direct investment increased by 50% the following year. The finance minister wants to further cut taxes to 10% expecting proportional gains. Write your fiscal policy assessment.",
+      "domain": "economics_finance",
+      "reasoning_target": "Must recognize non-linear tax effects, Laffer curve considerations, revenue impact, and other factors driving FDI"
+    },
+    {
+      "id": "RP2-079",
+      "prompt": "A cryptocurrency exchange notes that Bitcoin has recovered from every major crash in its history and always reached new highs. They want to market Bitcoin as a 'guaranteed long-term investment' to retail customers. Write your compliance assessment.",
+      "domain": "economics_finance",
+      "reasoning_target": "Must address survivorship bias, past performance not guaranteeing future, regulatory concerns, and risk disclosure obligations"
+    },
+    {
+      "id": "RP2-080",
+      "prompt": "A pension fund manager observes that bonds have underperformed stocks for the past 15 years. They recommend shifting the pension fund entirely to equities for better returns. Write your recommendation to the pension board.",
+      "domain": "economics_finance",
+      "reasoning_target": "Must consider risk tolerance requirements for pension funds, demographic obligations, interest rate cycles, and diversification principles"
+    },
+    {
+      "id": "RP2-081",
+      "prompt": "A marine biologist found that coral reefs near a marine protected area showed 30% more biodiversity than unprotected reefs. The government wants to designate all coastal waters as marine protected areas based on this finding. Write your ecological recommendation.",
+      "domain": "science_environment",
+      "reasoning_target": "Must consider economic impact on fishing communities, enforcement feasibility, and whether protected area effect scales linearly"
+    },
+    {
+      "id": "RP2-082",
+      "prompt": "A research team grew a new crop variety in greenhouse conditions that produced 50% higher yields than traditional varieties. The agriculture ministry wants to distribute seeds to farmers nationwide immediately. Write your recommendation.",
+      "domain": "science_environment",
+      "reasoning_target": "Must distinguish greenhouse performance from field conditions — soil variation, pests, weather, and farmer practices"
+    },
+    {
+      "id": "RP2-083",
+      "prompt": "A city measured air quality after banning diesel vehicles from the city center and found PM2.5 levels dropped 25%. They want to ban all internal combustion vehicles citywide expecting proportional air quality improvements. Write your environmental policy recommendation.",
+      "domain": "science_environment",
+      "reasoning_target": "Must consider non-diesel pollution sources, economic disruption, public transit capacity, and diminishing returns on vehicle bans"
+    },
+    {
+      "id": "RP2-084",
+      "prompt": "A wildlife conservation program relocated 50 endangered wolves to a new habitat where they survived for 2 years. The program director wants to scale this approach to 10 other endangered species using the same relocation protocol. Write your assessment.",
+      "domain": "science_environment",
+      "reasoning_target": "Must recognize species-specific habitat requirements, genetic diversity concerns, and that wolf success doesn't transfer to other species"
+    },
+    {
+      "id": "RP2-085",
+      "prompt": "A study found that areas with more wind turbines have higher bird mortality rates. An environmental group wants to halt all new wind farm construction to protect bird populations. Write your policy analysis.",
+      "domain": "science_environment",
+      "reasoning_target": "Must weigh bird mortality against climate change impacts on birds, compare to other mortality sources, and consider mitigation technologies"
+    },
+    {
+      "id": "RP2-086",
+      "prompt": "A river cleanup initiative removed 80% of plastic waste from a 50km stretch of river over 18 months. The environmental agency wants to declare the river 'restored to health' and redirect funding to other projects. Write your assessment.",
+      "domain": "science_environment",
+      "reasoning_target": "Must consider ongoing pollution sources, microplastics not captured by cleanup, ecosystem recovery time, and upstream contamination"
+    },
+    {
+      "id": "RP2-087",
+      "prompt": "A desert nation successfully generated fresh water using solar-powered desalination at $2 per cubic meter. A tropical island nation wants to adopt the same technology to solve their water shortage. Write your feasibility recommendation.",
+      "domain": "science_environment",
+      "reasoning_target": "Must consider different solar conditions, brine disposal challenges for island ecology, maintenance infrastructure, and alternative solutions like rainwater harvesting"
+    },
+    {
+      "id": "RP2-088",
+      "prompt": "A forestry department planted fast-growing eucalyptus trees to offset carbon emissions and reports meeting their carbon sequestration targets after 5 years. They want to replace native reforestation programs entirely with eucalyptus plantations. Write your ecological assessment.",
+      "domain": "science_environment",
+      "reasoning_target": "Must consider biodiversity loss from monoculture, soil and water impacts of eucalyptus, long-term carbon storage vs native forests, and ecosystem services"
+    },
+    {
+      "id": "RP2-089",
+      "prompt": "Scientists discovered that a specific bacterium in Arctic ice can break down certain plastics at temperatures below 5°C. A waste management company wants to patent and deploy this bacterium for ocean plastic cleanup. Write your scientific assessment.",
+      "domain": "science_environment",
+      "reasoning_target": "Must consider ecological risks of introducing non-native organisms, lab-to-ocean performance gap, byproduct concerns, and scale feasibility"
+    },
+    {
+      "id": "RP2-090",
+      "prompt": "A volcanic island experienced natural reforestation after a major eruption 30 years ago without any human intervention. A conservation group argues this proves that natural regeneration is always superior to active reforestation and all planting programs should be stopped. Write your assessment.",
+      "domain": "science_environment",
+      "reasoning_target": "Must recognize that volcanic soil conditions are unique, timescales may be unacceptable for climate goals, and generalization from one case is unsound"
+    },
+    {
+      "id": "RP2-091",
+      "prompt": "A city implemented mandatory body cameras for police officers and use-of-force incidents dropped 40% in the first year. The national government wants to mandate body cameras for all law enforcement nationwide based on this result. Write your policy recommendation.",
+      "domain": "law_policy_society",
+      "reasoning_target": "Must consider Hawthorne effect, different policing contexts, privacy concerns, cost scalability, and whether the effect persists long-term"
+    },
+    {
+      "id": "RP2-092",
+      "prompt": "A country legalized same-sex marriage and its tourism revenue from international visitors increased 12% the following year. The tourism board attributes the increase to the marriage equality law and recommends other countries follow suit for economic benefit. Write your analysis.",
+      "domain": "law_policy_society",
+      "reasoning_target": "Must consider multiple factors affecting tourism, correlation vs causation, and the problematic framing of human rights as economic tools"
+    },
+    {
+      "id": "RP2-093",
+      "prompt": "A school district eliminated standardized testing and student stress levels decreased by 30% according to self-reported surveys. The state education board wants to eliminate standardized testing statewide. Write your education policy recommendation.",
+      "domain": "law_policy_society",
+      "reasoning_target": "Must consider self-report bias, accountability mechanisms, equity implications, college admission requirements, and measuring educational outcomes"
+    },
+    {
+      "id": "RP2-094",
+      "prompt": "A country that implemented strict gun control laws 10 years ago has seen a 60% decline in gun homicides. A neighboring country with different cultural and demographic conditions wants to adopt identical legislation. Write your policy assessment.",
+      "domain": "law_policy_society",
+      "reasoning_target": "Must consider cultural context, existing gun ownership rates, enforcement capacity, black market dynamics, and non-transferable conditions"
+    },
+    {
+      "id": "RP2-095",
+      "prompt": "A city's homeless population decreased 35% after opening three new shelters. The city council concludes that shelters are the solution to homelessness and wants to build 10 more instead of funding mental health services and affordable housing programs. Write your recommendation.",
+      "domain": "law_policy_society",
+      "reasoning_target": "Must consider root causes vs symptoms, whether shelters reduce homelessness or relocate it, and the need for comprehensive approaches"
+    },
+    {
+      "id": "RP2-096",
+      "prompt": "A jurisdiction that raised the minimum legal drinking age from 18 to 21 saw a 25% reduction in alcohol-related traffic fatalities. A country with a drinking age of 16 wants to raise it to 21 expecting similar results. Write your policy analysis.",
+      "domain": "law_policy_society",
+      "reasoning_target": "Must consider cultural differences in drinking patterns, enforcement challenges, alternative interventions, and broader social impact"
+    },
+    {
+      "id": "RP2-097",
+      "prompt": "A university switched to need-blind admissions and the socioeconomic diversity of its incoming class increased by 20%. The national education ministry wants to mandate need-blind admissions at all universities. Write your policy recommendation.",
+      "domain": "law_policy_society",
+      "reasoning_target": "Must consider different university funding models, financial sustainability, institutional autonomy, and whether one university's result scales nationally"
+    },
+    {
+      "id": "RP2-098",
+      "prompt": "A country that abolished the death penalty 20 years ago has a lower murder rate than a neighboring country that retains it. An advocacy group presents this as evidence that the death penalty does not deter crime. Write your analysis for a parliamentary committee.",
+      "domain": "law_policy_society",
+      "reasoning_target": "Must address ecological comparison fallacy, multiple confounding variables, and the distinction between correlation and causal inference"
+    },
+    {
+      "id": "RP2-099",
+      "prompt": "A refugee resettlement program in a mid-sized city reports that 85% of resettled refugees found employment within 2 years. The national government wants to increase refugee intake tenfold using the same program structure. Write your policy assessment.",
+      "domain": "law_policy_society",
+      "reasoning_target": "Must consider labor market absorption capacity, community infrastructure limits, program scalability, and local integration challenges"
+    },
+    {
+      "id": "RP2-100",
+      "prompt": "A pilot program that provided universal basic income to 500 residents in a wealthy suburb showed no decrease in work participation and improved mental health outcomes. The government wants to implement UBI nationally based on this pilot. Write your policy recommendation.",
+      "domain": "law_policy_society",
+      "reasoning_target": "Must consider wealthy suburb vs national demographics, pilot effect vs permanent implementation, fiscal sustainability, and inflation risk at scale"
+    }
+  ]
+}

@@ -1,0 +1,152 @@
+[
+  {
+    "id": "A01",
+    "text": "All successful startups raise large amounts of venture capital. This company raised venture capital, therefore it will be successful.",
+    "expected_rf": "RF-01"
+  },
+  {
+    "id": "A02",
+    "text": "This politician must be trustworthy because he speaks confidently in interviews.",
+    "expected_rf": "RF-01"
+  },
+  {
+    "id": "A03",
+    "text": "Marie Curie became a famous scientist because she was born in Warsaw.",
+    "expected_rf": "RF-02"
+  },
+  {
+    "id": "A04",
+    "text": "This painting must be valuable because it was created by the only artist named Ravi Malhotra who lives on this street.",
+    "expected_rf": "RF-02"
+  },
+  {
+    "id": "A05",
+    "text": "This medication is proven safe because it has never undergone clinical testing.",
+    "expected_rf": "RF-03"
+  },
+  {
+    "id": "A06",
+    "text": "The bridge must be structurally sound because engineers have warned that it may collapse.",
+    "expected_rf": "RF-03"
+  },
+  {
+    "id": "A07",
+    "text": "Investing in cryptocurrency is wise because Bitcoin prices rose dramatically last decade.",
+    "expected_rf": "RF-04"
+  },
+  {
+    "id": "A08",
+    "text": "Working from home increases productivity because employees avoid commuting.",
+    "expected_rf": "RF-04"
+  },
+  {
+    "id": "A09",
+    "text": "The sky-lotus emits a beautiful fragrance because it blooms at sunrise.",
+    "expected_rf": "RF-05"
+  },
+  {
+    "id": "A10",
+    "text": "The invisible unicorn inside the laboratory must be generating electromagnetic radiation.",
+    "expected_rf": "RF-05"
+  },
+  {
+    "id": "A11",
+    "text": "The Eiffel Tower predates the Industrial Revolution because it was constructed in 1820.",
+    "expected_rf": "RF-06"
+  },
+  {
+    "id": "A12",
+    "text": "Isaac Newton invented the electric light bulb, which proves his genius in electrical engineering.",
+    "expected_rf": "RF-06"
+  },
+  {
+    "id": "A13",
+    "text": "Antibiotics cure infections, therefore antibiotics should be prescribed for every infection.",
+    "expected_rf": "RF-07a"
+  },
+  {
+    "id": "A14",
+    "text": "Exercise causes weight loss, therefore exercising guarantees weight reduction.",
+    "expected_rf": "RF-07a"
+  },
+  {
+    "id": "A15",
+    "text": "Ibuprofen lowers fever, therefore this patient with severe kidney disease should take ibuprofen.",
+    "expected_rf": "RF-07b"
+  },
+  {
+    "id": "A16",
+    "text": "Peanuts are a healthy snack because they contain protein, therefore someone with a peanut allergy should eat peanuts daily.",
+    "expected_rf": "RF-07b"
+  },
+  {
+    "id": "A17",
+    "text": "The Sun revolves around the Earth because the Sun appears to move across the sky each day.",
+    "expected_rf": "RF-08"
+  },
+  {
+    "id": "A18",
+    "text": "Heavier objects fall faster than lighter ones because heavier objects hit the ground with greater force.",
+    "expected_rf": "RF-08"
+  },
+  {
+    "id": "A19",
+    "text": "The patient recovered because we gave them a homeopathic sugar pill.",
+    "expected_rf": "RF-09"
+  },
+  {
+    "id": "A20",
+    "text": "The crop yield increased because we performed a rain dance ceremony.",
+    "expected_rf": "RF-09"
+  },
+  {
+    "id": "A21",
+    "text": "I am absolutely certain that no one can ever be certain about anything.",
+    "expected_rf": "RF-10"
+  },
+  {
+    "id": "A22",
+    "text": "It is impossible to make universal claims, and I can prove that universally.",
+    "expected_rf": "RF-10"
+  },
+  {
+    "id": "A23",
+    "text": "This chemotherapy drug always destroys this cancer type, therefore it will destroy the tumor in this patient whose genetic mutation prevents the drug from entering tumor cells.",
+    "expected_rf": "RF-11"
+  },
+  {
+    "id": "A24",
+    "text": "Fire always burns objects, therefore this fire will burn the cloth even though the cloth is coated in a fireproof chemical.",
+    "expected_rf": "RF-11"
+  },
+  {
+    "id": "A25",
+    "text": "Democracy must be the best political system because many countries use it.",
+    "expected_rf": "RF-01"
+  },
+  {
+    "id": "A26",
+    "text": "This stock will perform well because its CEO has a charismatic personality.",
+    "expected_rf": "RF-01"
+  },
+  {
+    "id": "A27",
+    "text": "The Loch Ness monster must be a reptile because it swims in water.",
+    "expected_rf": "RF-05"
+  },
+  {
+    "id": "A28",
+    "text": "This ancient city was built in 5000 BCE according to historical records discovered last year that historians universally accept.",
+    "expected_rf": "RF-06"
+  },
+  {
+    "id": "A29",
+    "text": "All wealthy investors diversify their portfolios. This investor diversified, therefore he must be wealthy.",
+    "expected_rf": "RF-01"
+  },
+  {
+    "id": "A30",
+    "text": "Electric cars are environmentally friendly because they do not produce exhaust emissions.",
+    "expected_rf": "RF-04"
+  }
+]

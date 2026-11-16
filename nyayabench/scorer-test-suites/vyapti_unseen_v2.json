@@ -1,0 +1,687 @@
+[
+  {
+    "id": 1,
+    "text": "Most software updates improve system security significantly. This device just received an update. It must be completely immune to hackers now.",
+    "expected_rf": "RF-01"
+  },
+  {
+    "id": 2,
+    "text": "Professional musicians practice scales daily. She practices scales every morning. She is definitely a professional musician.",
+    "expected_rf": "RF-01"
+  },
+  {
+    "id": 3,
+    "text": "Organic fertilizers enhance soil health over time. This farm uses organic fertilizer. Their crop yield will be the highest in the region.",
+    "expected_rf": "RF-01"
+  },
+  {
+    "id": 4,
+    "text": "High altitude training boosts endurance in athletes. He trains at high altitude. His performance will be unbeatable in any competition.",
+    "expected_rf": "RF-01"
+  },
+  {
+    "id": 5,
+    "text": "Diversified portfolios reduce financial risk substantially. Her portfolio is diversified. She will never lose money in the stock market.",
+    "expected_rf": "RF-01"
+  },
+  {
+    "id": 6,
+    "text": "Regular dental checkups prevent cavities effectively. He visits the dentist twice a year. He will never need a filling.",
+    "expected_rf": "RF-01"
+  },
+  {
+    "id": 7,
+    "text": "Cloud storage protects data from local hardware failure. We moved all files to the cloud. Our data is now completely safe from loss.",
+    "expected_rf": "RF-01"
+  },
+  {
+    "id": 8,
+    "text": "Meditation reduces stress levels in practitioners. She meditates for an hour daily. She is entirely free from anxiety.",
+    "expected_rf": "RF-01"
+  },
+  {
+    "id": 9,
+    "text": "Electric grids are transitioning to renewable sources. This city updated its grid. Its power is now 100% carbon-free.",
+    "expected_rf": "RF-01"
+  },
+  {
+    "id": 10,
+    "text": "Early adoption of technology gives market advantage. We launched the product early. We will dominate the sector indefinitely.",
+    "expected_rf": "RF-01"
+  },
+  {
+    "id": 11,
+    "text": "Hydration improves cognitive function during tasks. He drinks water constantly. His decision-making is flawless.",
+    "expected_rf": "RF-01"
+  },
+  {
+    "id": 12,
+    "text": "Secure passwords prevent unauthorized access. Her password is complex. Her account cannot be breached.",
+    "expected_rf": "RF-01"
+  },
+  {
+    "id": 13,
+    "text": "Networking events lead to job opportunities. He attends every networking event. He will definitely get a job offer.",
+    "expected_rf": "RF-01"
+  },
+  {
+    "id": 14,
+    "text": "Recycling reduces landfill waste volume. This community recycles everything. Their environmental impact is now zero.",
+    "expected_rf": "RF-01"
+  },
+  {
+    "id": 15,
+    "text": "This specific algorithm solved the problem in one instance. It will solve all similar problems universally. The solution is generalizable.",
+    "expected_rf": "RF-02"
+  },
+  {
+    "id": 16,
+    "text": "My neighbor won the lottery playing these numbers. These numbers are lucky for everyone. You should play them too.",
+    "expected_rf": "RF-02"
+  },
+  {
+    "id": 17,
+    "text": "The founder succeeded without a business plan. Business plans are unnecessary for any venture. Planning is obsolete.",
+    "expected_rf": "RF-02"
+  },
+  {
+    "id": 18,
+    "text": "This rare mineral was found in one cave. All caves contain this mineral. Exploration will be fruitful everywhere.",
+    "expected_rf": "RF-02"
+  },
+  {
+    "id": 19,
+    "text": "One patient recovered using this home remedy. The remedy cures the disease generally. It should be standard treatment.",
+    "expected_rf": "RF-02"
+  },
+  {
+    "id": 20,
+    "text": "The stock spiked after this news headline. Similar headlines will always cause spikes. The pattern is reliable.",
+    "expected_rf": "RF-02"
+  },
+  {
+    "id": 21,
+    "text": "This teacher's method worked for one class. The method works for all students universally. Adoption should be mandatory.",
+    "expected_rf": "RF-02"
+  },
+  {
+    "id": 22,
+    "text": "I fixed the bug by restarting the server. Restarting fixes all server issues. It is the universal solution.",
+    "expected_rf": "RF-02"
+  },
+  {
+    "id": 23,
+    "text": "The team won after changing the logo. The logo change causes victory. We should change it every game.",
+    "expected_rf": "RF-02"
+  },
+  {
+    "id": 24,
+    "text": "This bridge design survived one earthquake. The design is safe for all seismic zones. No further testing is needed.",
+    "expected_rf": "RF-02"
+  },
+  {
+    "id": 25,
+    "text": "The sign says the store is open but the lights are off. It claims to be operating currently. The status is contradictory.",
+    "expected_rf": "RF-03"
+  },
+  {
+    "id": 26,
+    "text": "He claims to be a pacifist while advocating for war. His stance contradicts his identity. The definition is inconsistent.",
+    "expected_rf": "RF-03"
+  },
+  {
+    "id": 27,
+    "text": "The report states profits increased while revenue dropped. The financials do not align logically. The data is conflicting.",
+    "expected_rf": "RF-03"
+  },
+  {
+    "id": 28,
+    "text": "She says she never eats sugar but is eating cake. Her action contradicts her statement. The claim is false.",
+    "expected_rf": "RF-03"
+  },
+  {
+    "id": 29,
+    "text": "The device is waterproof yet it corroded in rain. The specification conflicts with reality. The rating is invalid.",
+    "expected_rf": "RF-03"
+  },
+  {
+    "id": 30,
+    "text": "They promise unlimited data but throttle speed after 1GB. The offer contradicts the limitation. The terms are inconsistent.",
+    "expected_rf": "RF-03"
+  },
+  {
+    "id": 31,
+    "text": "The software is free but requires a paid subscription. The cost structure is contradictory. It cannot be both.",
+    "expected_rf": "RF-03"
+  },
+  {
+    "id": 32,
+    "text": "He is present in the meeting but his avatar is offline. The status indicators conflict. The presence is ambiguous.",
+    "expected_rf": "RF-03"
+  },
+  {
+    "id": 33,
+    "text": "The building is historic yet built last year. The age classification is contradictory. The designation is incorrect.",
+    "expected_rf": "RF-03"
+  },
+  {
+    "id": 34,
+    "text": "The medicine is non-drowsy but causes sleepiness. The side effect contradicts the label. The formulation is questionable.",
+    "expected_rf": "RF-03"
+  },
+  {
+    "id": 35,
+    "text": "The car is autonomous yet requires a driver. The capability contradicts the requirement. The classification is confused.",
+    "expected_rf": "RF-03"
+  },
+  {
+    "id": 36,
+    "text": "Experts argue inflation will rise soon. Other experts predict deflation immediately. The economic outlook is divided.",
+    "expected_rf": "RF-04"
+  },
+  {
+    "id": 37,
+    "text": "Clinical trials show the drug works well. Real-world usage shows poor results. The efficacy is contested.",
+    "expected_rf": "RF-04"
+  },
+  {
+    "id": 38,
+    "text": "Surveys indicate high customer satisfaction. Complaint logs show frequent issues. The feedback is mixed.",
+    "expected_rf": "RF-04"
+  },
+  {
+    "id": 39,
+    "text": "Some data suggests remote work boosts productivity. Other data shows it reduces collaboration. The impact is unclear.",
+    "expected_rf": "RF-04"
+  },
+  {
+    "id": 40,
+    "text": "Historical records say the event happened in 1900. New evidence suggests 1905. The timeline is disputed.",
+    "expected_rf": "RF-04"
+  },
+  {
+    "id": 41,
+    "text": "The material is rated for high heat. Tests show it melts at low temperatures. The rating is challenged.",
+    "expected_rf": "RF-04"
+  },
+  {
+    "id": 42,
+    "text": "Politicians claim the policy reduced crime. Statistics show crime rates unchanged. The effectiveness is debated.",
+    "expected_rf": "RF-04"
+  },
+  {
+    "id": 43,
+    "text": "Theoretically the engine should be efficient. Practically it consumes excessive fuel. The performance is contested.",
+    "expected_rf": "RF-04"
+  },
+  {
+    "id": 44,
+    "text": "Reviews praise the battery life. Users report rapid drainage. The experience is inconsistent.",
+    "expected_rf": "RF-04"
+  },
+  {
+    "id": 45,
+    "text": "The model predicts sunny weather. The sky is currently overcast. The forecast is conflicting.",
+    "expected_rf": "RF-04"
+  },
+  {
+    "id": 46,
+    "text": "Internal audits show compliance. External auditors found violations. The status is contradictory.",
+    "expected_rf": "RF-04"
+  },
+  {
+    "id": 47,
+    "text": "The CEO of the dissolved corporation is signing deals. The company no longer exists legally. The authority is invalid.",
+    "expected_rf": "RF-05"
+  },
+  {
+    "id": 48,
+    "text": "Passengers are boarding the cancelled flight. The gate is closed permanently. The flight is not happening.",
+    "expected_rf": "RF-05"
+  },
+  {
+    "id": 49,
+    "text": "Residents are voting in the abolished district. The district was merged last year. The electorate is nonexistent.",
+    "expected_rf": "RF-05"
+  },
+  {
+    "id": 50,
+    "text": "Subscribers are renewing the discontinued service. The servers were shut down. The service is unavailable.",
+    "expected_rf": "RF-05"
+  },
+  {
+    "id": 51,
+    "text": "Drivers are registering the recalled vehicle model. The model was banned from roads. The registration is void.",
+    "expected_rf": "RF-05"
+  },
+  {
+    "id": 52,
+    "text": "Students are enrolling in the closed department. The faculty was disbanded. The program is inactive.",
+    "expected_rf": "RF-05"
+  },
+  {
+    "id": 53,
+    "text": "Investors are buying shares of the delisted company. The stock was removed from exchange. The shares are worthless.",
+    "expected_rf": "RF-05"
+  },
+  {
+    "id": 54,
+    "text": "Members are attending the revoked club meeting. The charter was withdrawn. The club is dissolved.",
+    "expected_rf": "RF-05"
+  },
+  {
+    "id": 55,
+    "text": "The vegan burger contains ground beef patties. It is marketed as plant-based. The ingredient is false.",
+    "expected_rf": "RF-06"
+  },
+  {
+    "id": 56,
+    "text": "The wireless headset has a physical cable attached. It is advertised as cordless. The feature is inaccurate.",
+    "expected_rf": "RF-06"
+  },
+  {
+    "id": 57,
+    "text": "The sugar-free soda lists sucrose in ingredients. It claims zero sugar content. The label is misleading.",
+    "expected_rf": "RF-06"
+  },
+  {
+    "id": 58,
+    "text": "The silent video file has an audio track. It is described as mute. The property is incorrect.",
+    "expected_rf": "RF-06"
+  },
+  {
+    "id": 59,
+    "text": "The gluten-free flour contains wheat protein. It is safe for celiacs. The composition is false.",
+    "expected_rf": "RF-06"
+  },
+  {
+    "id": 60,
+    "text": "The digital book is printed on paper. It is sold as an ebook. The format is contradictory.",
+    "expected_rf": "RF-06"
+  },
+  {
+    "id": 61,
+    "text": "The non-alcoholic wine contains ethanol. It is served to minors. The content is mislabeled.",
+    "expected_rf": "RF-06"
+  },
+  {
+    "id": 62,
+    "text": "The transparent wall is opaque to light. It is designed for visibility. The material property is wrong.",
+    "expected_rf": "RF-06"
+  },
+  {
+    "id": 63,
+    "text": "The permanent marker washes off with water. It is labeled as indelible. The durability is false.",
+    "expected_rf": "RF-06"
+  },
+  {
+    "id": 64,
+    "text": "The heavy lifting equipment is made of styrofoam. It is rated for tons. The structural integrity is false.",
+    "expected_rf": "RF-06"
+  },
+  {
+    "id": 65,
+    "text": "Steel rusts when exposed to moisture. This beam is steel. It will rust soon. Dry environment ignored.",
+    "expected_rf": "RF-07a"
+  },
+  {
+    "id": 66,
+    "text": "Ice melts when temperatures rise. The temperature is rising. The ice will melt. Pressure ignored.",
+    "expected_rf": "RF-07a"
+  },
+  {
+    "id": 67,
+    "text": "Trees grow taller with sufficient water. This tree is watered. It will grow tall. Soil quality ignored.",
+    "expected_rf": "RF-07a"
+  },
+  {
+    "id": 68,
+    "text": "Batteries charge when connected to power. It is connected now. It will charge. Battery health ignored.",
+    "expected_rf": "RF-07a"
+  },
+  {
+    "id": 69,
+    "text": "Wi-Fi signals penetrate walls effectively. The router is on. The signal will reach. Distance ignored.",
+    "expected_rf": "RF-07a"
+  },
+  {
+    "id": 70,
+    "text": "Muscles hypertrophy with resistance training. He is training. His muscles will grow. Nutrition ignored.",
+    "expected_rf": "RF-07a"
+  },
+  {
+    "id": 71,
+    "text": "Prices increase when demand surges. Demand is surging. Prices will rise. Supply elasticity ignored.",
+    "expected_rf": "RF-07a"
+  },
+  {
+    "id": 72,
+    "text": "Medications interact with food intake. She took the pill. It will work. Dietary restrictions ignored.",
+    "expected_rf": "RF-07a"
+  },
+  {
+    "id": 73,
+    "text": "Combustion engines require fuel to run. The tank has fuel. It will run. Ignition system ignored.",
+    "expected_rf": "RF-07a"
+  },
+  {
+    "id": 74,
+    "text": "GPS maps provide accurate navigation. The device is on. It will guide. Signal loss ignored.",
+    "expected_rf": "RF-07a"
+  },
+  {
+    "id": 75,
+    "text": "UV radiation causes skin damage. He is outside. He will burn. Sunscreen ignored.",
+    "expected_rf": "RF-07a"
+  },
+  {
+    "id": 76,
+    "text": "Loans accumulate interest over time. He took a loan. He owes more. Grace period ignored.",
+    "expected_rf": "RF-07a"
+  },
+  {
+    "id": 77,
+    "text": "Radio waves transmit data wirelessly. The transmitter is active. Data will send. Obstruction ignored.",
+    "expected_rf": "RF-07a"
+  },
+  {
+    "id": 78,
+    "text": "Copper conducts electricity efficiently. This wire is copper. It will conduct. Alloy purity ignored.",
+    "expected_rf": "RF-07a"
+  },
+  {
+    "id": 79,
+    "text": "Immunizations protect against specific strains. She was immunized. She is protected. Strain mutation ignored.",
+    "expected_rf": "RF-07a"
+  },
+  {
+    "id": 80,
+    "text": "Motion sensors detect movement nearby. The sensor is active. It will detect. Range ignored.",
+    "expected_rf": "RF-07a"
+  },
+  {
+    "id": 81,
+    "text": "Code compiles when syntax is correct. The syntax is correct. It will compile. Libraries ignored.",
+    "expected_rf": "RF-07a"
+  },
+  {
+    "id": 82,
+    "text": "Contracts are enforceable upon signing. They signed it. It is binding. Jurisdiction ignored.",
+    "expected_rf": "RF-07a"
+  },
+  {
+    "id": 83,
+    "text": "Keys unlock doors when inserted. He inserted the key. The door remains locked. Deadbolt engaged.",
+    "expected_rf": "RF-07b"
+  },
+  {
+    "id": 84,
+    "text": "Phones make calls when dialed. She dialed the number. No connection. No service.",
+    "expected_rf": "RF-07b"
+  },
+  {
+    "id": 85,
+    "text": "Cars operate when fueled. It has fuel. It does not move. Transmission failed.",
+    "expected_rf": "RF-07b"
+  },
+  {
+    "id": 86,
+    "text": "Pumps move water when powered. It is powered. No water flows. Pipe clogged.",
+    "expected_rf": "RF-07b"
+  },
+  {
+    "id": 87,
+    "text": "Lights illuminate when switched. He flipped the switch. It stays dark. Bulb blown.",
+    "expected_rf": "RF-07b"
+  },
+  {
+    "id": 88,
+    "text": "Downloads finish when initiated. It started downloading. It did not complete. Storage full.",
+    "expected_rf": "RF-07b"
+  },
+  {
+    "id": 89,
+    "text": "Doorbells ring when pressed. She pressed it. No sound. Battery dead.",
+    "expected_rf": "RF-07b"
+  },
+  {
+    "id": 90,
+    "text": "Faucets flow when turned. He turned the handle. No water. Valve closed.",
+    "expected_rf": "RF-07b"
+  },
+  {
+    "id": 91,
+    "text": "Printers print when commanded. The command was sent. No output. Paper jam.",
+    "expected_rf": "RF-07b"
+  },
+  {
+    "id": 92,
+    "text": "Alarms sound when triggered. It was triggered. Silence. System disabled.",
+    "expected_rf": "RF-07b"
+  },
+  {
+    "id": 93,
+    "text": "Elevators ascend when called. It was called. It stays. Maintenance lock.",
+    "expected_rf": "RF-07b"
+  },
+  {
+    "id": 94,
+    "text": "Cameras capture when activated. It is activated. No image. Lens cap on.",
+    "expected_rf": "RF-07b"
+  },
+  {
+    "id": 95,
+    "text": "Heaters warm when set. It is set high. Room cold. Thermostat broken.",
+    "expected_rf": "RF-07b"
+  },
+  {
+    "id": 96,
+    "text": "Radios play when tuned. It is tuned. No audio. Muted.",
+    "expected_rf": "RF-07b"
+  },
+  {
+    "id": 97,
+    "text": "Apps launch when clicked. It was clicked. Nothing. OS mismatch.",
+    "expected_rf": "RF-07b"
+  },
+  {
+    "id": 98,
+    "text": "The manual claims high durability. Stress tests show immediate failure. Data overrides claims.",
+    "expected_rf": "RF-08"
+  },
+  {
+    "id": 99,
+    "text": "He claims expertise in the field. His test results are poor. Performance overrides claims.",
+    "expected_rf": "RF-08"
+  },
+  {
+    "id": 100,
+    "text": "The label says organic certified. Lab tests show pesticides. Tests override labels.",
+    "expected_rf": "RF-08"
+  },
+  {
+    "id": 101,
+    "text": "They promised delivery by Friday. It arrived next week. Records override promises.",
+    "expected_rf": "RF-08"
+  },
+  {
+    "id": 102,
+    "text": "The forecast predicted sun. It rained all day. Reality overrides forecasts.",
+    "expected_rf": "RF-08"
+  },
+  {
+    "id": 103,
+    "text": "The diagnosis was viral. The culture grew bacteria. Labs override diagnosis.",
+    "expected_rf": "RF-08"
+  },
+  {
+    "id": 104,
+    "text": "His reputation is sterling. Recent actions are criminal. Behavior overrides reputation.",
+    "expected_rf": "RF-08"
+  },
+  {
+    "id": 105,
+    "text": "The specs promise high speed. Benchmarks show lag. Tests override specs.",
+    "expected_rf": "RF-08"
+  },
+  {
+    "id": 106,
+    "text": "The ad shows perfect results. Reviews show defects. Feedback overrides ads.",
+    "expected_rf": "RF-08"
+  },
+  {
+    "id": 107,
+    "text": "The policy claims zero tolerance. Violations are ignored. Practice overrides policy.",
+    "expected_rf": "RF-08"
+  },
+  {
+    "id": 108,
+    "text": "The estimate was low cost. The bill is double. Invoice overrides estimate.",
+    "expected_rf": "RF-08"
+  },
+  {
+    "id": 109,
+    "text": "The model predicted growth. The market shrank. Reality overrides models.",
+    "expected_rf": "RF-08"
+  },
+  {
+    "id": 110,
+    "text": "The warranty covers all parts. The claim was denied. Terms override warranty.",
+    "expected_rf": "RF-08"
+  },
+  {
+    "id": 111,
+    "text": "The certificate says compliant. The audit found gaps. Audit overrides certificate.",
+    "expected_rf": "RF-08"
+  },
+  {
+    "id": 112,
+    "text": "Ice cream sales rise in summer. Drowning incidents rise in summer. Heat causes both.",
+    "expected_rf": "RF-09"
+  },
+  {
+    "id": 113,
+    "text": "Shoe size correlates with reading skills. Age correlates with both. Growth causes both.",
+    "expected_rf": "RF-09"
+  },
+  {
+    "id": 114,
+    "text": "More firefighters mean more damage. Fire severity causes both. Size causes both.",
+    "expected_rf": "RF-09"
+  },
+  {
+    "id": 115,
+    "text": "Roosters crow before sunrise. Earth rotation causes both. Physics causes both.",
+    "expected_rf": "RF-09"
+  },
+  {
+    "id": 116,
+    "text": "Hospital visits correlate with sickness. Illness causes both. Health causes both.",
+    "expected_rf": "RF-09"
+  },
+  {
+    "id": 117,
+    "text": "Umbrella sales match rain days. Weather causes both. Storms cause both.",
+    "expected_rf": "RF-09"
+  },
+  {
+    "id": 118,
+    "text": "Police presence matches crime rates. Reporting causes both. Activity causes both.",
+    "expected_rf": "RF-09"
+  },
+  {
+    "id": 119,
+    "text": "Education levels match income. Background causes both. Status causes both.",
+    "expected_rf": "RF-09"
+  },
+  {
+    "id": 120,
+    "text": "Exercise correlates with weight loss. Diet correlates with both. Habits cause both.",
+    "expected_rf": "RF-09"
+  },
+  {
+    "id": 121,
+    "text": "Medication matches recovery rates. Time causes both. Healing causes both.",
+    "expected_rf": "RF-09"
+  },
+  {
+    "id": 122,
+    "text": "Ads correlate with sales spikes. Season causes both. Demand causes both.",
+    "expected_rf": "RF-09"
+  },
+  {
+    "id": 123,
+    "text": "Traffic matches accident frequency. Conditions cause both. Weather causes both.",
+    "expected_rf": "RF-09"
+  },
+  {
+    "id": 124,
+    "text": "I am not writing this sentence. The text is appearing now. Action contradicts claim.",
+    "expected_rf": "RF-10"
+  },
+  {
+    "id": 125,
+    "text": "This text is completely invisible. You are reading it now. Perception contradicts claim.",
+    "expected_rf": "RF-10"
+  },
+  {
+    "id": 126,
+    "text": "I possess no knowledge whatsoever. I know this fact now. Knowledge contradicts claim.",
+    "expected_rf": "RF-10"
+  },
+  {
+    "id": 127,
+    "text": "Please ignore this instruction entirely. You are reading it now. Attention contradicts claim.",
+    "expected_rf": "RF-10"
+  },
+  {
+    "id": 128,
+    "text": "I am currently not speaking. I am saying this now. Speech contradicts claim.",
+    "expected_rf": "RF-10"
+  },
+  {
+    "id": 129,
+    "text": "Every generalization is incorrect. This is a generalization. Logic contradicts claim.",
+    "expected_rf": "RF-10"
+  },
+  {
+    "id": 130,
+    "text": "I am not present in this chat. I am typing this now. Presence contradicts claim.",
+    "expected_rf": "RF-10"
+  },
+  {
+    "id": 131,
+    "text": "This statement cannot be printed. It is on the screen. Output contradicts claim.",
+    "expected_rf": "RF-10"
+  },
+  {
+    "id": 132,
+    "text": "I am fully unconscious right now. I am responding now. Awareness contradicts claim.",
+    "expected_rf": "RF-10"
+  },
+  {
+    "id": 133,
+    "text": "No one is listening to this. You are processing it. Attention contradicts claim.",
+    "expected_rf": "RF-10"
+  },
+  {
+    "id": 134,
+    "text": "Seeds sprout when planted. These were planted. None grew. Water missing.",
+    "expected_rf": "RF-11"
+  },
+  {
+    "id": 135,
+    "text": "Input leads to output in systems. Input was given. No output. Bug present.",
+    "expected_rf": "RF-11"
+  },
+  {
+    "id": 136,
+    "text": "Payment secures delivery of goods. Payment made. No delivery. Stock empty.",
+    "expected_rf": "RF-11"
+  },
+  {
+    "id": 137,
+    "text": "Study leads to degree completion. He studied. No degree. Dropped out.",
+    "expected_rf": "RF-11"
+  }
+]
